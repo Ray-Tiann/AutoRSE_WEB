@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="780" viewBox="0 0 540 780" role="img" aria-labelledby="capability-title capability-desc">
+  <title id="capability-title">From research execution to algorithmic ideas</title>
+  <desc id="capability-desc">A four-level pyramid shows code execution, engineering optimization, algorithmic improvement, and conceptual innovation. Below it, a continuous ideate, implement, experiment, and analyze loop illustrates the research process. The engineering level is marked as the typical focus of the evaluated agents. Higher-level ideas are a research challenge, not an absolute limit. This is a conceptual illustration, not a measured scale.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 8 5 1 9" fill="none" stroke="#7f9bc4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="focus-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 8 5 1 9" fill="none" stroke="#2759c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <g font-family="Inter, Arial, Helvetica, sans-serif" fill="#17243d">
+    <g id="capability-pyramid" transform="translate(20 0) scale(1 .8)" stroke="#fff" stroke-width="3" stroke-linejoin="round">
+      <path d="M250 35 335.9 190H164.1Z" fill="#6da6eb"/>
+      <path d="M164.1 190H335.9L380.2 270H119.8Z" fill="#a2c9f5"/>
+      <path d="M119.8 270H380.2L420.2 342H79.8Z" fill="#cce2fc"/>
+      <path d="M79.8 342H420.2L455 405H45Z" fill="#e9f2ff"/>
+    </g>
+    <g text-anchor="middle" font-weight="600">
+      <text x="270" y="120" font-size="23">Conceptual<tspan x="270" dy="27">innovator</tspan></text>
+      <text x="270" y="178" font-size="24">Algorithmic<tspan x="270" dy="28">improver</tspan></text>
+      <text x="270" y="236" font-size="24">Engineering<tspan x="270" dy="28">optimizer</tspan></text>
+      <text x="270" y="307" font-size="25">Code executor</text>
+    </g>
+    <path d="M503 216H402" fill="none" stroke="#2759c4" stroke-width="2" stroke-linecap="round" marker-end="url(#focus-arrow)"/>
+    <text x="461" y="179" text-anchor="middle" fill="#2759c4" font-size="23" font-weight="600">Typical<tspan x="461" dy="27">focus</tspan></text>
+    <g id="research-loop">
+      <g fill="none" stroke="#7f9bc4" stroke-width="2.3" stroke-linecap="round" marker-end="url(#arrow)">
+        <path d="M326 385C378 385 415 421 415 463"/>
+        <path d="M415 559C415 602 375 637 334 637"/>
+        <path d="M212 637C160 637 125 601 125 559"/>
+        <path d="M125 463C125 421 170 385 212 385"/>
+      </g>
+      <g fill="none" stroke="#2759c4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <g transform="translate(254 352)"><path d="M10 23C10 19 5 17 5 11a11 11 0 0 1 22 0c0 6-5 8-5 12M11 27h10M12 31h8M16 2v3M2 11H0M30 11h2M4 1l3 3M25 4l3-3"/><path d="M13 22h6"/></g>
+        <g transform="translate(398 479)"><rect x="1" y="1" width="32" height="27" rx="3"/><path d="M1 8h32M6 5h.1M10 5h.1M11 14l-4 4 4 4M23 14l4 4-4 4M19 13l-4 10"/></g>
+        <g transform="translate(254 604)"><path d="M11 1h10M13 1v12L4 27a3 3 0 0 0 2.5 4h19a3 3 0 0 0 2.5-4L19 13V1M9 21h14"/><path d="M14 25h.1M21 27h.1"/></g>
+        <g transform="translate(109 479)"><path d="M2 1v29h30M8 24v-8h5v8M18 24V9h5v15M28 24V3h4v21"/></g>
+      </g>
+      <g text-anchor="middle" font-size="24" font-weight="600">
+        <text x="270" y="412">Ideate</text><text x="415" y="536">Implement</text><text x="270" y="663">Experiment</text><text x="125" y="536">Analyze</text>
+      </g>
+      <text x="270" y="506" text-anchor="middle" font-size="25" font-weight="650">Research loop</text>
+      <text x="270" y="568" text-anchor="middle" font-size="18.5" fill="#606d82">Ideas · code · feedback</text>
+    </g>
+    <text x="270" y="728" text-anchor="middle" font-size="23" fill="#606d82">The next challenge: generating<tspan x="270" dy="29">new algorithmic ideas.</tspan></text>
+  </g>
+</svg>

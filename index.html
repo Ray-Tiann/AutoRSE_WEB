@@ -14,7 +14,7 @@
   <link rel="canonical" href="https://ray-tiann.github.io/AutoRSE_WEB/">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261029-buttons">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261029-overview-final">
   <script src="assets/js/data.js?v=20261029" defer></script>
   <script src="assets/js/app.js?v=20261029" defer></script>
 </head>
@@ -41,14 +41,26 @@
       </div>
     </section>
 
-    <section class="section wrap" id="overview" aria-labelledby="overview-title">
-      <div class="section-label"><span>01</span> The question</div>
+    <section class="section wrap overview-section" id="overview" aria-labelledby="overview-title">
       <div class="overview-grid">
-        <div class="overview-copy"><h2 id="overview-title">Better scores.<br>But where do the<br><em>better ideas</em> come from?</h2><p class="lead">LLM agents can write code and run experiments. Can they autonomously improve the algorithms behind recommender systems?</p><p>AutoRSE evaluates this ability on existing recommendation baselines. We measure final performance and inspect the full optimization trajectory to understand <strong>what agents change, how they improve, and where they fall short.</strong></p><a class="text-link" href="#results">Explore the findings <span aria-hidden="true">→</span></a></div>
-        <figure class="figure overview-figure"><button class="figure-zoom" data-zoom="assets/images/pyramid.png" data-caption="The capability spectrum of recommendation engineering agents." aria-label="Enlarge agent capability pyramid"><img src="assets/images/pyramid.png" width="2400" height="1296" alt="A four-level capability pyramid: code executor, engineering optimizer, algorithmic improver, and conceptual innovator. The diagram places current RSE-agent reach near the engineering optimizer level." fetchpriority="high"></button><figcaption><span class="figure-number">FIG. 01</span> From executing code to generating new algorithmic ideas.</figcaption></figure>
+        <div class="overview-copy">
+          <div class="section-label"><span>01</span> The question</div>
+          <h2 id="overview-title">Better scores.<br> But where do <em>better ideas</em> come from?</h2>
+          <p class="lead">Agents can write code and run experiments. Can they also improve the algorithms behind recommender systems?</p>
+          <p>AutoRSE follows the full research trajectory, from an existing baseline to the final submission, to understand <strong>what improves, what changes, and what helps agents go further.</strong></p>
+        </div>
+        <figure class="overview-figure">
+          <button class="figure-zoom" data-zoom="assets/images/capability-spectrum.svg" data-caption="A conceptual view of recommendation-engineering capabilities and the iterative research loop. Levels illustrate capabilities rather than a measured scale." aria-label="Enlarge recommendation-engineering capability diagram"><picture><source media="(max-width: 560px)" srcset="assets/images/capability-spectrum-mobile.svg"><img src="assets/images/capability-spectrum.svg" width="960" height="480" alt="A four-level capability pyramid from code execution to conceptual innovation, alongside the iterative ideate, implement, experiment, and analyze loop. The diagram highlights the challenge of moving beyond engineering optimization toward new algorithmic ideas." fetchpriority="high"></picture></button>
+          <figcaption>A conceptual view of the capability gap we investigate.</figcaption>
+        </figure>
       </div>
-      <div class="research-questions"><article><span class="question-number">RQ1</span><h3>Can agents improve?</h3><p>Evaluate final test performance against strong recommendation baselines.</p></article><article><span class="question-number">RQ2</span><h3>How do they improve?</h3><p>Analyze experimental trajectories and the novelty of submitted changes.</p></article><article><span class="question-number">RQ3</span><h3>What helps them go further?</h3><p>Compare self-generated ideas with externally supplied research guidance.</p></article></div>
-      <details class="abstract"><summary>Read the abstract <span aria-hidden="true">+</span></summary><div class="abstract-body" id="abstract-text"></div></details>
+      <div class="overview-bridge"><span class="bridge-line" aria-hidden="true"></span><p>We connect final outcomes to the research process through three questions.</p></div>
+      <ol class="research-questions" aria-label="Three connected research questions">
+        <li><a href="#results"><span class="question-number">RQ1</span><h3>Can agents improve?</h3><p>Measure final test performance against the reference baselines.</p><span class="question-destination">Performance <span aria-hidden="true">→</span></span></a></li>
+        <li><a href="#analysis"><span class="question-number">RQ2</span><h3>How do they improve?</h3><p>Trace experimental changes and assess their algorithmic novelty.</p><span class="question-destination">Research trajectories <span aria-hidden="true">→</span></span></a></li>
+        <li><a href="#ideas"><span class="question-number">RQ3</span><h3>What helps them go further?</h3><p>Test whether externally supplied research ideas improve the outcome.</p><span class="question-destination">Idea injection <span aria-hidden="true">→</span></span></a></li>
+      </ol>
+      <details class="abstract"><summary>Read the full abstract <span aria-hidden="true">+</span></summary><div class="abstract-body" id="abstract-text"></div></details>
     </section>
 
     <section class="section section-tint" id="framework" aria-labelledby="framework-title"><div class="wrap">
