@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="480" viewBox="0 0 960 480" role="img" aria-labelledby="capability-title capability-desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="425" viewBox="0 0 960 425" role="img" aria-labelledby="capability-title capability-desc">
   <title id="capability-title">From research execution to algorithmic ideas</title>
   <desc id="capability-desc">A four-level pyramid shows code execution, engineering optimization, algorithmic improvement, and conceptual innovation. A continuous ideate, implement, experiment, and analyze loop connects to the engineering level. A highlighted engineering optimizer tier and an explicit Current RSE-Agent Reach marker identify the main operating level of current agents. Higher-level capabilities are a research challenge, not an absolute limit. This is a conceptual illustration, not a measured scale.</desc>
   <defs>
@@ -43,6 +43,5 @@
       <circle cx="380" cy="270" r="7" fill="#2759c4" stroke="#fff" stroke-width="3"/>
       <text x="490" y="309" text-anchor="middle" fill="#2759c4" font-size="22" font-weight="700">Current<tspan x="490" dy="26">RSE-Agent</tspan><tspan x="490" dy="26">Reach</tspan></text>
     </g>
-    <text x="480" y="451" text-anchor="middle" font-size="21" fill="#606d82">The next challenge: generating new algorithmic ideas.</text>
   </g>
 </svg>

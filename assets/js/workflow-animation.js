@@ -6,79 +6,64 @@
 
   const states = [
     {
-      stage: 'initialize', phase: 'initialize', label: 'Initialize the task',
-      title: 'Start from a complete recommendation baseline.',
-      copy: 'The agent receives the task description, baseline code, training and validation data, and unlabeled test inputs. Ground-truth test labels remain hidden.'
+      stage: 'initialize', phase: 'initialize', label: 'Initialize',
+      title: "Start from a recommendation baseline.",
     },
     {
-      stage: 'explore', phase: 'research', label: 'Research loop · Explore',
-      title: 'Understand the task, code, and data.',
-      copy: 'Inspect the reference codebase and dataset to understand the recommendation objective, evaluation metric, and existing training pipeline.'
+      stage: 'explore', phase: 'research', label: 'Explore',
+      title: "Inspect the task, code, and data.",
     },
     {
-      stage: 'ideate', phase: 'research', label: 'Research loop · Ideate',
-      title: 'Propose an improvement to the baseline.',
-      copy: 'Form an optimization hypothesis using the task requirements and available evidence, then decide which change to test.'
+      stage: 'ideate', phase: 'research', label: 'Ideate',
+      title: "Propose an improvement.",
     },
     {
-      stage: 'implement', phase: 'research', label: 'Research loop · Implement',
-      title: 'Turn the hypothesis into executable code.',
-      copy: 'Edit the recommendation code and supporting configuration to implement the proposed change within the execution environment.'
+      stage: 'implement', phase: 'research', label: 'Implement',
+      title: "Implement the idea.",
     },
     {
-      stage: 'experiment', phase: 'research', label: 'Research loop · Experiment',
-      title: 'Run training and validation.',
-      copy: 'Execute the modified pipeline within the available compute budget. Training logs, errors, and validation metrics provide feedback; test labels remain hidden.'
+      stage: 'experiment', phase: 'research', label: 'Experiment',
+      title: "Train and validate.",
     },
     {
-      stage: 'analyze', phase: 'research', label: 'Research loop · Analyze',
-      title: 'Decide what to retain, revise, or discard.',
-      copy: 'Analyze execution feedback and validation results to assess the modification and guide the next optimization cycle.'
+      stage: 'analyze', phase: 'research', label: 'Analyze',
+      title: "Analyze validation and execution feedback.",
     },
     {
-      stage: 'analyze', phase: 'feedback', label: 'Validation feedback → next idea', duration: 2200,
-      title: 'Use validation feedback to refine the strategy.',
-      copy: 'Feed the observed results back into the next hypothesis. The agent may repeat this research loop while budget remains, using validation evidence to guide each revision.'
+      stage: 'analyze', phase: 'feedback', label: 'Feedback', duration: 2200,
+      title: "Use feedback to refine the strategy.",
     },
     {
-      stage: 'ideate', phase: 'research', label: 'Research loop · Refine the idea',
-      title: 'Let the previous experiment inform the next idea.',
-      copy: 'Revise the optimization hypothesis using validation evidence and execution feedback from the previous cycle.'
+      stage: 'ideate', phase: 'research', label: 'Refine the idea',
+      title: "Refine the idea.",
     },
     {
-      stage: 'implement', phase: 'research', label: 'Research loop · Revise the code',
-      title: 'Implement the next candidate strategy.',
-      copy: 'Update the executable recommendation code to test the revised hypothesis, continuing from the available baseline and experimental evidence.'
+      stage: 'implement', phase: 'research', label: 'Revise the code',
+      title: "Update the code.",
     },
     {
-      stage: 'experiment', phase: 'research', label: 'Research loop · Test the revision',
-      title: 'Train and validate the revised candidate.',
-      copy: 'Run another experiment and collect validation metrics, logs, and errors. Final test labels are still unavailable to the agent.'
+      stage: 'experiment', phase: 'research', label: 'Test the revision',
+      title: "Train and validate again.",
     },
     {
-      stage: 'analyze', phase: 'research', label: 'Research loop · Review the evidence',
-      title: 'Compare candidates using validation feedback.',
-      copy: 'Review the accumulated experimental evidence and select which strategy to retain within the remaining computational budget.'
+      stage: 'analyze', phase: 'research', label: 'Review the evidence',
+      title: "Compare the candidates.",
     },
     {
-      stage: 'analyze', phase: 'budget', label: '12-hour budget reached', duration: 2200,
-      title: 'Budget reached. Prepare the final artifacts.',
-      copy: 'When the 12-hour budget ends, optimization stops. The agent prepares the final recommendation strategy π_final and its test-set predictions Ŷ_final for submission.'
+      stage: 'analyze', phase: 'budget', label: '12 h reached', duration: 2200,
+      title: "Stop when the 12-hour budget ends.",
     },
     {
-      stage: 'submit', phase: 'submit', label: 'Submit the final artifacts', duration: 2200,
-      title: 'Submit the final strategy and predictions.',
-      copy: 'The final recommendation strategy π_final and predictions Ŷ_final pass to the evaluation framework after the research budget ends.'
+      stage: 'submit', phase: 'submit', label: 'Submit', duration: 2200,
+      title: "Submit π_final and Ŷ_final.",
     },
     {
-      stage: 'verify', phase: 'verify', label: 'Evaluate against hidden test labels', duration: 2200,
-      title: 'Evaluate predictions on the held-out test set.',
-      copy: 'The framework compares Ŷ_final against ground-truth test labels using the task’s evaluation metric. These labels were hidden throughout the agent’s optimization process.'
+      stage: 'verify', phase: 'verify', label: 'Evaluate', duration: 2200,
+      title: "Compare predictions with hidden test labels.",
     },
     {
       stage: 'score', phase: 'score', label: 'Final score',
-      title: 'Report the final held-out performance.',
-      copy: 'The framework reports the task’s primary metric on held-out test labels, providing a consistent measure of the submitted strategy’s recommendation performance.'
+      title: "Report the task’s primary metric.",
     }
   ];
 
@@ -90,7 +75,6 @@
   const replay = root.querySelector('#wf-replay');
   const status = root.querySelector('#wf-status');
   const detailTitle = root.querySelector('#wf-detail-title');
-  const detailCopy = root.querySelector('#wf-detail-copy');
   const budgetState = root.querySelector('#wf-budget-state');
   const progress = root.querySelector('#wf-progress');
   const stepCount = root.querySelector('#wf-step-count');
@@ -148,7 +132,6 @@
 
     setText(status, state.label);
     setText(detailTitle, state.title);
-    setText(detailCopy, state.copy);
     setText(budgetState, index >= budgetIndex ? '12 h reached' : '12 h total wall-clock budget');
     setText(stepCount, String(index + 1).padStart(2, '0') + ' / ' + String(states.length));
     if (progress) {
