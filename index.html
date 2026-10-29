@@ -16,11 +16,11 @@
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css?v=20261029-title-v1">
   <link rel="stylesheet" href="assets/css/workflow-animation.css?v=20261029-readable-v1">
-  <link rel="stylesheet" href="assets/css/trajectories.css?v=20261029-trajectories-v1">
+  <link rel="stylesheet" href="assets/css/trajectories.css?v=20261029-compact-v1">
   <script src="assets/js/data.js?v=20261029" defer></script>
   <script src="assets/js/app.js?v=20261029-concise-v1" defer></script>
   <script src="assets/js/workflow-animation.js?v=20261029-readable-v1" defer></script>
-  <script src="assets/js/trajectories.js?v=20261029-trajectories-v1" defer></script>
+  <script src="assets/js/trajectories.js?v=20261029-compact-v1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#overview">Skip to content</a>
@@ -130,7 +130,7 @@
     </fieldset>
     <div class="te-controls">
       <label class="te-select-field" for="te-agent">
-        <span class="te-field-label">Agent configuration</span>
+        <span class="te-field-label">Representative agent configuration</span>
         <select id="te-agent" data-te-agent disabled><option>Loading configurations…</option></select>
       </label>
       <label class="te-select-field" for="te-view">
@@ -148,13 +148,16 @@
     </div>
     <div class="te-chart" data-te-chart></div>
     <div class="te-inspector">
-      <p class="te-time-description">Hover or tap the chart to inspect a time. Use the slider for keyboard control.</p>
+      <p class="sr-only" id="te-time-help">Hover or tap the chart, or use the arrow keys on this slider to inspect validation scores. Expand Data &amp; downloads for the numeric table.</p>
       <div class="te-time-control">
-        <label for="te-time">Inspect time</label>
-        <input id="te-time" data-te-time type="range" min="0" max="100" step="0.1" value="100" disabled>
+        <label for="te-time">Time</label>
+        <input id="te-time" data-te-time aria-describedby="te-time-help" type="range" min="0" max="100" step="0.1" value="100" disabled>
         <output for="te-time" data-te-time-label>100%</output>
       </div>
     </div>
+    <details class="te-methods te-data-details">
+      <summary>Data &amp; downloads</summary>
+      <div class="te-data-body">
     <div class="te-values-wrap"><table class="te-values-table" data-te-values></table></div>
     <p class="te-coverage" data-te-coverage></p>
     <div class="te-footer">
@@ -165,12 +168,11 @@
       </nav>
       <a class="te-original-link" href="assets/images/trajectories.png" target="_blank" rel="noopener">Original paper figure ↗</a>
     </div>
-    <details class="te-methods">
-      <summary>Data and methods</summary>
       <div class="te-method-body">
         <p>53 included trials across 6 recommendation models and the 3 agent configurations in the source figure. Steps show the best confirmed validation score within each trial; the summary is the median and min–max of trials with an observation by that time. Missing starts stay empty. Trial counts can therefore change over time.</p>
         <p>Time is normalized within each recorded session, from its first to last recorded step. 100% is the end of that recording, not a shared 12-hour timestamp. Values are carried forward after the last observation, without smoothing. Source-flagged full-validation OOF/CV feedback is included.</p>
         <p>The dashed line here is the <strong>validation baseline</strong>; the original paper figure used test-score references. The trajectory values are unchanged. IntSR × Codex includes 2 trials because one run was excluded by the source audit. Downloads retain source run IDs and all recorded observations.</p>
+      </div>
       </div>
     </details>
     <p class="sr-only" role="status" aria-live="polite" data-te-status></p>

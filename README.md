@@ -94,7 +94,7 @@ Three trials are available per configuration except **IntSR × Codex/GPT-5.5**, 
 
 The interactive dashed lines explicitly use **validation baselines**. The original six-panel appendix figure used test reference scores; its curve values have not changed. IntSR's validation baseline was supplied by the authors. OneTrans uses the task-provided proxy validation profile (204,800 rows). Baseline scopes are included in the JSON and displayed in the chart's data notes.
 
-Keyboard users can select a recommendation model, choose an agent configuration and view, and move the time slider to read the corresponding values in a table. The original static figure remains linked as a fallback.
+Keyboard users can select a recommendation model, choose an agent configuration and view, and move the time slider to inspect values and expand **Data & downloads** for the corresponding numeric table, exports, and methods. The original static figure remains linked as a fallback.
 
 ### Visualization workflow reference
 

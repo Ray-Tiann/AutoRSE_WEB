@@ -179,7 +179,7 @@
     };
     const svg = node('svg', {width, height, viewBox: '0 0 ' + width + ' ' + height, role: 'img', 'aria-labelledby': 'te-svg-title te-svg-description'});
     svg.append(node('title', {id: 'te-svg-title'}, task.name + ' validation trajectories'));
-    svg.append(node('desc', {id: 'te-svg-description'}, 'Step curves show best-so-far validation scores. ' + (view === 'summary' ? 'Solid curves are available-run medians; shaded bands are the minimum and maximum.' : 'Each line is an individual trial. Solid, dashed, and dotted lines identify trials 1, 2, and 3.') + ' The dashed gray reference is the validation baseline. Use the time slider and current-values table below for keyboard-accessible values. Missing starts are left empty.'));
+    svg.append(node('desc', {id: 'te-svg-description'}, 'Step curves show best-so-far validation scores. ' + (view === 'summary' ? 'Solid curves are available-run medians; shaded bands are the minimum and maximum.' : 'Each line is an individual trial. Solid, dashed, and dotted lines identify trials 1, 2, and 3.') + ' The dashed gray reference is the validation baseline. Use the time slider to inspect values; expand Data & downloads for the accessible numeric table. Missing starts are left empty.'));
     const defs = node('defs');
     const clip = node('clipPath', {id: 'te-plot-clip'});
     clip.append(node('rect', {x: margin.left - 5, y: margin.top - 5, width: innerWidth + 10, height: innerHeight + 10}));
@@ -430,7 +430,7 @@
         buttons[next].focus();
         buttons[next].click();
       });
-      agentSelect.replaceChildren(new Option('All agent configurations', 'all'));
+      agentSelect.replaceChildren(new Option('All 3 representative configurations', 'all'));
       data.groups.forEach(group => agentSelect.append(new Option(group.label, group.id)));
       agentSelect.disabled = false;
       viewSelect.disabled = false;

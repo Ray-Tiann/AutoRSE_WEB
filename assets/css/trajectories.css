@@ -26,7 +26,7 @@
 .trajectory-explorer .te-svg-axis .te-axis-label{font-size:14px;fill:#344d70}
 .trajectory-explorer .te-grid-line{stroke:#e8edf4;stroke-width:1}
 .trajectory-explorer .te-axis-line{stroke:#acbacb;stroke-width:1}
-.trajectory-explorer .te-inspector{display:grid;grid-template-columns:1fr minmax(200px,2fr);align-items:center;gap:22px;padding:17px 0 21px;border-bottom:1px solid #e1e8f2}
+.trajectory-explorer .te-inspector{display:block;padding:14px 0 10px}
 .trajectory-explorer .te-time-description{font-size:14px;color:#53647d;margin:0;line-height:1.6}
 .trajectory-explorer .te-time-control{display:flex;align-items:center;gap:15px;min-width:0}
 .trajectory-explorer .te-time-control label{font-size:14px;color:#344d70;font-weight:600;white-space:nowrap}
@@ -111,3 +111,10 @@
  .trajectory-explorer .te-inline-legend{display:grid;gap:8px;margin-top:16px;font-size:14px}.trajectory-explorer .te-legend-item{gap:8px}.trajectory-explorer .te-legend-item>svg{width:29px;flex-basis:29px}
  .trajectory-explorer .te-tooltip{top:15px;padding:11px 12px;width:calc(100% - 24px)}.trajectory-explorer .te-tooltip-name{flex-basis:145px}.trajectory-explorer .te-tooltip-trials{padding-left:0;gap:4px 10px}
 }
+
+/* Keep supporting detail behind one native disclosure. */
+.trajectory-explorer .te-data-details{margin-top:0;border-top:1px solid #e7edf5}
+.trajectory-explorer .te-data-details>summary{display:flex;align-items:center;justify-content:flex-start;gap:10px;min-height:44px;padding:10px 0;font-size:14px}
+.trajectory-explorer .te-data-body{padding:4px 0 5px}
+.trajectory-explorer .te-data-details .te-values-wrap{margin-top:8px}
+.trajectory-explorer .te-data-details .te-method-body{margin-top:18px;padding-top:17px;border-top:1px solid #e7edf5}
