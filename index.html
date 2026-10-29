@@ -16,9 +16,11 @@
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css?v=20261029-title-v1">
   <link rel="stylesheet" href="assets/css/workflow-animation.css?v=20261029-readable-v1">
+  <link rel="stylesheet" href="assets/css/trajectories.css?v=20261029-trajectories-v1">
   <script src="assets/js/data.js?v=20261029" defer></script>
   <script src="assets/js/app.js?v=20261029-concise-v1" defer></script>
   <script src="assets/js/workflow-animation.js?v=20261029-readable-v1" defer></script>
+  <script src="assets/js/trajectories.js?v=20261029-trajectories-v1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#overview">Skip to content</a>
@@ -113,7 +115,69 @@
       <p class="results-description"><strong>35 of 42 task–agent configurations</strong> outperform the reference baseline. Gains vary across tasks, models, and harnesses; IntSR remains a challenging exception.</p>
       <div class="results-panel"><div class="results-toolbar"><div><h3>Results reported in the paper</h3><p>Seven LLM–harness combinations · three trials per setting</p></div><div class="result-controls"><div class="segmented" role="group" aria-label="Result value type"><button class="active" data-result-mode="gain" aria-pressed="true">Relative gain</button><button data-result-mode="score" aria-pressed="false">Test score</button></div><label class="sr-only" for="harness-filter">Filter by harness</label><select id="harness-filter"><option value="all">All harnesses</option><option>Claude Code</option><option>Codex</option><option>Terminus-2</option></select></div></div><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable performance results"><table class="results-table"><caption class="sr-only">Main test results from Table 1 of the paper</caption><thead id="results-head"></thead><tbody id="results-body"></tbody></table></div><p class="table-footnote" id="results-note" aria-live="polite">Relative change from each task’s baseline. Negative values are shown explicitly. Average gain is the unweighted mean across six tasks.</p></div>
       <p class="method-note">The headline 16.1% is averaged equally across all 42 task–agent configurations, including negative results. Test scores are task-specific metrics, not comparable accuracy percentages.</p>
-      <div class="dynamics-grid"><div><div class="mini-label">During the 12-hour run</div><h3>Early gains.<br>Later plateaus.</h3><p>Best-so-far validation curves show rapid initial progress followed by diminishing returns. Repeated runs can settle at different performance levels.</p><p class="small-note">Solid lines: median over three runs.<br>Shading: min–max range.<br>Dashed lines: reference baselines.</p></div><figure class="figure"><button class="figure-zoom" data-zoom="assets/images/trajectories.png" data-caption="Best-so-far validation performance over the normalized 12-hour budget, for all six tasks." aria-label="Enlarge validation trajectories"><img src="assets/images/trajectories.png" width="2400" height="1570" alt="Six validation trajectory plots for HSTU, IntSR, TIGER, OneTrans, RankMixer, and WuKong; median and min–max ranges from three independent runs." loading="lazy"></button><figcaption><span class="figure-number">APPENDIX</span> Validation trajectories across all six tasks.</figcaption></figure></div>
+<div class="trajectory-explorer" id="trajectories" data-src="assets/data/trajectories.json?v=20261029-trajectories-v1" aria-labelledby="trajectories-heading">
+  <div class="te-heading">
+    <div>
+      <p class="mini-label">During the research run</p>
+      <h3 id="trajectories-heading">Explore the optimization trajectories.</h3>
+    </div>
+    <p>Choose a recommendation model, then compare agents or inspect individual trials.</p>
+  </div>
+  <div class="te-panel">
+    <fieldset class="te-model-field">
+      <legend>Recommendation model</legend>
+      <div class="te-models" data-te-models role="group" aria-label="Recommendation model"></div>
+    </fieldset>
+    <div class="te-controls">
+      <label class="te-select-field" for="te-agent">
+        <span class="te-field-label">Agent configuration</span>
+        <select id="te-agent" data-te-agent disabled><option>Loading configurations…</option></select>
+      </label>
+      <label class="te-select-field" for="te-view">
+        <span class="te-field-label">Show</span>
+        <select id="te-view" data-te-view disabled>
+          <option value="summary">Median + min–max</option>
+          <option value="trials">Individual trials</option>
+        </select>
+      </label>
+    </div>
+    <p class="te-loading" data-te-loading>Loading the source trajectories…</p>
+    <div class="te-plot-heading">
+      <div><h4 data-te-title>HSTU</h4><p class="te-plot-subtitle" data-te-subtitle></p></div>
+      <p class="te-baseline-key" data-te-baseline></p>
+    </div>
+    <div class="te-chart" data-te-chart></div>
+    <div class="te-inspector">
+      <p class="te-time-description">Hover or tap the chart to inspect a time. Use the slider for keyboard control.</p>
+      <div class="te-time-control">
+        <label for="te-time">Inspect time</label>
+        <input id="te-time" data-te-time type="range" min="0" max="100" step="0.1" value="100" disabled>
+        <output for="te-time" data-te-time-label>100%</output>
+      </div>
+    </div>
+    <div class="te-values-wrap"><table class="te-values-table" data-te-values></table></div>
+    <p class="te-coverage" data-te-coverage></p>
+    <div class="te-footer">
+      <nav class="te-data-links" aria-label="Download trajectory data">
+        <a href="assets/data/trajectories.json" download>All data (JSON) ↓</a>
+        <a href="assets/data/trajectories-observations.csv" download>Observations (CSV) ↓</a>
+        <a href="assets/data/trajectories-summary.csv" download>Summaries (CSV) ↓</a>
+      </nav>
+      <a class="te-original-link" href="assets/images/trajectories.png" target="_blank" rel="noopener">Original paper figure ↗</a>
+    </div>
+    <details class="te-methods">
+      <summary>Data and methods</summary>
+      <div class="te-method-body">
+        <p>53 included trials across 6 recommendation models and the 3 agent configurations in the source figure. Steps show the best confirmed validation score within each trial; the summary is the median and min–max of trials with an observation by that time. Missing starts stay empty. Trial counts can therefore change over time.</p>
+        <p>Time is normalized within each recorded session, from its first to last recorded step. 100% is the end of that recording, not a shared 12-hour timestamp. Values are carried forward after the last observation, without smoothing. Source-flagged full-validation OOF/CV feedback is included.</p>
+        <p>The dashed line here is the <strong>validation baseline</strong>; the original paper figure used test-score references. The trajectory values are unchanged. IntSR × Codex includes 2 trials because one run was excluded by the source audit. Downloads retain source run IDs and all recorded observations.</p>
+      </div>
+    </details>
+    <p class="sr-only" role="status" aria-live="polite" data-te-status></p>
+  </div>
+</div>
+
+<noscript><figure class="figure"><img src="assets/images/trajectories.png" width="2400" height="1570" alt="Validation curves for six tasks and three representative agent configurations. Solid lines show available-run medians, shaded areas show min–max ranges. The original figure uses test reference scores." loading="lazy"><figcaption>Original static figure. Enable JavaScript to choose models and inspect the validation curves interactively.</figcaption></figure></noscript>
     </div></section>
 
     <section class="section wrap" id="analysis" aria-labelledby="analysis-title">

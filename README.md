@@ -19,6 +19,7 @@ AutoRSE_WEB/
 │   ├── js/
 │   │   ├── data.js             # Task descriptions and manuscript results
 │   │   └── app.js              # Filters, tabs, figure viewer, and copy button
+│   ├── data/                  # Full trajectory observations and summaries
 │   ├── images/                # Paper figures and site icon
 │   └── pdf/workflow.pdf        # Vector framework figure
 ├── .github/workflows/deploy.yml
@@ -67,6 +68,8 @@ Then open http://localhost:8080/. The same files also work under the `/AutoRSE_W
 | `assets/js/data.js` | Task metadata, result tables, and abstract |
 | `assets/js/app.js` | Interaction behavior |
 | `assets/images/` | Figures; update matching paths in `index.html` if names change |
+| `assets/js/trajectories.js`, `assets/css/trajectories.css` | Interactive validation trajectories |
+| `assets/data/trajectories*` | Exact numeric observations, summaries, and chart metadata |
 
 The GitHub buttons on the page link to the **research code repository**, `Ray-Tiann/AutoRSE`. The separate `AutoRSE_WEB` repository hosts the website.
 
@@ -74,4 +77,25 @@ If the website repository is renamed, update the canonical and Open Graph URLs i
 
 ## Reported results
 
-The interactive table presents the paper's reported results, rather than a live leaderboard. The 16.1% headline is the unweighted mean relative gain across 42 task–agent configurations. The idea-injection comparison uses Claude Code × DeepSeek V4 Flash. Figures and scientific values are preserved from the manuscript.
+The interactive table presents the paper's reported results, rather than a live leaderboard. The 16.1% headline is the unweighted mean relative gain across 42 task–agent configurations. The idea-injection comparison uses Claude Code × DeepSeek V4 Flash. Static figures and reported test results are preserved from the manuscript. The interactive trajectory explorer uses the same audited curve values with validation reference baselines, as described below.
+
+
+## Interactive validation trajectories
+
+The explorer contains all six recommendation tasks and the three agent configurations plotted in the paper appendix: Claude Code × Claude Opus 4.8, Codex × GPT-5.5, and Claude Code × DeepSeek V4 Flash. These trajectories cover **53 included runs**, **17,647 confirmed validation observations**, and **4,832 summary knots**. They do not cover the four other configurations in the main results table.
+
+- [Complete chart data (JSON)](assets/data/trajectories.json) includes every included run and exact summary values.
+- [All observations (CSV)](assets/data/trajectories-observations.csv) includes raw validation scores and their within-run cumulative maxima.
+- [All summaries (CSV)](assets/data/trajectories-summary.csv) includes medians, minima, maxima, and contributing run counts at every original summary knot.
+
+The x coordinate is `100 × (evidence-containing trajectory step time − first step time) / (last step time − first step time)`, separately for each recorded run. It is recorded session progress, not exact metric-completion time; percentages are not converted to hours. The chart uses post-step carry-forward of the known best score, with no smoothing or backfill before the first observation. Summary lines aggregate the runs with an observation available at that time; bands are their minimum–maximum range, not confidence intervals. This changing availability can make an aggregate median decrease even though each individual best-so-far run never decreases.
+
+Three trials are available per configuration except **IntSR × Codex/GPT-5.5**, which has two: the audited source figure excludes `GPT55_Codex_t3_0819`. Other source exclusions (smoke/timing/subset probes, diagnostic oracle or in-sample scores, and synthetic pipeline tests) are retained. Confirmed source-flagged full-validation OOF/CV feedback is retained. No new score-based exclusions are applied.
+
+The interactive dashed lines explicitly use **validation baselines**. The original six-panel appendix figure used test reference scores; its curve values have not changed. IntSR's validation baseline was supplied by the authors. OneTrans uses the task-provided proxy validation profile (204,800 rows). Baseline scopes are included in the JSON and displayed in the chart's data notes.
+
+Keyboard users can select a recommendation model, choose an agent configuration and view, and move the time slider to read the corresponding values in a table. The original static figure remains linked as a fallback.
+
+### Visualization workflow reference
+
+The data-integrity and accessibility review used the scientific-visualization workflow in Scientific Agent Skills: Timothy Kassis, Vinayak Agarwal, Yuhuan He, Darshil Patel, and Aubrey M. Brueckner (2026), [Scientific Agent Skills: A Library of Procedural Knowledge for Research Agents](https://arxiv.org/abs/2609.00065). This is a development-workflow acknowledgment, not a source of the experimental measurements.
