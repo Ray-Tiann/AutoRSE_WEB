@@ -17,10 +17,12 @@
   <link rel="stylesheet" href="assets/css/styles.css?v=20261029-title-v1">
   <link rel="stylesheet" href="assets/css/workflow-animation.css?v=20261029-readable-v1">
   <link rel="stylesheet" href="assets/css/trajectories.css?v=20261029-compact-v1">
+  <link rel="stylesheet" href="assets/css/research-sections.css?v=20261029-research-v1">
   <script src="assets/js/data.js?v=20261029" defer></script>
   <script src="assets/js/app.js?v=20261029-concise-v1" defer></script>
   <script src="assets/js/workflow-animation.js?v=20261029-readable-v1" defer></script>
   <script src="assets/js/trajectories.js?v=20261029-compact-v1" defer></script>
+  <script src="assets/js/idea-modes.js?v=20261029-research-v1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#overview">Skip to content</a>
@@ -180,17 +182,75 @@
     </div></section>
 
     <section class="section wrap" id="analysis" aria-labelledby="analysis-title">
-      <div class="section-label"><span>05</span> RQ2 · Trajectory analysis</div><h2 id="analysis-title">Most changes optimize engineering.<br>Few explore new algorithms.</h2><p class="section-deck">We segment agent trajectories into individual experiments and classify their optimization strategies.</p>
-      <div class="analysis-grid"><figure class="figure"><button class="figure-zoom" data-zoom="assets/images/modifications.png" data-caption="Distribution of 4,425 segmented experiments across six optimization strategies." aria-label="Enlarge optimization strategy distribution"><img src="assets/images/modifications.png" width="2400" height="1764" alt="Engineering-level changes account for 91.7% of 4,425 experiments and algorithmic innovation for 8.3%. Model ensemble is 59.0%, parameter tuning 26.2%, training strategy 6.6%, feature modeling 4.2%, model architecture 3.1%, and objective function 1.0%." loading="lazy"></button><figcaption><span class="figure-number">FIG. 04</span> Distribution of segmented experiments.</figcaption></figure><div class="analysis-copy"><div class="analysis-summary"><div><strong>91.7<span>%</span></strong><p>Engineering optimizations</p></div><div class="innovation-stat"><strong>8.3<span>%</span></strong><p>Algorithmic innovations</p></div></div><div class="strategy-list"><h3>What agents spend their experiments on</h3><div class="strategy-row"><span><i style="--dot:#629be5"></i>Model ensemble</span><strong>59.0%</strong></div><div class="strategy-row"><span><i style="--dot:#bdd7f6"></i>Parameter tuning</span><strong>26.2%</strong></div><div class="strategy-row"><span><i style="--dot:#3473cf"></i>Training strategy</span><strong>6.6%</strong></div><div class="strategy-row"><span><i style="--dot:#ee9a92"></i>Feature modeling</span><strong>4.2%</strong></div><div class="strategy-row"><span><i style="--dot:#dc7267"></i>Model architecture</span><strong>3.1%</strong></div><div class="strategy-row"><span><i style="--dot:#bd4e46"></i>Objective function</span><strong>1.0%</strong></div></div><p class="small-note">Shares are reported at experiment level; category percentages may not sum to 100% due to rounding.</p></div></div>
-      <div class="novelty-row"><div><div class="mini-label">Beyond the final score</div><h3>Novelty and performance<br>move together.</h3><p>Higher novelty scores are associated with larger relative performance gains (<strong>Pearson r = 0.79</strong>). This motivates testing whether better ideas can help agents go further.</p><p class="small-note">Novelty is assessed on a 0–4 ordinal scale. The relationship is an association, not a causal estimate.</p></div><figure class="figure"><button class="figure-zoom" data-zoom="assets/images/novelty.png" data-caption="Association between mean novelty scores and relative test-performance gains." aria-label="Enlarge novelty and performance plot"><img src="assets/images/novelty.png" width="2400" height="1129" alt="Scatter plot of mean novelty score against relative performance gain, with Pearson correlation r equals 0.79 and a fitted linear trend." loading="lazy"></button><figcaption><span class="figure-number">FIG. 05</span> Novelty versus relative performance gain.</figcaption></figure></div>
+      <h2 id="analysis-title">Most changes optimize engineering.</h2>
+      <div class="strategy-breakdown">
+        <table class="strategy-breakdown-table">
+          <caption class="sr-only">Distribution of 4,425 segmented experiments across six optimization strategies. Published group totals and category percentages are preserved; rounding can prevent exact sums.</caption>
+          <thead><tr><th scope="col">Optimization strategy</th><th scope="col">Share</th></tr></thead>
+          <tbody aria-labelledby="engineering-group">
+            <tr class="strategy-group engineering-group"><th scope="row" id="engineering-group">Engineering optimizations</th><td>91.7%</td></tr>
+            <tr><th scope="row">Model ensemble</th><td>59.0%</td></tr>
+            <tr><th scope="row">Parameter tuning</th><td>26.2%</td></tr>
+            <tr><th scope="row">Training strategy</th><td>6.6%</td></tr>
+          </tbody>
+          <tbody aria-labelledby="algorithmic-group">
+            <tr class="strategy-group algorithmic-group"><th scope="row" id="algorithmic-group">Algorithmic innovations</th><td>8.3%</td></tr>
+            <tr><th scope="row">Feature modeling</th><td>4.2%</td></tr>
+            <tr><th scope="row">Model architecture</th><td>3.1%</td></tr>
+            <tr><th scope="row">Objective function</th><td>1.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="novelty-insight">
+        <div class="novelty-insight-copy"><h3>Novelty and performance<br>move together.</h3><p class="novelty-correlation">Pearson <i>r</i> = <strong>0.79</strong></p></div>
+        <figure class="novelty-insight-figure"><button class="figure-zoom" data-zoom="assets/images/novelty.png" data-caption="Association between mean novelty scores and relative test-performance gains; Pearson r = 0.79. This is an association, not a causal estimate." aria-label="Enlarge novelty and performance plot"><img src="assets/images/novelty.png" width="2400" height="1129" alt="Scatter plot of mean novelty score on a 0–4 scale against relative test-performance gain, with Pearson correlation r = 0.79 and a fitted linear trend. This association does not establish causation." loading="lazy"></button></figure>
+      </div>
     </section>
 
-    <section class="section ideas-section" id="ideas" aria-labelledby="ideas-title"><div class="wrap">
-      <div class="section-heading"><div><div class="section-label"><span>06</span> RQ3 · Idea injection</div><h2 id="ideas-title">Better ideas give agents<br>more room to improve.</h2></div><p class="section-intro">We compare standard execution, explicit self-generated ideation, and an external library of research ideas.</p></div>
-      <figure class="figure ideas-figure"><button class="figure-zoom" data-zoom="assets/images/ideas.png" data-caption="Three ideation settings: standard, self-generated ideas, and externally injected ideas." aria-label="Enlarge idea injection experiment design"><img src="assets/images/ideas.png" width="2400" height="1392" alt="Standard agents proceed from input to an idea and implementation. Self-generated agents create eight ideas and select two or three. Idea-injected agents receive an external idea library before implementation." loading="lazy"></button><figcaption><span class="figure-number">FIG. 06</span> Three settings that change where optimization ideas come from.</figcaption></figure>
-      <div class="idea-outcome"><div class="idea-stat"><strong>+13.35<span>%</span></strong><p>mean test-score improvement over<br>the self-generated-ideas setting</p></div><div><h3>Execution is only part of the challenge.</h3><p>With externally supplied ideas, agents achieve higher scores on all six tasks in this experiment. The result points to idea generation as an important bottleneck for autonomous recommendation improvement.</p><p class="small-note">Controlled comparison: Claude Code × DeepSeek V4 Flash, with three independent trials. This result is specific to this LLM–harness pairing.</p></div></div>
-      <details class="idea-details"><summary>Compare the scores by task <span aria-hidden="true">+</span></summary><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable idea-injection results"><table class="idea-table"><caption class="sr-only">Test scores for standard, self-generated, and idea-injected settings</caption><thead><tr><th>Task</th><th>Standard</th><th>Self-generated</th><th>Idea-injected</th></tr></thead><tbody id="idea-rows"></tbody></table></div></details>
-    </div></section>
+    <section class="section ideas-section" id="ideas" aria-labelledby="ideas-title">
+<div class="wrap">
+  <div class="section-heading"><h2 id="ideas-title">Better ideas give agents<br>more room to improve.</h2></div>
+  <div class="idea-modes" data-mode="standard">
+    <div class="im-tabs" role="tablist" aria-label="Compare ideation settings">
+      <button type="button" id="idea-tab-standard" role="tab" aria-selected="true" aria-controls="idea-panel-standard" data-idea-mode="standard">Standard</button>
+      <button type="button" id="idea-tab-self" role="tab" aria-selected="false" aria-controls="idea-panel-self" data-idea-mode="self" tabindex="-1">Self-generated</button>
+      <button type="button" id="idea-tab-injected" role="tab" aria-selected="false" aria-controls="idea-panel-injected" data-idea-mode="injected" tabindex="-1">Idea-injected</button>
+    </div>
+    <div class="im-panel" id="idea-panel-standard" role="tabpanel" aria-labelledby="idea-tab-standard" tabindex="0">
+      <ol class="im-flow" aria-label="Task input, agent, research idea, implementation">
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h11l6 6v18H8zM19 4v7h6M12 16h9M12 21h9"/></svg></div><strong>Task input</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="9" width="20" height="16" rx="5"/><path d="M16 5v4M12 28h8M3 15v5M29 15v5M12 20h8"/><circle cx="12" cy="15" r="1"/><circle cx="20" cy="15" r="1"/></svg></div><strong>Agent</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 22c0-5-5-5-5-11a10 10 0 0 1 20 0c0 6-5 6-5 11zM12 26h8M14 29h4M16 9v8M12 13l4 4 4-4"/></svg></div><strong>Research idea</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="26" height="23" rx="3"/><path d="M3 11h26M11 16l-4 4 4 4M21 16l4 4-4 4M18 15l-4 10"/></svg></div><strong>Implementation</strong></li>
+      </ol>
+      <p class="im-mode-summary">The agent proposes ideas during its normal research loop.</p>
+    </div>
+    <div class="im-panel" id="idea-panel-self" role="tabpanel" aria-labelledby="idea-tab-self" tabindex="0" hidden>
+      <ol class="im-flow" aria-label="Task input, generate eight ideas, select two or three, implementation">
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h11l6 6v18H8zM19 4v7h6M12 16h9M12 21h9"/></svg></div><strong>Task input</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><span class="im-candidates"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div><strong>Generate 8 ideas</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h22L19 16v10l-6-3v-7zM21 10l2 2 5-5"/></svg></div><strong>Select 2–3</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="26" height="23" rx="3"/><path d="M3 11h26M11 16l-4 4 4 4M21 16l4 4-4 4M18 15l-4 10"/></svg></div><strong>Implementation</strong></li>
+      </ol>
+      <p class="im-mode-summary">Each ideation round explicitly generates and selects candidate ideas.</p>
+    </div>
+    <div class="im-panel" id="idea-panel-injected" role="tabpanel" aria-labelledby="idea-tab-injected" tabindex="0" hidden>
+      <ol class="im-flow im-flow-injected" aria-label="Task input and an external idea library feed the agent, which selects and adapts ideas for implementation">
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h11l6 6v18H8zM19 4v7h6M12 16h9M12 21h9"/></svg></div><strong>Task input</strong></li>
+        <li class="im-step im-agent"><div class="im-library"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h7v22H5zM14 6h6v22h-6zM22 7l5-1 4 21-5 1zM7 11h3M16 11h2"/></svg>External idea library</div><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="9" width="20" height="16" rx="5"/><path d="M16 5v4M12 28h8M3 15v5M29 15v5M12 20h8"/><circle cx="12" cy="15" r="1"/><circle cx="20" cy="15" r="1"/></svg></div><strong>Agent</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h12v12H7zM13 23v4h13V14h-4M16 10l2 2 5-6M11 16h4M17 22l3 3 5-6"/></svg></div><strong>Select &amp; adapt</strong></li>
+        <li class="im-step"><div class="im-node" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="26" height="23" rx="3"/><path d="M3 11h26M11 16l-4 4 4 4M21 16l4 4-4 4M18 15l-4 10"/></svg></div><strong>Implementation</strong></li>
+      </ol>
+      <p class="im-mode-summary">An external idea library is available from the start of the run.</p>
+    </div>
+  </div>
+  <div class="im-outcome">
+    <strong class="im-gain">+13.35<span>%</span></strong>
+    <div><p class="im-result-label">Mean relative test-score gain over self-generated ideas</p><p class="im-result-scope">Claude Code × DeepSeek V4 Flash · 6 tasks · 3 trials</p></div>
+  </div>
+  <details class="idea-details"><summary>Compare task scores <span aria-hidden="true">+</span></summary><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable idea-injection results"><table class="idea-table"><caption class="sr-only">Test scores for standard, self-generated, and idea-injected settings</caption><thead><tr><th>Task</th><th>Standard</th><th>Self-generated</th><th>Idea-injected</th></tr></thead><tbody id="idea-rows"></tbody></table></div></details>
+</div>
+    </section>
 
     <section class="section wrap citation-section" id="citation" aria-labelledby="citation-title"><div class="section-heading"><div><div class="section-label"><span>07</span> Resources</div><h2 id="citation-title">Read. Explore. Cite.</h2></div><p class="section-intro">The paper describes the evaluation protocol, experimental settings, and trajectory-analysis methodology.</p></div><div class="resource-links"><a href="https://arxiv.org/pdf/2610.37228" target="_blank" rel="noopener noreferrer"><span>01</span><div><strong>Paper PDF</strong><small>Full paper and appendix</small></div><span aria-hidden="true">↗</span></a><a href="https://github.com/Ray-Tiann/AutoRSE" target="_blank" rel="noopener noreferrer"><span>02</span><div><strong>Project repository</strong><small>AutoRSE on GitHub</small></div><span aria-hidden="true">↗</span></a><a href="assets/pdf/workflow.pdf" target="_blank" rel="noopener noreferrer"><span>03</span><div><strong>Framework figure</strong><small>View the vector PDF</small></div><span aria-hidden="true">↗</span></a></div>
       <div class="bib-container"><div class="bib-heading"><h3>BibTeX</h3><button id="copy-bib" class="copy-button"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 6h9v11H7zM4 13H3V3h9v1" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Copy citation</span></button></div><pre id="bibtex"><code>@misc{tian2026autorse,

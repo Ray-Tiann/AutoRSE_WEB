@@ -99,3 +99,10 @@ Keyboard users can select a recommendation model, choose an agent configuration 
 ### Visualization workflow reference
 
 The data-integrity and accessibility review used the scientific-visualization workflow in Scientific Agent Skills: Timothy Kassis, Vinayak Agarwal, Yuhuan He, Darshil Patel, and Aubrey M. Brueckner (2026), [Scientific Agent Skills: A Library of Procedural Knowledge for Research Agents](https://arxiv.org/abs/2609.00065). This is a development-workflow acknowledgment, not a source of the experimental measurements.
+
+
+## Analysis and idea-generation views
+
+The optimization-strategy table replaces the redundant pie chart and preserves the paper's reported percentages across 4,425 segmented experiments: engineering optimizations 91.7% and algorithmic innovations 8.3%. Rounded category values (59.0%, 26.2%, 6.6%, 4.2%, 3.1%, 1.0%) sum to 100.1%; the published values have not been renormalized. The novelty plot reports Pearson r = 0.79 across task–agent configurations, using mean novelty and mean relative test-score gain. This is an association, not a causal estimate.
+
+The three interactive idea-generation views preserve the study's settings: standard execution; explicit generation of eight ideas followed by selection of two or three; and access to an external idea library. The library is an input to the agent in the injected setting. The +13.35% result compares idea injection with self-generated ideas for Claude Code × DeepSeek V4 Flash, across six tasks and three trials per setting; it is not a claim about every evaluated agent configuration. Task-level scores remain available in the expandable comparison table.
