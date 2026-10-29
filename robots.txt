@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ray-tiann.github.io/AutoRSE_WEB/sitemap.xml
