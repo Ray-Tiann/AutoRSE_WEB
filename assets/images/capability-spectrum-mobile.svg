@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="540" height="780" viewBox="0 0 540 780" role="img" aria-labelledby="capability-title capability-desc">
   <title id="capability-title">From research execution to algorithmic ideas</title>
-  <desc id="capability-desc">A four-level pyramid shows code execution, engineering optimization, algorithmic improvement, and conceptual innovation. Below it, a continuous ideate, implement, experiment, and analyze loop illustrates the research process. The engineering level is marked as the typical focus of the evaluated agents. Higher-level ideas are a research challenge, not an absolute limit. This is a conceptual illustration, not a measured scale.</desc>
+  <desc id="capability-desc">A four-level pyramid shows code execution, engineering optimization, algorithmic improvement, and conceptual innovation. Below it, a continuous ideate, implement, experiment, and analyze loop illustrates the research process. The highlighted engineering optimizer tier is explicitly marked Current RSE-Agent Reach, identifying the main operating level of current agents. Higher-level ideas are a research challenge, not an absolute limit. This is a conceptual illustration, not a measured scale.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 8 5 1 9" fill="none" stroke="#7f9bc4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
     <marker id="focus-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 8 5 1 9" fill="none" stroke="#2759c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
@@ -9,7 +9,7 @@
     <g id="capability-pyramid" transform="translate(20 0) scale(1 .8)" stroke="#fff" stroke-width="3" stroke-linejoin="round">
       <path d="M250 35 335.9 190H164.1Z" fill="#6da6eb"/>
       <path d="M164.1 190H335.9L380.2 270H119.8Z" fill="#a2c9f5"/>
-      <path d="M119.8 270H380.2L420.2 342H79.8Z" fill="#cce2fc"/>
+      <path d="M119.8 270H380.2L420.2 342H79.8Z" fill="#b9d8fb" stroke="#2759c4" stroke-width="2.8"/>
       <path d="M79.8 342H420.2L455 405H45Z" fill="#e9f2ff"/>
     </g>
     <g text-anchor="middle" font-weight="600">
@@ -18,8 +18,12 @@
       <text x="270" y="236" font-size="24">Engineering<tspan x="270" dy="28">optimizer</tspan></text>
       <text x="270" y="307" font-size="25">Code executor</text>
     </g>
-    <path d="M503 216H402" fill="none" stroke="#2759c4" stroke-width="2" stroke-linecap="round" marker-end="url(#focus-arrow)"/>
-    <text x="461" y="179" text-anchor="middle" fill="#2759c4" font-size="23" font-weight="600">Typical<tspan x="461" dy="27">focus</tspan></text>
+    <g id="current-rse-agent-reach">
+      <path d="M140 216H400" fill="none" stroke="#2759c4" stroke-width="2.8" stroke-dasharray="6 5"/>
+      <path d="M402 216H515" fill="none" stroke="#2759c4" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="402" cy="216" r="7" fill="#2759c4" stroke="#fff" stroke-width="3"/>
+      <text x="463" y="149" text-anchor="middle" fill="#2759c4" font-size="22" font-weight="700">Current<tspan x="463" dy="26">RSE-Agent</tspan><tspan x="463" dy="26">Reach</tspan></text>
+    </g>
     <g id="research-loop">
       <g fill="none" stroke="#7f9bc4" stroke-width="2.3" stroke-linecap="round" marker-end="url(#arrow)">
         <path d="M326 385C378 385 415 421 415 463"/>
