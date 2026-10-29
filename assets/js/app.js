@@ -20,33 +20,6 @@ $$('[data-task-filter]').forEach(button => button.addEventListener('click', () =
   $('#task-count').textContent = chosen === 'all' ? 'Showing all 6 tasks.' : `Showing ${count} ${chosen.toLowerCase()} tasks.`;
 }));
 
-const steps = [
-  ['Understand the starting point.', 'Inspect the task description, reference recommendation codebase, and available training and validation data.'],
-  ['Choose an optimization hypothesis.', 'Formulate a candidate improvement based on the baseline, previous experiments, and the task’s recommendation objective.'],
-  ['Turn the idea into executable code.', 'Modify the recommendation codebase to implement the proposed change within the local execution environment.'],
-  ['Train, validate, and collect feedback.', 'Run experiments within the shared 12-hour wall-clock budget, collecting validation metrics, logs, and error traces.'],
-  ['Decide what to retain, revise, or discard.', 'Analyze execution feedback and validation results to guide the next cycle. Test labels remain hidden throughout the run.']
-];
-function activateStep(button, moveFocus = false) {
-  $$('[data-step]').forEach(b => {b.setAttribute('aria-selected', String(b === button)); b.tabIndex = b === button ? 0 : -1;});
-  const [title, copy] = steps[Number(button.dataset.step)];
-  $('#step-detail').innerHTML = `<h3>${title}</h3><p>${copy}</p>`;
-  $('#step-detail').setAttribute('aria-labelledby', button.id);
-  if (moveFocus) button.focus();
-}
-$$('[data-step]').forEach(button => {
-  button.addEventListener('click', () => activateStep(button));
-  button.addEventListener('keydown', event => {
-    const buttons = $$('[data-step]'); let next = buttons.indexOf(button);
-    if (event.key === 'ArrowRight') next = (next + 1) % buttons.length;
-    else if (event.key === 'ArrowLeft') next = (next - 1 + buttons.length) % buttons.length;
-    else if (event.key === 'Home') next = 0;
-    else if (event.key === 'End') next = buttons.length - 1;
-    else return;
-    event.preventDefault(); activateStep(buttons[next], true);
-  });
-});
-
 let resultMode = 'gain';
 const signed = value => `${value < 0 ? '−' : '+'}${Math.abs(value).toFixed(2)}%`;
 function renderResults() {
