@@ -132,7 +132,7 @@
 
     setText(status, state.label);
     setText(detailTitle, state.title);
-    setText(budgetState, index >= budgetIndex ? '12 h reached' : '12 h total wall-clock budget');
+    setText(budgetState, index >= budgetIndex ? '12 h reached' : '12 h total budget');
     setText(stepCount, String(index + 1).padStart(2, '0') + ' / ' + String(states.length));
     if (progress) {
       const fraction = Math.min(index / budgetIndex, 1);
