@@ -127,3 +127,16 @@ The novelty scatter uses a less panoramic desktop plot (maximum 880px wide, 500p
 ## Readable website copy
 
 Section introductions, decorative eyebrow labels, repeated figure captions, resource descriptions, and the footer slogan were removed from the visible flow. Necessary controls, chart labels, tables, and method disclosures use a readable type scale; author and metric metadata remain at least 14px. The idea-mode descriptions remain accessible through the panels, while experimental scope, chart units, validation references, and downloadable methods are retained. The protocol animation is explicitly described as illustrative with compressed time through its accessible description and tooltip.
+
+## Community leaderboard (reserved)
+
+A dedicated `#leaderboard` section welcomes community evaluations. The Hugging Face Space has not been created; the live site explicitly shows **Coming soon on Hugging Face**, and the hero Hugging Face button stays disabled. The paper's reported results remain separate and unchanged.
+
+When the public or protected Space is ready, edit `assets/data/leaderboard.json`:
+
+- `spaceUrl`: the canonical `https://huggingface.co/spaces/OWNER/SPACE` page.
+- `embedUrl`: the direct `https://…hf.space` URL copied from that Space's **Embed this Space** menu.
+
+Both values are empty until launch. With both valid HTTPS URLs, `assets/js/leaderboard.js` replaces the reserved card with a lazy-loaded iframe of the Space, adds an external leaderboard link, and activates the hero Hugging Face button. Results are displayed directly from the Space rather than copied into the manuscript data. No token is required or stored. Refreshing the page loads the Space's current content; this is an embed, not a background dataset synchronization service. Community submission and evaluation rules must be implemented in the Space before announcing submissions as open.
+
+Official embed documentation: https://huggingface.co/docs/hub/spaces-embed

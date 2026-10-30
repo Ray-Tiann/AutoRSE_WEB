@@ -1,0 +1,19 @@
+.leaderboard-section{background:var(--soft);border-top:1px solid #e8edf5;border-bottom:1px solid #e8edf5}
+.leaderboard-heading{max-width:780px;margin-bottom:32px}
+.leaderboard-heading p{font-size:18px;line-height:1.65;color:#415776;margin-top:16px;max-width:700px}
+.leaderboard-heading .lb-start{display:inline-flex;align-items:center;gap:14px;margin-top:22px;font-size:16px;font-weight:650;min-height:44px}
+.lb-start span{font-size:22px;line-height:1;transition:transform .15s}
+.lb-start:hover span{transform:translateX(3px)}
+.lb-panel{border:1px solid #d8e2ef;background:white;border-radius:16px;overflow:hidden}
+.lb-placeholder{min-height:248px;padding:42px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:20px;background:linear-gradient(135deg,#fff 20%,#f8faff)}
+.lb-placeholder .lb-mark{display:grid;place-items:center;width:72px;height:72px;border-radius:20px;background:#fff6d9;font-size:42px;line-height:1}
+.lb-placeholder h3{font-size:24px;line-height:1.35;letter-spacing:-.025em;font-weight:650;color:#415776}
+.lb-platform{white-space:nowrap}
+.lb-connected{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:16px}
+.lb-connected p{color:#415776}
+.lb-space-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:600}
+.lb-frame{width:100%;height:760px;display:block;border:0;background:white}
+.lb-panel [hidden]{display:none}
+@media(max-width:980px) and (min-width:801px){.menu-toggle{display:block;margin-left:auto}.nav-links{display:none;position:absolute;top:71px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:12px 28px 18px;flex-direction:column;align-items:stretch;gap:0;box-shadow:0 10px 20px #17243d08}.nav-links.open{display:flex}.nav-links a{padding:10px 8px;border:0;font-size:16px;border-radius:5px}.nav-links a[aria-current="location"]{background:#edf3ff}}
+@media(max-width:560px){.leaderboard-heading{margin-bottom:26px}.leaderboard-heading p{font-size:17px;line-height:1.65}.leaderboard-heading .lb-start{font-size:16px;margin-top:18px}.lb-placeholder{min-height:238px;padding:32px 22px;gap:20px}.lb-placeholder h3{font-size:22px;max-width:250px}.lb-connected{padding:18px;display:block}.lb-space-link{margin-top:8px}.lb-frame{height:760px}.lb-panel{border-radius:12px}}
+@media(prefers-reduced-motion:reduce){.lb-start span{transition:none}.lb-start:hover span{transform:none}}
