@@ -75,3 +75,8 @@
 .citation-section .citation-details summary{padding:18px 2px;font-size:16px;color:#415776;min-height:60px}
 .citation-section .citation-details pre{padding:22px 2px;border-top:1px solid var(--line);font-size:14px;line-height:1.7;background:transparent}
 @media(max-width:560px){.citation-section{padding-top:40px;padding-bottom:40px}.citation-section .citation-heading{gap:16px;margin-bottom:20px}.citation-section .citation-heading h2{font-size:28px}.citation-section .copy-button{padding:8px 10px;font-size:16px}}
+
+/* A single readable sentence connects each section heading to its evidence. */
+.section-heading.section-heading-copy{display:block}
+.section-explanation{max-width:780px;margin:16px 0 0;font-size:18px;line-height:1.65;color:#415776}
+@media(max-width:560px){.section-explanation{font-size:17px;line-height:1.65;margin-top:15px}}

@@ -14,7 +14,7 @@
   <link rel="canonical" href="https://ray-tiann.github.io/AutoRSE_WEB/">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261030-citation-v1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261030-context-v1">
   <link rel="stylesheet" href="assets/css/workflow-animation.css?v=20261030-readable-v3">
   <link rel="stylesheet" href="assets/css/trajectories.css?v=20261030-readable-v3">
   <link rel="stylesheet" href="assets/css/research-sections.css?v=20261030-readable-v3">
@@ -54,7 +54,7 @@
         <div class="overview-copy">
           
           <h2 id="overview-title">Can agents find<br> <em>better ideas?</em></h2>
-          <p class="lead">AutoRSE evaluates how agents improve recommendation baselines.</p>
+          <p class="lead">AutoRSE evaluates performance gains alongside the ideas and code changes behind them.</p>
         </div>
         <figure class="overview-figure">
           <button class="figure-zoom" data-zoom="assets/images/capability-spectrum.svg?v=20261030-unified-v1" data-caption="The highlighted engineering optimizer tier marks the main operating level of current RSE-Agents. Capability levels are a conceptual illustration rather than a measured scale." aria-label="Enlarge recommendation-engineering capability diagram"><picture><source media="(max-width: 560px)" srcset="assets/images/capability-spectrum-mobile.svg?v=20261030-unified-v1"><img src="assets/images/capability-spectrum.svg?v=20261030-unified-v1" width="960" height="425" alt="A four-level capability pyramid from code execution to conceptual innovation, alongside the iterative ideate, implement, experiment, and analyze loop. The engineering optimizer tier is highlighted and explicitly marked Current RSE-Agent Reach, showing where current agents mainly operate." fetchpriority="high"></picture></button>
@@ -69,7 +69,7 @@
     </section>
 
     <section class="section section-tint" id="framework" aria-labelledby="framework-title"><div class="wrap">
-      <div class="section-heading"><div><h2 id="framework-title">How AutoRSE works.</h2></div></div>
+      <div class="section-heading section-heading-copy"><h2 id="framework-title">How AutoRSE works.</h2><p class="section-explanation">Agents get 12 hours to improve a baseline before evaluation on hidden test labels.</p></div>
       <div class="wf-demo" id="workflow-animation" role="region" data-phase="initialize" data-stage="initialize" aria-label="Animated AutoRSE evaluation protocol" aria-describedby="wf-animation-note" title="Illustrative protocol animation; time is compressed.">
         <svg class="wf-icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="wf-icon-brief" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="m12 12 8-8m-4 0h4v4"/></symbol><symbol id="wf-icon-code" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18m-12 3-3 3 3 3m6-6 3 3-3 3m-2-6-2 6"/></symbol><symbol id="wf-icon-data" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></symbol><symbol id="wf-icon-explore" viewBox="0 0 24 24"><path d="M13 3H5v18h9M8 7h5M8 11h3M8 15h2"/><circle cx="16" cy="14" r="4"/><path d="m19 17 3 3"/></symbol><symbol id="wf-icon-idea" viewBox="0 0 24 24"><path d="M8 17c0-3-3-4-3-8a7 7 0 0 1 14 0c0 4-3 5-3 8M8 18h8M9 22h6M12 5v5m-3-2 3 3 3-3"/></symbol><symbol id="wf-icon-experiment" viewBox="0 0 24 24"><path d="M4 19V5m0 14h17M8 15v-4m5 4V7m5 8v-6"/></symbol><symbol id="wf-icon-analyze" viewBox="0 0 24 24"><path d="M3 18h13M5 15v-4m4 4V6m4 9V3"/><circle cx="17" cy="12" r="4"/><path d="m20 15 3 4"/></symbol><symbol id="wf-icon-strategy" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="5" rx="1"/><path d="M12 7v5m-7 0h14M5 12v4m14-4v4"/><rect x="2" y="16" width="6" height="5" rx="1"/><rect x="16" y="16" width="6" height="5" rx="1"/></symbol><symbol id="wf-icon-predictions" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 8h16M9 8v13M12 12h5m-5 5h5M6 12h.1M6 17h.1"/></symbol><symbol id="wf-icon-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v2"/></symbol><symbol id="wf-icon-file" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5ZM15 3v5h4M8 12h8m-8 4h6"/></symbol><symbol id="wf-icon-shell" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m6 9 3 3-3 3m6 0h5"/></symbol><symbol id="wf-icon-package" viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7Zm-9 5 9 5 9-5M12 12v10M8 4l9 5"/></symbol><symbol id="wf-icon-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></symbol></svg>
         <div class="wf-toolbar">
@@ -107,7 +107,7 @@
     </div></section>
 
     <section class="section wrap" id="tasks" aria-labelledby="tasks-title">
-      <div class="section-heading"><div><h2 id="tasks-title">Six baselines.<br>Two recommendation settings.</h2></div></div>
+      <div class="section-heading section-heading-copy"><h2 id="tasks-title">Six baselines.<br>Two recommendation settings.</h2><p class="section-explanation">The tasks cover generative recommendation and click-through-rate prediction, each with its own dataset and metric.</p></div>
       <div class="task-controls" role="group" aria-label="Filter recommendation tasks"><button class="filter active" data-task-filter="all" aria-pressed="true">All tasks <span>6</span></button><button class="filter" data-task-filter="Generative recommendation" aria-pressed="false">Generative recommendation <span>3</span></button><button class="filter" data-task-filter="CTR prediction" aria-pressed="false">CTR prediction <span>3</span></button></div>
       <div class="task-table-wrap" tabindex="0" role="region" aria-label="Scrollable recommendation task table"><table class="task-table"><caption class="sr-only">Recommendation tasks, modeling approaches, datasets, and evaluation metrics in AutoRSE</caption><thead><tr><th scope="col">Baseline</th><th scope="col">Modeling approach</th><th scope="col">Dataset</th><th scope="col">Primary metric</th></tr></thead><tbody id="task-rows"></tbody></table></div><p class="sr-only" id="task-count" aria-live="polite">Showing all 6 tasks.</p>
     </section>
@@ -115,7 +115,7 @@
     <section class="section section-tint" id="results" aria-labelledby="results-title"><div class="wrap">
       
       <div class="results-lead"><h2 id="results-title">Agents can improve<br>recommendation performance.</h2><div class="headline-stat"><strong>+16.1<span>%</span></strong><p>mean relative test-score improvement</p></div></div>
-      <p class="results-description"><strong>35 of 42 configurations</strong> outperform the reference baseline.</p>
+      <p class="results-description"><strong>35 of 42 configurations</strong> outperform the reference baseline. Gains vary across tasks and agents.</p>
       <div class="results-panel"><div class="results-toolbar"><div class="result-controls"><div class="segmented" role="group" aria-label="Result value type"><button class="active" data-result-mode="gain" aria-pressed="true">Relative gain</button><button data-result-mode="score" aria-pressed="false">Test score</button></div><label class="sr-only" for="harness-filter">Filter by harness</label><select id="harness-filter"><option value="all">All harnesses</option><option>Claude Code</option><option>Codex</option><option>Terminus-2</option></select></div></div><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable performance results"><table class="results-table" aria-describedby="results-note"><caption class="sr-only">Main test results from Table 1 of the paper</caption><thead id="results-head"></thead><tbody id="results-body"></tbody></table></div><p class="sr-only" id="results-note" aria-live="polite">Relative change from each task’s baseline. Negative values are shown explicitly. Average gain is the unweighted mean across six tasks.</p></div>
 <div class="trajectory-explorer" id="trajectories" data-src="assets/data/trajectories.json?v=20261029-trajectories-v1" aria-labelledby="trajectories-heading">
   <div class="te-heading">
@@ -184,6 +184,7 @@
 
     <section class="section wrap" id="analysis" aria-labelledby="analysis-title">
       <h2 id="analysis-title">Most changes optimize engineering.</h2>
+      <p class="section-explanation">We classify 4,425 experiments by the type of change made to the baseline.</p>
       <div class="strategy-breakdown">
         <table class="strategy-breakdown-table">
           <caption class="sr-only">Distribution of 4,425 segmented experiments across six optimization strategies. Published group totals and category percentages are preserved; rounding can prevent exact sums.</caption>
@@ -231,7 +232,7 @@
 
     <section class="section ideas-section" id="ideas" aria-labelledby="ideas-title">
 <div class="wrap">
-  <div class="section-heading"><h2 id="ideas-title">Better ideas give agents<br>more room to improve.</h2></div>
+  <div class="section-heading section-heading-copy"><h2 id="ideas-title">Better ideas give agents<br>more room to improve.</h2><p class="section-explanation">The same agent is evaluated with standard execution, self-generated ideas, or an external idea library.</p></div>
   <div class="idea-modes" data-mode="standard">
     <div class="im-tabs" role="tablist" aria-label="Compare ideation settings">
       <button type="button" id="idea-tab-standard" role="tab" aria-selected="true" aria-controls="idea-panel-standard" data-idea-mode="standard">Standard</button>
