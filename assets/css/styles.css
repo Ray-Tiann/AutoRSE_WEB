@@ -65,3 +65,13 @@
 .dialog-top,#dialog-original,.noscript-note,figcaption{font-size:16px}
 @media(max-width:800px){.nav-links a{font-size:16px}.authors{font-size:15px}.affiliations,.author-notes,.arxiv-note{font-size:14px}.overview-section .overview-copy .lead{font-size:17px}.task-table{font-size:16px}.headline-stat p{font-size:16px;max-width:190px}.results-description{font-size:17px}.resource-links a strong{font-size:18px}}
 @media(max-width:560px){.authors{font-size:14px}.affiliations,.author-notes,.arxiv-note{font-size:14px}.hero-actions .button{font-size:16px}.overview-section .overview-copy .lead{font-size:17px}.filter{font-size:16px;padding:10px 9px}.filter span{font-size:14px}.task-table{font-size:16px;min-width:850px}.task-name{font-size:17px}.task-icon{width:30px;height:30px}.metric-tag,.task-kind{font-size:14px}.result-controls{flex-direction:column;align-items:stretch;gap:14px}.segmented{width:100%}.segmented button{font-size:16px;flex:1;padding:8px 9px}#harness-filter{max-width:none;width:100%;font-size:16px}.headline-stat p{font-size:16px;max-width:170px}.results-description{font-size:17px}.results-table th{font-size:16px}.results-table th small,.harness-label,.sd{font-size:14px}.model-label{font-size:16px}.resource-links a strong{font-size:18px}.copy-button{font-size:16px}.bib-heading{gap:14px;flex-wrap:wrap}pre{font-size:14px}.footer-right a{font-size:16px}}
+
+/* A compact citation action, with full BibTeX available on demand. */
+.citation-section{padding-top:58px;padding-bottom:52px}
+.citation-section .citation-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:22px}
+.citation-section .citation-heading h2{font-size:32px;line-height:1.25;letter-spacing:-.03em}
+.citation-section .copy-button{min-height:44px;white-space:nowrap}
+.citation-section .citation-details{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.citation-section .citation-details summary{padding:18px 2px;font-size:16px;color:#415776;min-height:60px}
+.citation-section .citation-details pre{padding:22px 2px;border-top:1px solid var(--line);font-size:14px;line-height:1.7;background:transparent}
+@media(max-width:560px){.citation-section{padding-top:40px;padding-bottom:40px}.citation-section .citation-heading{gap:16px;margin-bottom:20px}.citation-section .citation-heading h2{font-size:28px}.citation-section .copy-button{padding:8px 10px;font-size:16px}}

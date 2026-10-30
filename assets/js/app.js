@@ -90,5 +90,5 @@ $('#copy-bib').addEventListener('click', async () => {
   }
   const button = $('#copy-bib');
   if (copied) {$('span', button).textContent = 'Copied!'; button.classList.add('done'); $('#copy-status').textContent = 'BibTeX citation copied to clipboard.'; setTimeout(() => {$('span', button).textContent = 'Copy citation'; button.classList.remove('done');}, 2200);}
-  else {$('#copy-status').textContent = 'Automatic copying is unavailable. The citation is selected; copy it manually.'; const range = document.createRange(); range.selectNodeContents($('#bibtex')); const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range);}
+  else {$('#citation-details').open = true; $('#copy-status').textContent = 'Automatic copying is unavailable. The citation is selected; copy it manually.'; const range = document.createRange(); range.selectNodeContents($('#bibtex')); const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range);}
 });
