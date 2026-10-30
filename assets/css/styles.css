@@ -47,3 +47,21 @@
 @media(max-width:800px){.overview-section{padding-top:56px;padding-bottom:48px}.overview-section .overview-grid{grid-template-columns:1fr;gap:20px}.overview-section .overview-copy{max-width:660px}.overview-section .overview-copy h2{font-size:34px;max-width:600px}.overview-section .overview-copy h2 br{display:none}.overview-section .overview-figure{width:100%;max-width:720px;margin:auto}}
 @media(max-width:560px){.overview-section{padding-top:44px;padding-bottom:40px}.overview-section .overview-copy h2{font-size:30px}.overview-section .overview-copy .lead{font-size:15px;margin-top:18px}.overview-section .overview-copy p:not(.lead){font-size:12px}.overview-section .overview-grid{gap:17px}.overview-section .overview-figure figcaption{font-size:9px;margin-top:7px}.overview-section .research-questions{margin-top:26px}.overview-section .research-questions a{min-height:76px}.overview-section .abstract{margin-top:12px;padding-left:0}}
 @media(prefers-reduced-motion:reduce){.overview-section .rq-arrow{transition:none}.overview-section .research-questions a:hover .rq-arrow{transform:none}}
+
+/* One readable type scale for retained content; repeated microcopy is removed. */
+.nav-links a{font-size:16px}
+.authors{font-size:16px}.affiliations,.author-notes,.arxiv-note{font-size:14px}
+.hero-actions .button{font-size:16px}
+.overview-section .overview-copy .lead{font-size:18px}
+.filter{font-size:16px;padding:10px 14px}.filter span{font-size:14px}
+.task-table{font-size:16px;min-width:900px}.task-table th{font-size:14px;text-transform:none;letter-spacing:0}.task-name{font-size:17px}.task-kind,.metric-tag,.task-icon{font-size:14px}
+.results-description{font-size:18px;line-height:1.6}.headline-stat p{font-size:16px;line-height:1.5;max-width:225px}
+.result-controls{width:100%;justify-content:space-between;gap:16px;flex-wrap:wrap}.segmented button{font-size:16px;padding:8px 13px;min-height:40px}
+#harness-filter{font-size:16px;min-height:46px;max-width:240px;padding:9px 28px 9px 12px}
+.results-table{font-size:16px;min-width:1080px}.results-table th{font-size:16px}.results-table th small,.harness-label,.sd{font-size:14px}.model-label{font-size:16px}.results-table .baseline-row td{font-size:15px}
+.resource-links a{min-height:88px;gap:14px}.resource-links a strong{font-size:18px}.resource-links a>span:last-child{font-size:22px}
+.bib-heading h3{font-size:18px}.copy-button{font-size:16px;padding:8px 12px;min-height:42px}.copy-button svg{width:18px;height:18px}pre{font-size:14px;line-height:1.7}
+.footer-right{max-width:none}.footer-right a{font-size:16px}.footer-inner p,.footer-right small{font-size:14px}
+.dialog-top,#dialog-original,.noscript-note,figcaption{font-size:16px}
+@media(max-width:800px){.nav-links a{font-size:16px}.authors{font-size:15px}.affiliations,.author-notes,.arxiv-note{font-size:14px}.overview-section .overview-copy .lead{font-size:17px}.task-table{font-size:16px}.headline-stat p{font-size:16px;max-width:190px}.results-description{font-size:17px}.resource-links a strong{font-size:18px}}
+@media(max-width:560px){.authors{font-size:14px}.affiliations,.author-notes,.arxiv-note{font-size:14px}.hero-actions .button{font-size:16px}.overview-section .overview-copy .lead{font-size:17px}.filter{font-size:16px;padding:10px 9px}.filter span{font-size:14px}.task-table{font-size:16px;min-width:850px}.task-name{font-size:17px}.task-icon{width:30px;height:30px}.metric-tag,.task-kind{font-size:14px}.result-controls{flex-direction:column;align-items:stretch;gap:14px}.segmented{width:100%}.segmented button{font-size:16px;flex:1;padding:8px 9px}#harness-filter{max-width:none;width:100%;font-size:16px}.headline-stat p{font-size:16px;max-width:170px}.results-description{font-size:17px}.results-table th{font-size:16px}.results-table th small,.harness-label,.sd{font-size:14px}.model-label{font-size:16px}.resource-links a strong{font-size:18px}.copy-button{font-size:16px}.bib-heading{gap:14px;flex-wrap:wrap}pre{font-size:14px}.footer-right a{font-size:16px}}

@@ -35,7 +35,7 @@ function renderResults() {
     const best = score === bestScores[i] ? ' best' : '';
     return resultMode === 'gain' ? `<td class="${gain >= 0 ? 'gain-positive' : 'gain-negative'}${best}">${signed(gain)}</td>` : `<td class="${best.trim()}">${score.toFixed(4)}<span class="sd">± ${row.sd[i].toFixed(4)}</span></td>`;
   }).join('')}<td class="gain-average ${row.average_gain_percent >= 0 ? 'gain-positive' : 'gain-negative'}">${signed(row.average_gain_percent)}</td></tr>`).join('');
-  $('#results-note').textContent = resultMode === 'gain' ? 'Relative change from each task’s baseline. Negative values are shown explicitly. Average gain is the unweighted mean across six tasks. Bold values mark the best result per task across all configurations.' : 'Test scores are mean ± standard deviation across three trials. Bold values mark the best result per task across all configurations. The last column always shows average relative gain.';
+  $('#results-note').textContent = resultMode === 'gain' ? 'Relative change from each task’s baseline. Negative values are shown explicitly. Average gain is the unweighted mean across six tasks. Bold values mark the best result per task across all configurations.' : 'Test scores are mean ± standard deviation across available trials. Bold values mark the best result per task across all configurations. The last column always shows average relative gain.';
 }
 $$('[data-result-mode]').forEach(button => button.addEventListener('click', () => {
   resultMode = button.dataset.resultMode;

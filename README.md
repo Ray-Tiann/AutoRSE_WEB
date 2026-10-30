@@ -122,3 +122,8 @@ Hover, tap, or focus a point to read its task, agent configuration, novelty, and
 
 
 The novelty scatter uses a less panoramic desktop plot (maximum 880px wide, 500px high), a higher-contrast fit line, and lighter grid lines for readability. This presentation change preserves all coordinates, fixed axis limits, the 42-point coverage, and the selected-subset statistics.
+
+
+## Readable website copy
+
+Section introductions, decorative eyebrow labels, repeated figure captions, resource descriptions, and the footer slogan were removed from the visible flow. Necessary controls, chart labels, tables, and method disclosures use a readable type scale; author and metric metadata remain at least 14px. The idea-mode descriptions remain accessible through the panels, while experimental scope, chart units, validation references, and downloadable methods are retained. The protocol animation is explicitly described as illustrative with compressed time through its accessible description and tooltip.

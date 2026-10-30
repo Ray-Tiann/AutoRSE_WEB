@@ -38,7 +38,7 @@
   box-shadow: 0 2px 5px #173a2e06;
 }
 #ideas .im-panel {
-  min-height: 327px;
+  min-height: 288px;
   padding: 32px 38px 28px;
   display: flex;
   flex-direction: column;
@@ -140,7 +140,7 @@
 #ideas .im-result-scope { font-size: 16px; line-height: 1.5; color: #506577; margin-top: 7px; }
 #ideas .idea-details summary { font-size: 16px; padding: 19px 0; }
 #ideas .idea-table { font-size: 16px; min-width: 640px; margin-bottom: 16px; }
-#ideas .idea-table th { font-size: 15px; font-weight: 600; }
+#ideas .idea-table th { font-size: 16px; font-weight: 600; }
 #ideas .idea-table th, #ideas .idea-table td { padding: 16px; }
 #ideas .is-arriving .im-node,
 #ideas .is-arriving .im-step > strong,
@@ -161,7 +161,7 @@
 @media (max-width: 560px) {
   #ideas .section-heading { margin-bottom: 25px; }
   #ideas .im-tabs { padding: 6px; gap: 3px; }
-  #ideas .im-tabs button { min-height: 65px; font-size: 15px; padding: 8px 5px; }
+  #ideas .im-tabs button { min-height: 65px; font-size: 16px; padding: 8px 5px; }
   #ideas .im-panel { min-height: 0; padding: 28px 24px; }
   #ideas .im-flow { grid-template-columns: 1fr; gap: 30px; }
   #ideas .im-step { display: flex; align-items: center; gap: 19px; text-align: left; min-height: 58px; }
@@ -207,4 +207,4 @@
 #analysis .novelty-insight-figure{min-width:0;margin:0}
 #analysis .novelty-insight-figure .figure-zoom{background:transparent}
 @media(max-width:800px){#analysis .novelty-insight{gap:28px;grid-template-columns:.85fr 1.2fr}#analysis .novelty-insight h3{font-size:25px}#analysis .novelty-correlation{font-size:21px}#analysis .novelty-correlation strong{font-size:32px}}
-@media(max-width:560px){#analysis .strategy-breakdown{margin-top:26px;border-radius:10px}#analysis .strategy-breakdown-table{font-size:16px}#analysis .strategy-breakdown-table thead th{font-size:15px;padding:14px}#analysis .strategy-breakdown-table tbody th,#analysis .strategy-breakdown-table tbody td{padding:14px}#analysis .strategy-breakdown-table tbody tr:not(.strategy-group) th{padding-left:22px}#analysis .strategy-breakdown-table .strategy-group th,#analysis .strategy-breakdown-table .strategy-group td{font-size:17px;padding:16px 14px}#analysis .strategy-breakdown-table th:first-child{width:74%}#analysis .strategy-breakdown-table td{width:26%}#analysis .novelty-insight{grid-template-columns:1fr;gap:24px;margin-top:35px;padding-top:29px}#analysis .novelty-insight h3{font-size:27px}#analysis .novelty-insight h3 br{display:none}#analysis .novelty-correlation{font-size:22px;margin-top:15px}#analysis .novelty-correlation strong{font-size:34px}}
+@media(max-width:560px){#analysis .strategy-breakdown{margin-top:26px;border-radius:10px}#analysis .strategy-breakdown-table{font-size:16px}#analysis .strategy-breakdown-table thead th{font-size:16px;padding:14px}#analysis .strategy-breakdown-table tbody th,#analysis .strategy-breakdown-table tbody td{padding:14px}#analysis .strategy-breakdown-table tbody tr:not(.strategy-group) th{padding-left:22px}#analysis .strategy-breakdown-table .strategy-group th,#analysis .strategy-breakdown-table .strategy-group td{font-size:17px;padding:16px 14px}#analysis .strategy-breakdown-table th:first-child{width:74%}#analysis .strategy-breakdown-table td{width:26%}#analysis .novelty-insight{grid-template-columns:1fr;gap:24px;margin-top:35px;padding-top:29px}#analysis .novelty-insight h3{font-size:27px}#analysis .novelty-insight h3 br{display:none}#analysis .novelty-correlation{font-size:22px;margin-top:15px}#analysis .novelty-correlation strong{font-size:34px}}

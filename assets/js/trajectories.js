@@ -200,7 +200,7 @@
       axis.append(node('text', {x, y: height - margin.bottom + 26, 'text-anchor': 'middle'}, value + '%'));
     });
     axis.append(node('line', {x1: margin.left, x2: width - margin.right, y1: height - margin.bottom, y2: height - margin.bottom, class: 'te-axis-line'}));
-    axis.append(node('text', {x: margin.left + innerWidth / 2, y: height - 8, 'text-anchor': 'middle', class: 'te-axis-label'}, compact ? 'Recorded elapsed time (%)' : data.methodology.xAxis));
+    axis.append(node('text', {x: margin.left + innerWidth / 2, y: height - 8, 'text-anchor': 'middle', class: 'te-axis-label'}, compact ? 'Recorded time (%)' : data.methodology.xAxis));
     svg.append(axis);
     const plot = node('g', {'clip-path': 'url(#te-plot-clip)'});
     const selected = selectedSeries();
