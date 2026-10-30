@@ -18,11 +18,13 @@
   <link rel="stylesheet" href="assets/css/workflow-animation.css?v=20261029-readable-v1">
   <link rel="stylesheet" href="assets/css/trajectories.css?v=20261029-compact-v1">
   <link rel="stylesheet" href="assets/css/research-sections.css?v=20261029-research-v1">
+  <link rel="stylesheet" href="assets/css/novelty-scatter.css?v=20261030-novelty-v2">
   <script src="assets/js/data.js?v=20261029" defer></script>
   <script src="assets/js/app.js?v=20261029-concise-v1" defer></script>
   <script src="assets/js/workflow-animation.js?v=20261029-readable-v1" defer></script>
   <script src="assets/js/trajectories.js?v=20261029-compact-v1" defer></script>
   <script src="assets/js/idea-modes.js?v=20261029-research-v1" defer></script>
+  <script src="assets/js/novelty-scatter.js?v=20261030-novelty-v2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#overview">Skip to content</a>
@@ -201,9 +203,30 @@
           </tbody>
         </table>
       </div>
-      <div class="novelty-insight">
-        <div class="novelty-insight-copy"><h3>Novelty and performance<br>move together.</h3><p class="novelty-correlation">Pearson <i>r</i> = <strong>0.79</strong></p></div>
-        <figure class="novelty-insight-figure"><button class="figure-zoom" data-zoom="assets/images/novelty.png" data-caption="Association between mean novelty scores and relative test-performance gains; Pearson r = 0.79. This is an association, not a causal estimate." aria-label="Enlarge novelty and performance plot"><img src="assets/images/novelty.png" width="2400" height="1129" alt="Scatter plot of mean novelty score on a 0–4 scale against relative test-performance gain, with Pearson correlation r = 0.79 and a fitted linear trend. This association does not establish causation." loading="lazy"></button></figure>
+      <div role="region" id="novelty-explorer" aria-labelledby="novelty-title">
+        <div class="ns-heading">
+          <h3 id="novelty-title">Novelty and performance<br> move together.</h3>
+          <div class="ns-stat" aria-live="polite"><span>Pearson <i>r</i> = <strong data-ns-r>0.79</strong></span><span class="ns-count" data-ns-count>All 42 configurations</span></div>
+        </div>
+        <p class="ns-loading" data-ns-loading role="status">Loading chart…</p>
+        <div class="ns-interactive" data-ns-body hidden>
+          <div class="ns-controls">
+            <label>Task<select data-ns-task aria-label="Novelty chart task"><option value="all">All tasks</option></select></label>
+            <label>Agent configuration<select data-ns-agent aria-label="Novelty chart agent configuration"><option value="all">All agents</option></select></label>
+            <button type="button" data-ns-reset>Reset</button>
+          </div>
+          <p id="ns-keyboard-help" class="sr-only">Hover, tap, or focus a point to inspect it. Use arrow keys, Home, and End to move between visible points. The data table below contains the same selected values.</p>
+          <div class="ns-chart" data-ns-chart></div>
+          <div class="ns-inspection" data-ns-inspection role="status" aria-live="polite" aria-atomic="true"></div>
+          <details class="ns-data">
+            <summary>Data &amp; downloads <span aria-hidden="true">+</span></summary>
+            <div class="ns-data-links"><a href="assets/data/novelty.csv" download>All points (CSV) ↓</a><a href="assets/data/novelty.json" download>JSON ↓</a><a href="assets/images/novelty.png" target="_blank" rel="noopener noreferrer">Original figure ↗</a></div>
+            <div class="ns-table-scroll" tabindex="0" role="region" aria-label="Selected novelty and performance data"><table><caption class="sr-only">Selected task–agent configuration aggregates; three novelty rating rounds per point.</caption><thead><tr><th scope="col">Task</th><th scope="col">Agent configuration</th><th scope="col">Novelty</th><th scope="col">Gain</th><th scope="col">Performance trials</th></tr></thead><tbody data-ns-rows></tbody></table></div>
+            <div class="ns-method"><p>Each point is one task–agent configuration. Novelty averages three rating-round means reported to two decimal places. Gain is 100 × (mean final test score / task baseline − 1).</p><p>Performance uses three trials per point, except OneTrans with Terminus-2 × GPT-5.5, which uses two. Filters recompute Pearson r and the descriptive linear fit from the selected points. Both are omitted for fewer than three points or zero variance. This association does not establish causation.</p></div>
+          </details>
+        </div>
+        <div class="ns-fallback" data-ns-fallback hidden><p>The interactive data could not load. The original figure is shown below.</p><img src="assets/images/novelty.png" width="2400" height="1129" alt="Scatter of mean novelty (0–4) against relative test-performance gain across all 42 task–agent configurations. The pooled Pearson correlation is 0.79, with positive and negative gains retained."></div>
+        <noscript><figure class="ns-static"><img src="assets/images/novelty.png" width="2400" height="1129" alt="Mean novelty against relative test-performance gain for 42 task–agent configuration aggregates; pooled Pearson r = 0.79. Association does not establish causation."></figure></noscript>
       </div>
     </section>
 

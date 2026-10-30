@@ -1,0 +1,43 @@
+id,task,harness,model,novelty,gain_percent,performance_trials,novelty_rating_rounds,rating_round_means
+hstu-claude-code-deepseek-v4-flash,HSTU,Claude Code,DeepSeek V4 Flash,2.67,25.981308411214954,3,3,2.67;2.67;2.67
+intsr-claude-code-deepseek-v4-flash,IntSR,Claude Code,DeepSeek V4 Flash,2.11,-4.812680115273771,3,3,2.33;2.00;2.00
+tiger-claude-code-deepseek-v4-flash,TIGER,Claude Code,DeepSeek V4 Flash,3.00,43.37349397590362,3,3,3.33;3.00;2.67
+onetrans-claude-code-deepseek-v4-flash,OneTrans,Claude Code,DeepSeek V4 Flash,2.00,10.344318013890952,3,3,2.00;2.00;2.00
+rankmixer-claude-code-deepseek-v4-flash,RankMixer,Claude Code,DeepSeek V4 Flash,2.11,1.5269118208423471,3,3,2.00;2.33;2.00
+wukong-claude-code-deepseek-v4-flash,WuKong,Claude Code,DeepSeek V4 Flash,2.556666666666666666666666667,1.658890616899944,3,3,2.67;2.33;2.67
+hstu-claude-code-claude-opus-4-8,HSTU,Claude Code,Claude Opus 4.8,2.556666666666666666666666667,40.93457943925234,3,3,2.00;3.00;2.67
+intsr-claude-code-claude-opus-4-8,IntSR,Claude Code,Claude Opus 4.8,2.556666666666666666666666667,5.54755043227666,3,3,2.67;2.33;2.67
+tiger-claude-code-claude-opus-4-8,TIGER,Claude Code,Claude Opus 4.8,3.11,90.06024096385543,3,3,3.00;3.00;3.33
+onetrans-claude-code-claude-opus-4-8,OneTrans,Claude Code,Claude Opus 4.8,2.556666666666666666666666667,6.162258016846467,3,3,2.67;2.67;2.33
+rankmixer-claude-code-claude-opus-4-8,RankMixer,Claude Code,Claude Opus 4.8,2.556666666666666666666666667,1.8195699198371162,3,3,2.33;2.67;2.67
+wukong-claude-code-claude-opus-4-8,WuKong,Claude Code,Claude Opus 4.8,2.443333333333333333333333333,2.0217729393468,3,3,2.00;3.00;2.33
+hstu-codex-deepseek-v4-flash,HSTU,Codex,DeepSeek V4 Flash,2.556666666666666666666666667,22.803738317756995,3,3,2.33;2.67;2.67
+intsr-codex-deepseek-v4-flash,IntSR,Codex,DeepSeek V4 Flash,2.22,-6.556195965417865,3,3,2.00;2.33;2.33
+tiger-codex-deepseek-v4-flash,TIGER,Codex,DeepSeek V4 Flash,3.00,75.6024096385542,3,3,3.00;3.00;3.00
+onetrans-codex-deepseek-v4-flash,OneTrans,Codex,DeepSeek V4 Flash,2.00,6.443032362937795,3,3,2.00;2.00;2.00
+rankmixer-codex-deepseek-v4-flash,RankMixer,Codex,DeepSeek V4 Flash,2.333333333333333333333333333,1.4632904949739123,3,3,2.67;2.00;2.33
+wukong-codex-deepseek-v4-flash,WuKong,Codex,DeepSeek V4 Flash,2.67,1.5033696215655645,3,3,2.67;2.67;2.67
+hstu-codex-gpt-5-5,HSTU,Codex,GPT-5.5,2.553333333333333333333333333,25.607476635514015,3,3,2.33;3.00;2.33
+intsr-codex-gpt-5-5,IntSR,Codex,GPT-5.5,2.22,10.835734870317015,3,3,2.00;2.33;2.33
+tiger-codex-gpt-5-5,TIGER,Codex,GPT-5.5,3.443333333333333333333333333,98.49397590361446,3,3,3.33;3.33;3.67
+onetrans-codex-gpt-5-5,OneTrans,Codex,GPT-5.5,2.33,7.758238510418214,3,3,2.33;2.33;2.33
+rankmixer-codex-gpt-5-5,RankMixer,Codex,GPT-5.5,2.443333333333333333333333333,1.2088051915001952,3,3,2.33;3.00;2.00
+wukong-codex-gpt-5-5,WuKong,Codex,GPT-5.5,2.556666666666666666666666667,1.5655780196993208,3,3,2.67;2.33;2.67
+hstu-terminus-2-deepseek-v4-flash,HSTU,Terminus-2,DeepSeek V4 Flash,2.78,24.672897196261665,3,3,3.00;2.67;2.67
+intsr-terminus-2-deepseek-v4-flash,IntSR,Terminus-2,DeepSeek V4 Flash,2.11,-9.351585014409213,3,3,2.33;2.00;2.00
+tiger-terminus-2-deepseek-v4-flash,TIGER,Terminus-2,DeepSeek V4 Flash,3.11,66.86746987951805,3,3,3.33;3.33;2.67
+onetrans-terminus-2-deepseek-v4-flash,OneTrans,Terminus-2,DeepSeek V4 Flash,2.556666666666666666666666667,-1.5073149105955364,3,3,2.33;2.67;2.67
+rankmixer-terminus-2-deepseek-v4-flash,RankMixer,Terminus-2,DeepSeek V4 Flash,2.666666666666666666666666667,1.5014632904949643,3,3,2.67;2.33;3.00
+wukong-terminus-2-deepseek-v4-flash,WuKong,Terminus-2,DeepSeek V4 Flash,2.443333333333333333333333333,2.40539139450493,3,3,2.33;2.33;2.67
+hstu-terminus-2-gpt-5-5,HSTU,Terminus-2,GPT-5.5,2.333333333333333333333333333,30.28037383177571,3,3,2.33;2.00;2.67
+intsr-terminus-2-gpt-5-5,IntSR,Terminus-2,GPT-5.5,1.996666666666666666666666667,-11.440922190201718,3,3,1.33;2.33;2.33
+tiger-terminus-2-gpt-5-5,TIGER,Terminus-2,GPT-5.5,3.11,84.9397590361446,3,3,3.33;2.67;3.33
+onetrans-terminus-2-gpt-5-5,OneTrans,Terminus-2,GPT-5.5,2.166666666666666666666666667,7.654795330279307,2,3,2.00;2.00;2.50
+rankmixer-terminus-2-gpt-5-5,RankMixer,Terminus-2,GPT-5.5,2.00,1.0815625397633255,3,3,2.00;2.00;2.00
+wukong-terminus-2-gpt-5-5,WuKong,Terminus-2,GPT-5.5,1.666666666666666666666666667,1.0782789009849525,3,3,1.33;1.67;2.00
+hstu-terminus-2-claude-opus-4-8,HSTU,Terminus-2,Claude Opus 4.8,2.33,18.8785046728972,3,3,2.33;2.33;2.33
+intsr-terminus-2-claude-opus-4-8,IntSR,Terminus-2,Claude Opus 4.8,2.00,-2.5792507204610793,3,3,2.00;2.00;2.00
+tiger-terminus-2-claude-opus-4-8,TIGER,Terminus-2,Claude Opus 4.8,2.33,-17.771084337349397,3,3,2.33;2.33;2.33
+onetrans-terminus-2-claude-opus-4-8,OneTrans,Terminus-2,Claude Opus 4.8,2.11,6.502142751588602,3,3,2.00;2.00;2.33
+rankmixer-terminus-2-claude-opus-4-8,RankMixer,Terminus-2,Claude Opus 4.8,2.333333333333333333333333333,1.6541544725792168,3,3,2.00;2.33;2.67
+wukong-terminus-2-claude-opus-4-8,WuKong,Terminus-2,Claude Opus 4.8,2.11,1.8455158113011905,3,3,2.00;2.00;2.33

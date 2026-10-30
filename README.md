@@ -70,6 +70,8 @@ Then open http://localhost:8080/. The same files also work under the `/AutoRSE_W
 | `assets/images/` | Figures; update matching paths in `index.html` if names change |
 | `assets/js/trajectories.js`, `assets/css/trajectories.css` | Interactive validation trajectories |
 | `assets/data/trajectories*` | Exact numeric observations, summaries, and chart metadata |
+| `assets/js/novelty-scatter.js`, `assets/css/novelty-scatter.css` | Interactive novelty-performance scatter |
+| `assets/data/novelty.json`, `assets/data/novelty.csv` | All 42 exact scatter points and provenance |
 
 The GitHub buttons on the page link to the **research code repository**, `Ray-Tiann/AutoRSE`. The separate `AutoRSE_WEB` repository hosts the website.
 
@@ -106,3 +108,14 @@ The data-integrity and accessibility review used the scientific-visualization wo
 The optimization-strategy table replaces the redundant pie chart and preserves the paper's reported percentages across 4,425 segmented experiments: engineering optimizations 91.7% and algorithmic innovations 8.3%. Rounded category values (59.0%, 26.2%, 6.6%, 4.2%, 3.1%, 1.0%) sum to 100.1%; the published values have not been renormalized. The novelty plot reports Pearson r = 0.79 across task–agent configurations, using mean novelty and mean relative test-score gain. This is an association, not a causal estimate.
 
 The three interactive idea-generation views preserve the study's settings: standard execution; explicit generation of eight ideas followed by selection of two or three; and access to an external idea library. The library is an input to the agent in the injected setting. The +13.35% result compares idea injection with self-generated ideas for Claude Code × DeepSeek V4 Flash, across six tasks and three trials per setting; it is not a claim about every evaluated agent configuration. Task-level scores remain available in the expandable comparison table.
+
+
+## Interactive novelty and performance
+
+The scatter contains all **42 task–agent configuration aggregates**: six recommendation tasks and all seven agent configurations. It replaces the original static plot with exact numeric data from the same source, without digitization, jitter, or score-based exclusions. The original figure remains the JavaScript-disabled fallback. [JSON](assets/data/novelty.json) includes metadata and all points; [CSV](assets/data/novelty.csv) contains all points with rating-round means and performance-trial counts.
+
+Novelty is the equal-weight arithmetic mean of three displayed rating-round means, each reported to two decimal places. The chart uses this unrounded average rather than the rounded summary column. Relative performance gain is `100 × (mean final test score / corresponding baseline − 1)`, including negative gains. Final performance uses three trials except **OneTrans × Terminus-2/GPT-5.5**, which uses two; this count is retained per point. These points are configuration aggregates, not 126 individual runs.
+
+Across all 42 points, Pearson r = **0.7910292168828743** (displayed as 0.79). The descriptive ordinary least-squares fit has slope **59.75950206195401** and intercept **−129.99141520170681**. Filters recompute Pearson r and the fit from the selected points; correlations are omitted for fewer than three points or zero variance. Axis limits remain fixed when filtering. Fitted lines cover only the observed novelty range, without extrapolation. A filtered view uses a neutral heading rather than implying every subset has a positive correlation. The pooled association is neither a within-task effect nor a causal estimate.
+
+Hover, tap, or focus a point to read its task, agent configuration, novelty, and gain. Arrow keys and Home/End move between visible points. The expandable data section provides the selected points in a numeric table plus the complete CSV download. The original source figure SHA256 is `b93c64f11dd1ba6ebb087ab3744221c60b6374c2b4479c1bdf84741bf33936b4`.
