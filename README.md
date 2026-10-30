@@ -130,12 +130,12 @@ Section introductions, decorative eyebrow labels, repeated figure captions, reso
 
 ## Community leaderboard
 
-A dedicated `#leaderboard` section welcomes community evaluations. The Space is https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard. Its page is linked from the hero and the reserved card. The app has not yet been deployed, so the site still explicitly shows **Coming soon on Hugging Face**. The paper's reported results remain separate and unchanged.
+The `#leaderboard` section embeds the public static Space at https://ray0311-autorse-leaderboard.static.hf.space/index.html?embed=1, supplied by the owner after uploading the four application files. Its canonical Space page is https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard. The hero button and the embed header link to that page.
 
-The complete static leaderboard application is prepared under `output/huggingface/AutoRSE-Leaderboard/` in the source workspace. The upload ZIP contains only the four app/data/guide files, leaving the Space's existing README metadata and license intact.
+`assets/data/leaderboard.json` stores the two URLs. The adapter accepts standard `NAME.hf.space` and static `NAME.static.hf.space` HTTPS application hosts, and displays the Space directly. No scores are copied into the paper's result table. Refreshing the project page loads the Space's current content; the site does not run or score submissions.
 
-When the Space app is running, copy its actual direct `https://…hf.space` URL from **Embed this Space**, append `?embed=1`, and put it in `embedUrl` in `assets/data/leaderboard.json`. `spaceUrl` already contains the canonical Space page. Until the embed URL is set, only links are activated; there is no claim of a working embedded leaderboard.
+The iframe uses `/index.html?embed=1` to avoid an extra root redirect while preserving the compact-view query. It keeps the app header hidden. A trusted app-height message reveals the iframe and ends the loading state; a slow-loading state retains the external link. Content-height messages are accepted only from the configured origin and that iframe's own window. The application sends these messages only to https://ray-tiann.github.io. If the embedded page cannot load on a visitor's network, the persistent Open leaderboard link provides an alternative.
 
-The embed displays content directly from the Space. Its optional content-height messages are accepted only from the configured iframe's origin and window. No token is required or stored by the public website. Page refreshes load the Space's current content; there is no background scoring service. Community submissions are reviewed before inclusion, as described in the app's SUBMISSIONS.md.
+The owner-uploaded app was prepared in `output/huggingface/AutoRSE-Leaderboard/`; its overall order uses the equal-weight average of six task ranks (lower is better), with per-task score midranks and shared overall ranks for exact rank-sum ties. Paper reference scores, SDs, gains, and available trial counts are preserved. New entries require maintainer review, as described in the app's SUBMISSIONS.md.
 
 Official embed documentation: https://huggingface.co/docs/hub/spaces-embed

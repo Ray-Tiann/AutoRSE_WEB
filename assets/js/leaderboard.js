@@ -13,7 +13,7 @@
         !/^\/spaces\/[^/?#]+\/[^/?#]+\/?$/.test(space.pathname) || !credentialFree(space)) return null;
     if (!config.embedUrl) return {space:space.href, embed:null};
     const embed = new URL(config.embedUrl);
-    if (embed.protocol !== 'https:' || !/^[a-z0-9-]+\.hf\.space$/.test(embed.hostname) ||
+    if (embed.protocol !== 'https:' || !/^[a-z0-9-]+(?:\.static)?\.hf\.space$/.test(embed.hostname) ||
         !credentialFree(embed)) return {space:space.href, embed:null};
     return {space:space.href, embed:embed.href};
   }
@@ -41,19 +41,46 @@
       frame.loading = 'lazy';
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.src = urls.embed;
+      frame.setAttribute('aria-hidden', 'true');
+      frame.tabIndex = -1;
+      const container = root.querySelector('[data-lb-embed]');
+      const status = root.querySelector('[data-lb-load-status]');
+      container.dataset.state = 'loading';
+      status.hidden = false;
+      let ready = false, deadline = null;
+      const showSlow = () => {
+        if (ready) return;
+        container.dataset.state = 'slow';
+        status.textContent = 'The table is taking longer to load. You can open it on Hugging Face above.';
+      };
+      const startDeadline = () => { if (!ready && deadline === null) deadline = setTimeout(showSlow, 15000); };
+      frame.addEventListener('error', showSlow);
       const expectedOrigin = new URL(urls.embed).origin;
       window.addEventListener('message', event => {
         if (event.origin !== expectedOrigin || event.source !== frame.contentWindow ||
             !event.data || event.data.type !== 'autorse-leaderboard-height') return;
         const height = event.data.height;
-        if (typeof height === 'number' && Number.isFinite(height) && height >= 240 && height <= 20000)
+        if (typeof height === 'number' && Number.isFinite(height) && height >= 240 && height <= 20000) {
+          ready = true;
+          clearTimeout(deadline);
+          container.dataset.state = 'ready';
+          status.hidden = true;
+          frame.removeAttribute('aria-hidden');
+          frame.removeAttribute('tabindex');
           frame.style.height = Math.ceil(height) + 'px';
+        }
       });
       const link = root.querySelector('[data-lb-space-link]');
       link.href = urls.space;
-      root.querySelector('[data-lb-embed]').append(frame);
+      container.append(frame);
       root.querySelector('[data-lb-placeholder]').hidden = true;
       root.querySelector('[data-lb-connected]').hidden = false;
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.isIntersecting)) { startDeadline(); observer.disconnect(); }
+        });
+        observer.observe(container);
+      } else startDeadline();
     })
     .catch(() => { /* Retain the reserved state if configuration is unavailable. */ });
 })();
