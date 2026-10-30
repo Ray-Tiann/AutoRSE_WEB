@@ -40,8 +40,7 @@
       <g text-anchor="middle" font-size="24" font-weight="600">
         <text x="270" y="412">Ideate</text><text x="415" y="536">Implement</text><text x="270" y="663">Experiment</text><text x="125" y="536">Analyze</text>
       </g>
-      <text x="270" y="506" text-anchor="middle" font-size="25" font-weight="650">Research loop</text>
-      <text x="270" y="568" text-anchor="middle" font-size="18.5" fill="#606d82">Ideas · code · feedback</text>
+      <text x="270" y="542" text-anchor="middle" font-size="25" font-weight="650">Research loop</text>
     </g>
   </g>
 </svg>

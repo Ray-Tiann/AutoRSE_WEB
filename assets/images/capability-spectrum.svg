@@ -34,8 +34,7 @@
       <g text-anchor="middle" font-size="24" font-weight="600">
         <text x="730" y="125">Ideate</text><text x="875" y="258">Implement</text><text x="730" y="392">Experiment</text><text x="585" y="258">Analyze</text>
       </g>
-      <text x="730" y="226" text-anchor="middle" font-size="25" font-weight="650">Research loop</text>
-      <text x="730" y="286" text-anchor="middle" font-size="18.5" fill="#606d82">Ideas · code · feedback</text>
+      <text x="730" y="262" text-anchor="middle" font-size="25" font-weight="650">Research loop</text>
     </g>
     <g id="current-rse-agent-reach">
       <path d="M120 270H380" fill="none" stroke="#2759c4" stroke-width="2.8" stroke-dasharray="6 5"/>
