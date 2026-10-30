@@ -27,22 +27,23 @@
 .overview-section .overview-figure{min-width:0;padding:0;border:0;border-radius:0;background:transparent;max-width:none;margin:0}
 .overview-section .figure-zoom{background:transparent;border-radius:0}
 .overview-section .overview-figure figcaption{border:0;padding:0;margin:8px 0 0;text-align:center;font-size:10px}
-.overview-bridge{display:flex;align-items:center;gap:13px;margin:30px 0 22px;font-size:12px;color:#4e6383}
-.bridge-line{width:28px;height:2px;background:#8eafe3;flex-shrink:0}
-.overview-section .research-questions{--rq-gap:38px;position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--rq-gap);list-style:none;margin:0;padding:0;border:0}
-.overview-section .research-questions li:not(:last-child)::after{content:"";position:absolute;top:16px;left:17px;width:calc(100% + var(--rq-gap));height:1px;background:#d5e2f5;pointer-events:none}
+
+/* Three direct section links, with no implied sequence between the questions. */
+.overview-section .research-questions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;list-style:none;margin:34px 0 0;padding:0;border:0;border-top:1px solid var(--line)}
 .overview-section .research-questions li{position:relative;min-width:0;margin:0;padding:0}
-.overview-section .research-questions a{display:block;color:var(--ink);padding:0 0 4px}
-.overview-section .question-number{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:35px;height:33px;border-radius:50%;background:#edf3fd;box-shadow:0 0 0 8px #fff;font-size:9px;letter-spacing:.02em;color:var(--blue)}
-.overview-section .research-questions h3{font-size:17px;margin:17px 0 9px;line-height:1.35}
-.overview-section .research-questions p{font-size:12px;color:var(--muted);line-height:1.7;max-width:295px}
-.question-destination{display:inline-flex;align-items:center;gap:12px;color:var(--blue);font-size:11px;font-weight:650;margin-top:13px}
-.overview-section .research-questions a:hover h3{color:var(--blue)}
-.overview-section .research-questions a:hover .question-destination>span{transform:translateX(3px)}
-.question-destination>span{transition:transform .15s}
-.overview-section .abstract{border:0;margin-top:22px}
-.overview-section .abstract summary{justify-content:flex-start;gap:16px;padding:12px 0;color:#526a8c;font-size:11px}
-.overview-section .abstract summary>span{font-size:16px}
-@media(max-width:1080px){.overview-section .overview-grid{gap:24px;grid-template-columns:.88fr 1.12fr}.overview-section .overview-copy h2{font-size:33px}.overview-section .research-questions{--rq-gap:25px}}
-@media(max-width:800px){.overview-section{padding-top:56px;padding-bottom:48px}.overview-section .overview-grid{grid-template-columns:1fr;gap:20px}.overview-section .overview-copy{max-width:660px}.overview-section .overview-copy h2{font-size:34px;max-width:600px}.overview-section .overview-copy h2 br{display:none}.overview-section .overview-figure{width:100%;max-width:720px;margin:auto}.overview-bridge{margin-top:23px}.overview-section .research-questions h3{font-size:15px}.overview-section .research-questions p{font-size:11px}.overview-section .research-questions{--rq-gap:22px}}
-@media(max-width:560px){.overview-section{padding-top:44px;padding-bottom:40px}.overview-section .overview-copy h2{font-size:30px}.overview-section .overview-copy .lead{font-size:15px;margin-top:18px}.overview-section .overview-copy p:not(.lead){font-size:12px}.overview-section .overview-grid{gap:17px}.overview-section .overview-figure figcaption{font-size:9px;margin-top:7px}.overview-bridge{font-size:11px;align-items:flex-start;gap:10px;margin:24px 0 23px}.bridge-line{margin-top:9px;width:21px}.overview-section .research-questions{--rq-gap:23px;grid-template-columns:1fr}.overview-section .research-questions li:not(:last-child)::after{top:16px;left:16px;width:1px;height:calc(100% + var(--rq-gap))}.overview-section .research-questions a{display:grid;grid-template-columns:35px 1fr;column-gap:16px;padding:0}.overview-section .question-number{grid-column:1;grid-row:1/4}.overview-section .research-questions h3{grid-column:2;margin:0 0 6px;font-size:16px}.overview-section .research-questions p{grid-column:2;max-width:none;font-size:12px}.question-destination{grid-column:2;margin-top:8px;font-size:10px}.overview-section .abstract{margin-top:20px;padding-left:51px}}
+.overview-section .research-questions li::after{content:none}
+.overview-section .research-questions a{display:grid;grid-template-columns:36px minmax(0,1fr) 20px;gap:12px;align-items:center;min-height:80px;padding:18px 2px;border-bottom:1px solid var(--line);color:var(--ink)}
+.overview-section .question-number{grid-area:auto;position:static;display:block;width:auto;height:auto;padding:0;border-radius:0;background:none;box-shadow:none;color:var(--blue);font-size:14px;line-height:1.3;font-weight:650;letter-spacing:.02em}
+.overview-section .research-questions h3{grid-area:auto;margin:0;font-size:18px;line-height:1.4;font-weight:650;letter-spacing:-.025em}
+.overview-section .rq-arrow{font-size:23px;line-height:1;color:var(--blue);text-align:right;transition:transform .15s}
+.overview-section .research-questions a:hover{color:var(--blue);border-bottom-color:#7c9fdf}
+.overview-section .research-questions a:hover .rq-arrow{transform:translateX(3px)}
+.overview-section .abstract{border:0;margin-top:12px;padding-left:0}
+.overview-section .abstract summary{display:inline-flex;justify-content:flex-start;gap:13px;padding:12px 0;color:#526a8c;font-size:16px}
+.overview-section .abstract summary>span{font-size:20px}
+.overview-section .abstract-body{font-size:16px;line-height:1.75;padding-top:8px;max-width:900px}
+@media(max-width:1080px){.overview-section .overview-grid{gap:24px;grid-template-columns:.88fr 1.12fr}.overview-section .overview-copy h2{font-size:33px}.overview-section .research-questions{gap:22px}.overview-section .research-questions h3{font-size:17px}}
+@media(max-width:900px){.overview-section .research-questions{grid-template-columns:1fr;gap:0}.overview-section .research-questions a{min-height:74px;padding:18px 3px}.overview-section .research-questions h3{font-size:18px}}
+@media(max-width:800px){.overview-section{padding-top:56px;padding-bottom:48px}.overview-section .overview-grid{grid-template-columns:1fr;gap:20px}.overview-section .overview-copy{max-width:660px}.overview-section .overview-copy h2{font-size:34px;max-width:600px}.overview-section .overview-copy h2 br{display:none}.overview-section .overview-figure{width:100%;max-width:720px;margin:auto}}
+@media(max-width:560px){.overview-section{padding-top:44px;padding-bottom:40px}.overview-section .overview-copy h2{font-size:30px}.overview-section .overview-copy .lead{font-size:15px;margin-top:18px}.overview-section .overview-copy p:not(.lead){font-size:12px}.overview-section .overview-grid{gap:17px}.overview-section .overview-figure figcaption{font-size:9px;margin-top:7px}.overview-section .research-questions{margin-top:26px}.overview-section .research-questions a{min-height:76px}.overview-section .abstract{margin-top:12px;padding-left:0}}
+@media(prefers-reduced-motion:reduce){.overview-section .rq-arrow{transition:none}.overview-section .research-questions a:hover .rq-arrow{transform:none}}
