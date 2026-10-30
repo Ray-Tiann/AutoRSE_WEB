@@ -128,15 +128,14 @@ The novelty scatter uses a less panoramic desktop plot (maximum 880px wide, 500p
 
 Section introductions, decorative eyebrow labels, repeated figure captions, resource descriptions, and the footer slogan were removed from the visible flow. Necessary controls, chart labels, tables, and method disclosures use a readable type scale; author and metric metadata remain at least 14px. The idea-mode descriptions remain accessible through the panels, while experimental scope, chart units, validation references, and downloadable methods are retained. The protocol animation is explicitly described as illustrative with compressed time through its accessible description and tooltip.
 
-## Community leaderboard (reserved)
+## Community leaderboard
 
-A dedicated `#leaderboard` section welcomes community evaluations. The Hugging Face Space has not been created; the live site explicitly shows **Coming soon on Hugging Face**, and the hero Hugging Face button stays disabled. The paper's reported results remain separate and unchanged.
+A dedicated `#leaderboard` section welcomes community evaluations. The Space is https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard. Its page is linked from the hero and the reserved card. The app has not yet been deployed, so the site still explicitly shows **Coming soon on Hugging Face**. The paper's reported results remain separate and unchanged.
 
-When the public or protected Space is ready, edit `assets/data/leaderboard.json`:
+The complete static leaderboard application is prepared under `output/huggingface/AutoRSE-Leaderboard/` in the source workspace. The upload ZIP contains only the four app/data/guide files, leaving the Space's existing README metadata and license intact.
 
-- `spaceUrl`: the canonical `https://huggingface.co/spaces/OWNER/SPACE` page.
-- `embedUrl`: the direct `https://…hf.space` URL copied from that Space's **Embed this Space** menu.
+When the Space app is running, copy its actual direct `https://…hf.space` URL from **Embed this Space**, append `?embed=1`, and put it in `embedUrl` in `assets/data/leaderboard.json`. `spaceUrl` already contains the canonical Space page. Until the embed URL is set, only links are activated; there is no claim of a working embedded leaderboard.
 
-Both values are empty until launch. With both valid HTTPS URLs, `assets/js/leaderboard.js` replaces the reserved card with a lazy-loaded iframe of the Space, adds an external leaderboard link, and activates the hero Hugging Face button. Results are displayed directly from the Space rather than copied into the manuscript data. No token is required or stored. Refreshing the page loads the Space's current content; this is an embed, not a background dataset synchronization service. Community submission and evaluation rules must be implemented in the Space before announcing submissions as open.
+The embed displays content directly from the Space. Its optional content-height messages are accepted only from the configured iframe's origin and window. No token is required or stored by the public website. Page refreshes load the Space's current content; there is no background scoring service. Community submissions are reviewed before inclusion, as described in the app's SUBMISSIONS.md.
 
 Official embed documentation: https://huggingface.co/docs/hub/spaces-embed
