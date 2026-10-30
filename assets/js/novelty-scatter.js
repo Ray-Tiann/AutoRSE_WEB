@@ -159,7 +159,7 @@
     const stats = statistics(visible);
     const allSelected = taskSelect.value === 'all' && agentSelect.value === 'all';
     const heading = document.getElementById('novelty-title');
-    heading.replaceChildren(document.createTextNode('Novelty and performance'), document.createElement('br'), document.createTextNode(allSelected ? 'move together.' : 'in this selection.'));
+    heading.replaceChildren(document.createTextNode('Novelty and performance'), document.createElement('br'), document.createTextNode(allSelected ? ' move together.' : ' in this selection.'));
     $('[data-ns-r]').textContent = stats ? stats.r.toFixed(2).replace('-', '−') : '—';
     $('[data-ns-count]').textContent = visible.length === points.length ? `All ${visible.length} configurations` : `${visible.length} selected ${visible.length === 1 ? 'configuration' : 'configurations'}`;
     renderTable(); renderChart();
