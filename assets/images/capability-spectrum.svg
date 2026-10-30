@@ -1,46 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="425" viewBox="0 0 960 425" role="img" aria-labelledby="capability-title capability-desc">
-  <title id="capability-title">From research execution to algorithmic ideas</title>
-  <desc id="capability-desc">A four-level pyramid shows code execution, engineering optimization, algorithmic improvement, and conceptual innovation. A continuous ideate, implement, experiment, and analyze loop connects to the engineering level. A highlighted engineering optimizer tier and an explicit Current RSE-Agent Reach marker identify the main operating level of current agents. Higher-level capabilities are a research challenge, not an absolute limit. This is a conceptual illustration, not a measured scale.</desc>
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 8 5 1 9" fill="none" stroke="#7f9bc4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker>
-    <marker id="focus-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 8 5 1 9" fill="none" stroke="#2759c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
-  </defs>
-  <g font-family="Inter, Arial, Helvetica, sans-serif" fill="#17243d">
-    <g id="capability-pyramid" stroke="#fff" stroke-width="3" stroke-linejoin="round">
-      <path d="M250 35 335.9 190H164.1Z" fill="#6da6eb"/>
-      <path d="M164.1 190H335.9L380.2 270H119.8Z" fill="#a2c9f5"/>
-      <path d="M119.8 270H380.2L420.2 342H79.8Z" fill="#b9d8fb" stroke="#2759c4" stroke-width="2.8"/>
-      <path d="M79.8 342H420.2L455 405H45Z" fill="#e9f2ff"/>
-    </g>
-    <g text-anchor="middle" font-weight="600">
-      <text x="250" y="153" font-size="23">Conceptual<tspan x="250" dy="27">innovator</tspan></text>
-      <text x="250" y="225" font-size="24">Algorithmic<tspan x="250" dy="28">improver</tspan></text>
-      <text x="250" y="301" font-size="24">Engineering<tspan x="250" dy="28">optimizer</tspan></text>
-      <text x="250" y="382" font-size="25">Code executor</text>
-    </g>
-    <g id="research-loop">
-      <g fill="none" stroke="#7f9bc4" stroke-width="2.3" stroke-linecap="round" marker-end="url(#arrow)">
-        <path d="M786 98C838 98 875 134 875 181"/>
-        <path d="M875 281C875 331 835 366 794 366"/>
-        <path d="M672 366C620 366 585 330 585 281"/>
-        <path d="M585 181C585 134 630 98 672 98"/>
-      </g>
-      <g fill="none" stroke="#2759c4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <g transform="translate(714 65)"><path d="M10 23C10 19 5 17 5 11a11 11 0 0 1 22 0c0 6-5 8-5 12M11 27h10M12 31h8M16 2v3M2 11H0M30 11h2M4 1l3 3M25 4l3-3"/><path d="M13 22h6"/></g>
-        <g transform="translate(858 201)"><rect x="1" y="1" width="32" height="27" rx="3"/><path d="M1 8h32M6 5h.1M10 5h.1M11 14l-4 4 4 4M23 14l4 4-4 4M19 13l-4 10"/></g>
-        <g transform="translate(714 333)"><path d="M11 1h10M13 1v12L4 27a3 3 0 0 0 2.5 4h19a3 3 0 0 0 2.5-4L19 13V1M9 21h14"/><path d="M14 25h.1M21 27h.1"/></g>
-        <g transform="translate(569 201)"><path d="M2 1v29h30M8 24v-8h5v8M18 24V9h5v15M28 24V3h4v21"/></g>
-      </g>
-      <g text-anchor="middle" font-size="24" font-weight="600">
-        <text x="730" y="125">Ideate</text><text x="875" y="258">Implement</text><text x="730" y="392">Experiment</text><text x="585" y="258">Analyze</text>
-      </g>
-      <text x="730" y="226" text-anchor="middle" font-size="25" font-weight="650">Research loop</text>
-    </g>
-    <g id="current-rse-agent-reach">
-      <path d="M120 270H380" fill="none" stroke="#2759c4" stroke-width="2.8" stroke-dasharray="6 5"/>
-      <path d="M380 270H490V286" fill="none" stroke="#2759c4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="380" cy="270" r="7" fill="#2759c4" stroke="#fff" stroke-width="3"/>
-      <text x="490" y="309" text-anchor="middle" fill="#2759c4" font-size="22" font-weight="700">Current<tspan x="490" dy="26">RSE-Agent</tspan><tspan x="490" dy="26">Reach</tspan></text>
-    </g>
-  </g>
-</svg>
+<title id="capability-title">Current RSE-Agent reach and the research loop</title>
+<desc id="capability-desc">Four conceptual capability levels: code executor, engineering optimizer, algorithmic improver, and conceptual innovator. The engineering optimizer tier is highlighted and explicitly marked Current RSE-Agent Reach. A blue connector joins this level to the iterative ideate, implement, experiment, and analyze research loop. This illustrates the main operating level of current agents, not a measured scale or an absolute capability limit.</desc>
+<defs><marker id="cycle-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1 8 5 1 9" fill="none" stroke="#7f9fcf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g font-family="Inter, Arial, Helvetica, sans-serif">
+<g id="capability-pyramid" stroke="#fff" stroke-width="3" stroke-linejoin="round">
+<path d="M230 24 321.2 190H138.8Z" fill="#e4edf9"/>
+<path d="M138.8 190H321.2L361.3 263H98.7Z" fill="#d7e6f9"/>
+<path d="M98.7 263H361.3L401.4 336H58.6Z" fill="#bed5f6" stroke="#2759c4" stroke-width="2.5"/>
+<path d="M58.6 336H401.4L442 410H18Z" fill="#eaf2fc"/>
+</g>
+<text x="230" y="157" text-anchor="middle" fill="#243653" font-size="23" font-weight="600">Conceptual<tspan x="230" dy="28">innovator</tspan></text>
+<text x="230" y="219" text-anchor="middle" fill="#243653" font-size="24" font-weight="600">Algorithmic<tspan x="230" dy="28">improver</tspan></text>
+<text x="230" y="290" text-anchor="middle" fill="#1f4d96" font-size="24" font-weight="600">Engineering<tspan x="230" dy="28">optimizer</tspan></text>
+<text x="230" y="381" text-anchor="middle" fill="#243653" font-size="24" font-weight="600">Code executor</text><g id="research-loop">
+<text x="780" y="74" text-anchor="middle" fill="#243653" font-size="26" font-weight="600">Research loop</text>
+<g fill="none" stroke="#7f9fcf" stroke-width="2.5" stroke-linecap="round" marker-end="url(#cycle-arrow)">
+<path d="M765 159H794"/><path d="M870 211V294"/><path d="M795 347H766"/><path d="M690 295V212"/>
+</g>
+<g class="research-step" aria-label="Ideate">
+      <rect x="620" y="112" width="140" height="94" rx="14" fill="#edf3ff" stroke="#b5ccef" stroke-width="2.2"/>
+      <g transform="translate(674.0 126)" fill="none" stroke="#2759c4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 23C10 19 5 17 5 11a11 11 0 0 1 22 0c0 6-5 8-5 12M11 27h10M12 31h8M16 2v3M2 11H0M30 11h2M4 1l3 3M25 4l3-3"/><path d="M13 22h6"/></g>
+      <text x="690.0" y="183" text-anchor="middle" fill="#243653" font-size="24" font-weight="600">Ideate</text>
+    </g><g class="research-step" aria-label="Implement">
+      <rect x="800" y="112" width="140" height="94" rx="14" fill="#edf3ff" stroke="#b5ccef" stroke-width="2.2"/>
+      <g transform="translate(854.0 126)" fill="none" stroke="#2759c4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="32" height="27" rx="3"/><path d="M1 8h32M6 5h.1M10 5h.1M11 14l-4 4 4 4M23 14l4 4-4 4M19 13l-4 10"/></g>
+      <text x="870.0" y="183" text-anchor="middle" fill="#243653" font-size="24" font-weight="600">Implement</text>
+    </g><g class="research-step" aria-label="Experiment">
+      <rect x="800" y="300" width="140" height="94" rx="14" fill="#edf3ff" stroke="#b5ccef" stroke-width="2.2"/>
+      <g transform="translate(854.0 314)" fill="none" stroke="#2759c4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 1h10M13 1v12L4 27a3 3 0 0 0 2.5 4h19a3 3 0 0 0 2.5-4L19 13V1M9 21h14"/><path d="M14 25h.1M21 27h.1"/></g>
+      <text x="870.0" y="371" text-anchor="middle" fill="#243653" font-size="24" font-weight="600">Experiment</text>
+    </g><g class="research-step" aria-label="Analyze">
+      <rect x="620" y="300" width="140" height="94" rx="14" fill="#edf3ff" stroke="#b5ccef" stroke-width="2.2"/>
+      <g transform="translate(674.0 314)" fill="none" stroke="#2759c4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 1v29h30M8 24v-8h5v8M18 24V9h5v15M28 24V3h4v21"/></g>
+      <text x="690.0" y="371" text-anchor="middle" fill="#243653" font-size="24" font-weight="600">Analyze</text>
+    </g></g><g id="current-rse-agent-reach"><path d="M361.3 263H690" fill="none" stroke="#2759c4" stroke-width="2.5" stroke-linecap="round"/><circle cx="361.3" cy="263" r="6" fill="#2759c4" stroke="#fff" stroke-width="2.5"/><circle cx="690" cy="263" r="5" fill="#2759c4"/><text x="490" y="219" text-anchor="middle" fill="#2759c4" font-size="24" font-weight="650">Current RSE-Agent<tspan x="490" dy="28">Reach</tspan></text></g></g></svg>
