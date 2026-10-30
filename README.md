@@ -119,3 +119,6 @@ Novelty is the equal-weight arithmetic mean of three displayed rating-round mean
 Across all 42 points, Pearson r = **0.7910292168828743** (displayed as 0.79). The descriptive ordinary least-squares fit has slope **59.75950206195401** and intercept **−129.99141520170681**. Filters recompute Pearson r and the fit from the selected points; correlations are omitted for fewer than three points or zero variance. Axis limits remain fixed when filtering. Fitted lines cover only the observed novelty range, without extrapolation. A filtered view uses a neutral heading rather than implying every subset has a positive correlation. The pooled association is neither a within-task effect nor a causal estimate.
 
 Hover, tap, or focus a point to read its task, agent configuration, novelty, and gain. Arrow keys and Home/End move between visible points. The expandable data section provides the selected points in a numeric table plus the complete CSV download. The original source figure SHA256 is `b93c64f11dd1ba6ebb087ab3744221c60b6374c2b4479c1bdf84741bf33936b4`.
+
+
+The novelty scatter uses a less panoramic desktop plot (maximum 880px wide, 500px high), a higher-contrast fit line, and lighter grid lines for readability. This presentation change preserves all coordinates, fixed axis limits, the 42-point coverage, and the selected-subset statistics.
