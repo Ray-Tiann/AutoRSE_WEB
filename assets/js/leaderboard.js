@@ -1,30 +1,38 @@
-/* The Space link can be enabled before the app is deployed.
-   An empty embed URL keeps the reserved state; paper results stay separate. */
+/* Live leaderboard body; the page owns the single submission action. */
 (() => {
   'use strict';
   const root = document.getElementById('leaderboard');
   if (!root) return;
+  const container = root.querySelector('[data-lb-embed]');
+  const status = root.querySelector('[data-lb-load-status]');
+  container.dataset.state = 'loading';
 
-  function spaceURLs(config) {
-    if (!config || !config.spaceUrl) return null;
-    const space = new URL(config.spaceUrl);
-    const credentialFree = url => !url.username && !url.password && !url.port;
-    if (space.protocol !== 'https:' || space.hostname !== 'huggingface.co' ||
-        !/^\/spaces\/[^/?#]+\/[^/?#]+\/?$/.test(space.pathname) || !credentialFree(space)) return null;
-    if (!config.embedUrl) return {space:space.href, embed:null};
-    const embed = new URL(config.embedUrl);
-    if (embed.protocol !== 'https:' || !/^[a-z0-9-]+(?:\.static)?\.hf\.space$/.test(embed.hostname) ||
-        !credentialFree(embed)) return {space:space.href, embed:null};
-    return {space:space.href, embed:embed.href};
+  function unavailable() {
+    container.dataset.state = 'error';
+    status.hidden = false;
+    status.textContent = 'Leaderboard unavailable. Please try again later.';
   }
 
-  fetch(new URL('assets/data/leaderboard.json', document.baseURI), {cache:'no-cache'})
-    .then(response => response.ok ? response.json() : null)
+  function spaceURLs(config) {
+    if (!config || !config.spaceUrl || !config.embedUrl) return null;
+    try {
+      const space = new URL(config.spaceUrl), embed = new URL(config.embedUrl);
+      const credentialFree = url => !url.username && !url.password && !url.port;
+      if (space.protocol !== 'https:' || space.hostname !== 'huggingface.co' ||
+          !/^\/spaces\/[^/?#]+\/[^/?#]+\/?$/.test(space.pathname) || !credentialFree(space)) return null;
+      if (embed.protocol !== 'https:' || !/^[a-z0-9-]+(?:\.static)?\.hf\.space$/.test(embed.hostname) ||
+          !credentialFree(embed)) return null;
+      return {space:space.href, embed:embed.href};
+    } catch { return null; }
+  }
+
+  const request = new AbortController();
+  const configTimeout = setTimeout(() => request.abort(), 10000);
+  fetch(new URL('assets/data/leaderboard.json', document.baseURI), {cache:'no-cache',signal:request.signal})
+    .then(response => { if (!response.ok) throw Error(); return response.json(); })
     .then(config => {
       const urls = spaceURLs(config);
-      if (!urls) return;
-      const reservedLink = root.querySelector('[data-lb-reserved-link]');
-      if (reservedLink) {reservedLink.href = urls.space; reservedLink.hidden = false;}
+      if (!urls) throw Error();
       const heroLink = document.querySelector('.huggingface-button');
       if (heroLink) {
         heroLink.href = urls.space;
@@ -34,33 +42,23 @@
         heroLink.removeAttribute('role');
         heroLink.title = 'AutoRSE on Hugging Face';
       }
-      if (!urls.embed) return;
       const frame = document.createElement('iframe');
       frame.className = 'lb-frame';
-      frame.title = 'AutoRSE community leaderboard on Hugging Face';
+      frame.title = 'AutoRSE leaderboard';
       frame.loading = 'lazy';
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.src = urls.embed;
       frame.setAttribute('aria-hidden', 'true');
       frame.tabIndex = -1;
-      const container = root.querySelector('[data-lb-embed]');
-      const status = root.querySelector('[data-lb-load-status]');
-      container.dataset.state = 'loading';
-      status.hidden = false;
       let ready = false, deadline = null;
-      const showSlow = () => {
-        if (ready) return;
-        container.dataset.state = 'slow';
-        status.textContent = 'The table is taking longer to load. You can open it on Hugging Face above.';
-      };
-      const startDeadline = () => { if (!ready && deadline === null) deadline = setTimeout(showSlow, 15000); };
-      frame.addEventListener('error', showSlow);
       const expectedOrigin = new URL(urls.embed).origin;
+      const startDeadline = () => { if (!ready && deadline === null) deadline = setTimeout(unavailable, 15000); };
+      frame.addEventListener('error', () => { if (!ready) unavailable(); });
       window.addEventListener('message', event => {
         if (event.origin !== expectedOrigin || event.source !== frame.contentWindow ||
             !event.data || event.data.type !== 'autorse-leaderboard-height') return;
         const height = event.data.height;
-        if (typeof height === 'number' && Number.isFinite(height) && height >= 240 && height <= 20000) {
+        if (typeof height === 'number' && Number.isFinite(height) && height >= 120 && height <= 20000) {
           ready = true;
           clearTimeout(deadline);
           container.dataset.state = 'ready';
@@ -70,11 +68,7 @@
           frame.style.height = Math.ceil(height) + 'px';
         }
       });
-      const link = root.querySelector('[data-lb-space-link]');
-      link.href = urls.space;
       container.append(frame);
-      root.querySelector('[data-lb-placeholder]').hidden = true;
-      root.querySelector('[data-lb-connected]').hidden = false;
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(entries => {
           if (entries.some(entry => entry.isIntersecting)) { startDeadline(); observer.disconnect(); }
@@ -82,5 +76,6 @@
         observer.observe(container);
       } else startDeadline();
     })
-    .catch(() => { /* Retain the reserved state if configuration is unavailable. */ });
+    .catch(unavailable)
+    .finally(() => clearTimeout(configTimeout));
 })();
