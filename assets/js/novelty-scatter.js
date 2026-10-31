@@ -9,14 +9,14 @@
   const agentSelect = $('[data-ns-agent]');
   const chart = $('[data-ns-chart]');
   const inspection = $('[data-ns-inspection]');
-  const table = $('[data-ns-rows]');
   const ns = 'http://www.w3.org/2000/svg';
   const xDomain = [1.5, 3.5];
   const yDomain = [-25, 105];
   const taskOrder = ['HSTU', 'IntSR', 'TIGER', 'OneTrans', 'RankMixer', 'WuKong'];
   let points = [];
   let visible = [];
-  let selectedId;
+  let selectedId = null;
+  let tabStopId = null;
   let geometry;
   let pointNodes = [];
   let resizeFrame;
@@ -51,7 +51,8 @@
     return {r: Math.max(-1, Math.min(1, xy / Math.sqrt(xx * yy))), slope, intercept: my - slope * mx};
   }
   function updateInspection(point) {
-    if (!point) { inspection.replaceChildren(textNode('p', '', 'No configurations selected.')); return; }
+    inspection.hidden = !point;
+    if (!point) { inspection.replaceChildren(); return; }
     const identity = textNode('div', 'ns-identity', '');
     identity.append(textNode('strong', '', point.task), textNode('span', '', agentName(point)));
     const values = textNode('div', 'ns-values', '');
@@ -63,32 +64,33 @@
     inspection.replaceChildren(identity, values);
   }
   function selectPoint(point, focus = false) {
-    if (!point) return;
-    const changed = selectedId !== point.id;
-    selectedId = point.id;
+    const nextId = point?.id ?? null;
+    const changed = selectedId !== nextId;
+    selectedId = nextId;
+    if (point && focus) tabStopId = point.id;
     pointNodes.forEach(({point: p, node}) => {
       const active = p.id === selectedId;
       node.setAttribute('aria-pressed', String(active));
-      node.setAttribute('tabindex', active ? '0' : '-1');
+      node.setAttribute('tabindex', p.id === tabStopId ? '0' : '-1');
       if (active && focus) node.focus({preventScroll: true});
     });
     if (changed || !inspection.children.length) updateInspection(point);
   }
-  function renderTable() {
-    const fragment = document.createDocumentFragment();
-    visible.forEach(point => {
-      const row = document.createElement('tr');
-      const task = textNode('th', '', point.task);
-      task.scope = 'row';
-      row.append(task);
-      [agentName(point), number(point.novelty), gain(point.gain_percent), String(point.performance_trials)].forEach(value => row.append(textNode('td', '', value)));
-      fragment.append(row);
-    });
-    table.replaceChildren(fragment);
+  function clearPointerSelection() {
+    const focused = pointNodes.find(({node}) => node === document.activeElement && node.matches(':focus-visible'));
+    selectPoint(focused?.point ?? null);
   }
   function renderChart() {
-    if (!visible.length) return;
-    const focusedId = pointNodes.find(({node}) => node === document.activeElement)?.point.id;
+    if (!visible.length) {
+      chart.replaceChildren();
+      pointNodes = [];
+      geometry = null;
+      selectPoint(null);
+      return;
+    }
+    const focusedId = pointNodes.find(({node}) => node === document.activeElement && node.matches(':focus-visible'))?.point.id;
+    selectedId = focusedId ?? null;
+    updateInspection(visible.find(point => point.id === selectedId));
     const width = Math.max(chart.clientWidth, 250);
     const height = chart.clientHeight || 430;
     const mobile = width < 500;
@@ -99,7 +101,6 @@
     const sy = value => margin.top + (yDomain[1] - value) / (yDomain[1] - yDomain[0]) * plotHeight;
     geometry = {sx, sy, width, height};
     const svg = svgNode('svg', {viewBox: `0 0 ${width} ${height}`, role: 'group', 'aria-label': `Novelty and test-performance gains for ${visible.length} selected configurations`, 'aria-describedby': 'ns-keyboard-help'});
-    svg.append(svgNode('title', {}, 'Novelty and relative test-performance gain'));
     const defs = svgNode('defs');
     const clip = svgNode('clipPath', {id: 'ns-plot-clip'});
     clip.append(svgNode('rect', {x: margin.left, y: margin.top, width: plotWidth, height: plotHeight}));
@@ -133,10 +134,11 @@
     const pointLayer = svgNode('g');
     pointNodes = [];
     visible.forEach((point, index) => {
-      const node = svgNode('g', {class: 'ns-point', role: 'button', 'data-point-id': point.id, tabindex: point.id === selectedId ? '0' : '-1', 'aria-pressed': String(point.id === selectedId), 'aria-label': `${point.task}, ${agentName(point)}. Mean novelty ${number(point.novelty)} out of 4. Relative test-performance gain ${gain(point.gain_percent)}.`, transform: `translate(${sx(point.novelty)}, ${sy(point.gain_percent)})`});
+      const node = svgNode('g', {class: 'ns-point', role: 'button', 'data-point-id': point.id, tabindex: point.id === tabStopId ? '0' : '-1', 'aria-pressed': String(point.id === selectedId), 'aria-label': `${point.task}, ${agentName(point)}. Mean novelty ${number(point.novelty)} out of 4. Relative test-performance gain ${gain(point.gain_percent)}.`, transform: `translate(${sx(point.novelty)}, ${sy(point.gain_percent)})`});
       node.append(svgNode('circle', {r: 11, class: 'ns-ring'}), svgNode('circle', {r: 6.5, class: 'ns-dot'}));
       node.append(svgNode('title', {}, `${point.task} · ${agentName(point)}\nNovelty ${number(point.novelty)} · gain ${gain(point.gain_percent)}`));
-      node.addEventListener('focus', () => selectPoint(point));
+      node.addEventListener('focus', () => { tabStopId = point.id; selectPoint(point); });
+      node.addEventListener('blur', () => { if (selectedId === point.id) selectPoint(null); });
       node.addEventListener('click', () => selectPoint(point, true));
       node.addEventListener('keydown', event => {
         let next;
@@ -155,22 +157,23 @@
   }
   function update() {
     visible = points.filter(p => (taskSelect.value === 'all' || p.task === taskSelect.value) && (agentSelect.value === 'all' || agentName(p) === agentSelect.value)).sort((a, b) => a.novelty - b.novelty || a.gain_percent - b.gain_percent || a.id.localeCompare(b.id));
-    if (!visible.some(point => point.id === selectedId)) selectedId = visible[0]?.id;
+    selectedId = null;
+    if (!visible.some(point => point.id === tabStopId)) tabStopId = visible[0]?.id ?? null;
     const stats = statistics(visible);
     const allSelected = taskSelect.value === 'all' && agentSelect.value === 'all';
     const heading = document.getElementById('novelty-title');
     heading.replaceChildren(document.createTextNode('Novelty and performance'), document.createElement('br'), document.createTextNode(allSelected ? ' move together.' : ' in this selection.'));
     $('[data-ns-r]').textContent = stats ? stats.r.toFixed(2).replace('-', '−') : '—';
     $('[data-ns-count]').textContent = visible.length === points.length ? `All ${visible.length} configurations` : `${visible.length} selected ${visible.length === 1 ? 'configuration' : 'configurations'}`;
-    renderTable(); renderChart();
+    renderChart();
     updateInspection(visible.find(point => point.id === selectedId));
   }
-  function closestPoint(event) {
+  function closestPoint(event, radius = 10) {
     if (!geometry || !visible.length) return null;
     const bounds = chart.getBoundingClientRect();
     const px = (event.clientX - bounds.left) * geometry.width / bounds.width;
     const py = (event.clientY - bounds.top) * geometry.height / bounds.height;
-    let result = null, distance = 18 * 18;
+    let result = null, distance = radius * radius;
     visible.forEach(point => {
       const d = (geometry.sx(point.novelty) - px) ** 2 + (geometry.sy(point.gain_percent) - py) ** 2;
       if (d < distance) { result = point; distance = d; }
@@ -181,10 +184,20 @@
     if (event.pointerType === 'touch') return;
     const point = closestPoint(event);
     if (point) selectPoint(point);
+    else clearPointerSelection();
   });
+  chart.addEventListener('pointerleave', event => {
+    if (event.pointerType !== 'touch') clearPointerSelection();
+  });
+  chart.addEventListener('pointercancel', clearPointerSelection);
   chart.addEventListener('click', event => {
-    const point = closestPoint(event);
+    if (event.target.closest('.ns-point')) return;
+    const point = closestPoint(event, event.pointerType === 'touch' ? 22 : 10);
     if (point) selectPoint(point, true);
+    else selectPoint(null);
+  });
+  root.addEventListener('click', event => {
+    if (!chart.contains(event.target)) selectPoint(null);
   });
   taskSelect.addEventListener('change', update);
   agentSelect.addEventListener('change', update);
