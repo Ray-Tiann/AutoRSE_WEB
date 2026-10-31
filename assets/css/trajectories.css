@@ -59,8 +59,6 @@
 .trajectory-explorer .te-original-link{font-size:16px;color:#526d97;white-space:nowrap}
 .trajectory-explorer .te-methods{margin-top:16px;max-width:100%}
 .trajectory-explorer .te-methods summary{font-size:16px;padding:9px 0;display:inline-flex;gap:11px;color:#4c6282;font-weight:600;line-height:1.6}
-.trajectory-explorer .te-methods summary::before{content:"+";font-size:19px;color:#2759c4;font-weight:450}
-.trajectory-explorer .te-methods[open] summary::before{content:"−"}
 .trajectory-explorer .te-method-body{font-size:16px;color:#53647d;line-height:1.75;padding:8px 0 0;max-width:970px}
 .trajectory-explorer .te-method-body p+p{margin-top:11px}
 .trajectory-explorer .te-loading{font-size:16px;color:#53647d;padding:35px 0;text-align:center;line-height:1.65}

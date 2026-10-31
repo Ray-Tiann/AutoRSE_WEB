@@ -37,8 +37,6 @@
 #novelty-explorer .ns-data{border-top:1px solid #e4ebf5}
 #novelty-explorer .ns-data summary{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 0;font-size:16px;font-weight:600;color:#425b7d;cursor:pointer;list-style:none}
 #novelty-explorer .ns-data summary::-webkit-details-marker{display:none}
-#novelty-explorer .ns-data summary span{font-size:22px;color:#2759c4;font-weight:400}
-#novelty-explorer .ns-data[open] summary span{transform:rotate(45deg)}
 #novelty-explorer .ns-data-links{display:flex;gap:14px 25px;flex-wrap:wrap;font-size:16px;line-height:1.5;margin:5px 0 22px}
 #novelty-explorer .ns-table-scroll{overflow-x:auto;max-width:100%;margin-bottom:20px}
 #novelty-explorer table{width:100%;min-width:740px;border-collapse:collapse;text-align:left;font-size:16px;line-height:1.45;font-variant-numeric:tabular-nums}

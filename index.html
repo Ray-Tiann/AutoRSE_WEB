@@ -14,11 +14,11 @@
   <link rel="canonical" href="https://ray-tiann.github.io/AutoRSE_WEB/">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261030-context-v1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261031-clean-controls">
   <link rel="stylesheet" href="assets/css/workflow-animation.css?v=20261030-readable-v3">
-  <link rel="stylesheet" href="assets/css/trajectories.css?v=20261030-readable-v3">
+  <link rel="stylesheet" href="assets/css/trajectories.css?v=20261031-clean-controls">
   <link rel="stylesheet" href="assets/css/research-sections.css?v=20261030-readable-v3">
-  <link rel="stylesheet" href="assets/css/novelty-scatter.css?v=20261030-correlation-v2">
+  <link rel="stylesheet" href="assets/css/novelty-scatter.css?v=20261031-clean-controls">
   <link rel="stylesheet" href="assets/css/leaderboard.css?v=20261030-hf-live-v1">
   <script src="assets/js/data.js?v=20261029" defer></script>
   <script src="assets/js/app.js?v=20261030-citation-v1" defer></script>
@@ -67,7 +67,7 @@
         <li><a href="#analysis"><span class="question-number">RQ2</span><h3>How do they improve?</h3><span class="rq-arrow" aria-hidden="true">→</span></a></li>
         <li><a href="#ideas"><span class="question-number">RQ3</span><h3>Can better ideas help?</h3><span class="rq-arrow" aria-hidden="true">→</span></a></li>
       </ol>
-      <details class="abstract"><summary>Read abstract <span aria-hidden="true">+</span></summary><div class="abstract-body" id="abstract-text"></div></details>
+      <details class="abstract"><summary>Read abstract</summary><div class="abstract-body" id="abstract-text"></div></details>
     </section>
 
     <section class="section section-tint" id="framework" aria-labelledby="framework-title"><div class="wrap">
@@ -221,7 +221,7 @@
           <div class="ns-chart" data-ns-chart></div>
           <div class="ns-inspection" data-ns-inspection role="status" aria-live="polite" aria-atomic="true"></div>
           <details class="ns-data">
-            <summary>Data &amp; downloads <span aria-hidden="true">+</span></summary>
+            <summary>Data &amp; downloads</summary>
             <div class="ns-data-links"><a href="assets/data/novelty.csv" download>All points (CSV) ↓</a><a href="assets/data/novelty.json" download>JSON ↓</a><a href="assets/images/novelty.png" target="_blank" rel="noopener noreferrer">Original figure ↗</a></div>
             <div class="ns-table-scroll" tabindex="0" role="region" aria-label="Selected novelty and performance data"><table><caption class="sr-only">Selected task–agent configuration aggregates; three novelty rating rounds per point.</caption><thead><tr><th scope="col">Task</th><th scope="col">Agent configuration</th><th scope="col">Novelty</th><th scope="col">Gain</th><th scope="col">Performance trials</th></tr></thead><tbody data-ns-rows></tbody></table></div>
             <div class="ns-method"><p>Each point is one task–agent configuration. Novelty averages three rating-round means reported to two decimal places. Gain is 100 × (mean final test score / task baseline − 1).</p><p>Performance uses three trials per point, except OneTrans with Terminus-2 × GPT-5.5, which uses two. Filters recompute Pearson r and the descriptive linear fit from the selected points. Both are omitted for fewer than three points or zero variance. This association does not establish causation.</p></div>
@@ -273,7 +273,7 @@
     <strong class="im-gain">+13.35<span>%</span></strong>
     <div><p class="im-result-label">Mean relative test-score gain over self-generated ideas</p><p class="im-result-scope">Claude Code × DeepSeek V4 Flash · 6 tasks · 3 trials</p></div>
   </div>
-  <details class="idea-details"><summary>Compare task scores <span aria-hidden="true">+</span></summary><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable idea-injection results"><table class="idea-table"><caption class="sr-only">Test scores for standard, self-generated, and idea-injected settings</caption><thead><tr><th>Task</th><th>Standard</th><th>Self-generated</th><th>Idea-injected</th></tr></thead><tbody id="idea-rows"></tbody></table></div></details>
+  <details class="idea-details"><summary>Compare task scores</summary><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable idea-injection results"><table class="idea-table"><caption class="sr-only">Test scores for standard, self-generated, and idea-injected settings</caption><thead><tr><th>Task</th><th>Standard</th><th>Self-generated</th><th>Idea-injected</th></tr></thead><tbody id="idea-rows"></tbody></table></div></details>
 </div>
     </section>
 
@@ -302,7 +302,7 @@
     <section class="section wrap citation-section" id="citation" aria-labelledby="citation-title">
       <div class="citation-heading"><h2 id="citation-title">Citation</h2><button id="copy-bib" class="copy-button"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 6h9v11H7zM4 13H3V3h9v1" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Copy citation</span></button></div>
       <details class="citation-details" id="citation-details" open>
-        <summary>BibTeX <span aria-hidden="true">+</span></summary>
+        <summary>BibTeX</summary>
         <pre id="bibtex"><code>@misc{tian2026autorse,
   title         = {AutoRSE: Evaluating LLM Agents as Recommendation Engineers
                    for Self-Evolving Recommender Systems},
