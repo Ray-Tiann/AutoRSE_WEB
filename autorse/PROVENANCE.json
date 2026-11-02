@@ -1,0 +1,23 @@
+{
+  "upstream_repository": "https://github.com/Ray-Tiann/AutoRSE",
+  "upstream_commit": "7ddfb569743f7fdf23b1fa56f5c8ed21022de53c",
+  "purpose": "Public submission/data contract snapshot for standalone service deployment; no datasets or evaluator inputs.",
+  "files": [
+    {
+      "path": "autorse/__init__.py",
+      "sha256": "cb5abc292b9e4469d8dbc63348203989db9160ba4df7f9d00ca537b162152a28"
+    },
+    {
+      "path": "autorse/release.py",
+      "sha256": "6831d197e7a15de495f7b9be8bae97a9edb5495ee922d916f7f73d12e56043c4"
+    },
+    {
+      "path": "autorse/submissions.py",
+      "sha256": "9fbf39bbf0bffbb301f00ded0a6b6fd566581e98cd3de18c9624c2d2e36bb2fa"
+    },
+    {
+      "path": "autorse/tasks.py",
+      "sha256": "292ee58f8d883c2ee23cacdced1496a2e6a537a5e6f3b6310927164122fc76e7"
+    }
+  ]
+}

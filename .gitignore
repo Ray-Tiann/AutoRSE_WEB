@@ -5,3 +5,46 @@ node_modules/
 *.log
 *.zip
 *.tar.gz
+
+# Runtime data, private evaluator inputs, and credentials are never source.
+# Data and evaluator inputs never belong in this code repository.
+**/datasets/
+**/private/
+*private-evaluator*
+private-manifest.json
+data_bundles/
+*.zip
+*.tar
+*.tar.gz
+*.npy
+*.npz
+*.parquet
+*.pkl
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.csv
+*.csv.gz
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+__pycache__/
+*.pyc
+.venv/
+results/
+jobs/
+logs/
+outputs/
+runs/
+.DS_Store
+
+# Runtime research repositories/artifacts are created locally, never gitlinks.
+**/baseline/.git/
+**/.autorse-runs/
+**/artifact/
+*.bundle

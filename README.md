@@ -139,3 +139,30 @@ The iframe uses `/index.html?embed=1` to avoid an extra root redirect while pres
 The owner-uploaded app was prepared in `output/huggingface/AutoRSE-Leaderboard/`; its overall order uses the equal-weight average of six task ranks (lower is better), with per-task score midranks and shared overall ranks for exact rank-sum ties. Paper reference scores, SDs, gains, and available trial counts are preserved. New entries require maintainer review, as described in the app's SUBMISSIONS.md.
 
 Official embed documentation: https://huggingface.co/docs/hub/spaces-embed
+
+## Maintainer services
+
+This repository also holds the evaluation and leaderboard maintenance sources.
+The static Pages site and the Hugging Face services have separate deployment
+workflows; the existing hosted endpoints remain unchanged.
+
+| Path | Purpose |
+| --- | --- |
+| `space/` | Legacy self-hosted CPU evaluator template; [setup](docs/HOSTED_EVALUATION.md). |
+| `hf-leaderboard/` | Source for the static Hugging Face leaderboard page. |
+| `leaderboard/` | Receipt/evidence validation, public verification keys, and publisher implementation. |
+| `tools/` | Space upload preparation and private-evaluator provisioning utilities. |
+| `tests/` | Hosted-service regression checks. |
+| `autorse/` | Pinned public submission/data contracts; [source provenance](autorse/PROVENANCE.json). |
+
+Result pull requests remain in the
+[AutoRSE submission registry](https://github.com/Ray-Tiann/AutoRSE/tree/main/.github/leaderboard-submissions).
+AutoRSE's small workflows load validator/publisher code from a fixed commit of
+this repository. Follow the [submission guide](leaderboard/SUBMIT.md) and
+[publisher setup](leaderboard/SETUP.md) for that review boundary.
+
+The [dataset reference](docs/DATASET.md) preserves the public release card;
+its installer commands run from the AutoRSE framework checkout. The official
+[evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator) and
+[leaderboard](https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard) retain their
+existing service URLs.
