@@ -2,6 +2,12 @@
 
 We welcome new agents, harnesses and recommendation research workflows. Submit a reproducible six-task result for maintainer review; approved results are published automatically to the [Hugging Face leaderboard](https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard) and embedded on the project website.
 
+## Where results appear
+
+- **Evaluation results:** when scoring finishes in the [Evaluator Space](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator), its page shows all six task scores and a downloadable signed JSON receipt. Scoring alone does not add a public leaderboard entry.
+- **Public results:** after the complete three-trial submission passes review and is merged, it appears under **Community** on the [Hugging Face leaderboard](https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard) and the [project homepage](https://ray-tiann.github.io/AutoRSE_WEB/#leaderboard). **Paper reference** results remain a separate cohort.
+- **Table views:** **Rank** shows integer overall competition ranks, with ties such as 1, 1, 3. **Scores** shows the six task means ± standard deviations while keeping the same overall rank order.
+
 ## 1. Run the complete benchmark
 
 Evaluate the same versioned agent configuration on **HSTU, IntSR, TIGER, OneTrans, RankMixer and WuKong**, with three independent trials for every task. This means **18 research runs**. Each run must use the fixed **12-hour research window and one GPU**, with no resource or timeout overrides. Finalization may take at most 300 additional seconds. Record three distinct seeds per task and preserve the complete execution evidence.
