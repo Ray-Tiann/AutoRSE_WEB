@@ -1,0 +1,5 @@
+# Python 3.12, CPU-only evaluation. The fixed scorers use NumPy and the standard library.
+fastapi==0.162.0
+uvicorn==0.54.0
+cryptography==50.0.2
+numpy==1.26.4

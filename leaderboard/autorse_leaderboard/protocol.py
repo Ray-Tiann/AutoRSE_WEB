@@ -8,3 +8,8 @@ TRIALS_PER_TASK = 3
 GPUS_PER_RUN = 1
 PRIMARY_METRICS = {"hstu": "ndcg_at_10", "intsr": "macro_ndcg_at_10", "tiger": "ndcg_at_10",
                    "onetrans": "auc", "rankmixer": "auc", "wukong": "auc"}
+# These identify fixed metric implementations, not the GPU allocation of an agent run.
+EVALUATOR_BACKENDS = ("pytorch-fp64-cuda", "numpy-cpu-v1")
+LEGACY_EVALUATOR_BACKEND = "pytorch-fp64-cuda"
+LEGACY_PARTICIPANT_KIND = "huggingface-account"
+PARTICIPANT_KINDS = (LEGACY_PARTICIPANT_KIND, "anonymous-session")

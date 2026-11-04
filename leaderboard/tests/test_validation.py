@@ -44,6 +44,7 @@ class ValidationTests(unittest.TestCase):
                 score = 0.30 + task_index * 0.05 + trial * 0.01
                 metric = PRIMARY_METRICS[task]
                 tasks[task] = {"task": task, "data_revision": DATA_REVISION,
+                               "backend": "pytorch-fp64-cuda",
                                "public_bundle_sha256": PUBLIC_BUNDLE_SHA256,
                                "submission_sha256": prediction, "metric": metric,
                                "metrics": {metric: score, "reward": score}}
@@ -77,6 +78,7 @@ class ValidationTests(unittest.TestCase):
                 "public_bundle_sha256": PUBLIC_BUNDLE_SHA256, "batch_sha256": "c" * 64,
                 "evaluator_code_sha256": "d" * 64, "participant": "synthetic-researcher",
                 "usage": "benchmark", "tasks": tasks,
+                "backend": "pytorch-fp64-cuda",
             }
             self.submission["receipts"].append(receipts.sign_receipt(payload, self.private_key, "unit-test"))
 
@@ -115,6 +117,103 @@ class ValidationTests(unittest.TestCase):
         self.assertEqual(report["summary"]["trial_counts"], [3] * 6)
         self.assertAlmostEqual(report["summary"]["scores"][0], 0.32)
         self.assertAlmostEqual(report["summary"]["sd"][0], 0.01)
+
+    def use_backend(self, backend):
+        for index, envelope in enumerate(self.submission["receipts"]):
+            envelope["backend"] = backend
+            if backend == "numpy-cpu-v1":
+                envelope.update(participant_kind="anonymous-session", participant="anonymous-" + "a" * 32,
+                                display_name="Synthetic researcher")
+            for item in envelope["tasks"].values():
+                item["backend"] = backend
+            self.resign(index)
+
+    def test_cpu_receipts_require_explicit_trusted_key_scope(self):
+        self.use_backend("numpy-cpu-v1")
+        self.assertIn("receipts.backend.1", self.failed_codes(self.validate()))
+        self.keys["unit-test"]["allowed_backends"] = ["numpy-cpu-v1"]
+        self.keys["unit-test"]["allowed_participant_kinds"] = ["anonymous-session"]
+        report = self.validate()
+        self.assertTrue(report["publishable"], self.failed_codes(report))
+
+    def test_legacy_cuda_receipts_remain_valid_with_explicit_scope(self):
+        self.keys["unit-test"]["allowed_backends"] = ["pytorch-fp64-cuda"]
+        self.assertTrue(self.validate()["publishable"])
+        self.keys["unit-test"]["allowed_backends"] = ["numpy-cpu-v1"]
+        self.assertIn("receipts.backend.1", self.failed_codes(self.validate()))
+
+    def test_cpu_task_backend_must_match_signed_batch(self):
+        self.keys["unit-test"]["allowed_backends"] = ["numpy-cpu-v1"]
+        self.keys["unit-test"]["allowed_participant_kinds"] = ["anonymous-session"]
+        self.use_backend("numpy-cpu-v1")
+        self.submission["receipts"][0]["tasks"]["hstu"]["backend"] = "pytorch-fp64-cuda"
+        self.resign(0)
+        self.assertIn("receipts.scores.1", self.failed_codes(self.validate()))
+
+    def test_missing_unknown_or_malformed_backend_scope_is_rejected(self):
+        for value in (None, "unreviewed-cpu", ["numpy-cpu-v1"]):
+            with self.subTest(backend=value):
+                self.use_backend(value)
+                self.assertIn("receipts.backend.1", self.failed_codes(self.validate()))
+        self.use_backend("numpy-cpu-v1")
+        for scope in ([], "numpy-cpu-v1", ["unreviewed-cpu"]):
+            with self.subTest(scope=scope):
+                self.keys["unit-test"]["allowed_backends"] = scope
+                self.assertIn("receipts.backend.1", self.failed_codes(self.validate()))
+
+    def test_cpu_backend_does_not_bypass_signature_participant_or_demo_checks(self):
+        self.keys["unit-test"]["allowed_backends"] = ["numpy-cpu-v1"]
+        self.keys["unit-test"]["allowed_participant_kinds"] = ["anonymous-session"]
+        self.use_backend("numpy-cpu-v1")
+        self.submission["receipts"][0]["signature"]["key_id"] = "unknown-cpu-key"
+        self.assertIn("receipts.signature.1", self.failed_codes(self.validate()))
+        self.resign(0)
+        self.submission["receipts"][0]["usage"] = "demo"
+        self.resign(0)
+        self.assertIn("receipts.protocol.1", self.failed_codes(self.validate()))
+        self.submission["receipts"][0]["usage"] = "benchmark"
+        self.submission["receipts"][0]["participant"] = "other-participant"
+        self.resign(0)
+        self.assertIn("receipts.participant", self.failed_codes(self.validate()))
+
+    def test_cpu_identity_is_anonymous_session_not_a_claimed_account(self):
+        self.keys["unit-test"].update(allowed_backends=["numpy-cpu-v1"],
+                                     allowed_participant_kinds=["anonymous-session"])
+        self.use_backend("numpy-cpu-v1")
+        original = copy.deepcopy(self.submission)
+        for field, value in (("participant_kind", None), ("participant_kind", "huggingface-account"),
+                             ("participant", "self-claimed-user"), ("display_name", "x" * 81)):
+            with self.subTest(field=field, value=value):
+                self.submission = copy.deepcopy(original)
+                if value is None:
+                    self.submission["receipts"][0].pop(field, None)
+                else:
+                    self.submission["receipts"][0][field] = value
+                self.resign(0)
+                self.assertIn("receipts.participant_kind.1", self.failed_codes(self.validate()))
+
+    def test_display_names_do_not_replace_cross_trial_identity_binding(self):
+        self.keys["unit-test"].update(allowed_backends=["numpy-cpu-v1"],
+                                     allowed_participant_kinds=["anonymous-session"])
+        self.use_backend("numpy-cpu-v1")
+        for index in range(3):
+            self.submission["receipts"][index]["display_name"] = f"Public name {index}"
+            self.resign(index)
+        self.assertTrue(self.validate()["publishable"])
+        self.submission["receipts"][0]["participant"] = "anonymous-" + "b" * 32
+        self.resign(0)
+        self.assertIn("receipts.participant", self.failed_codes(self.validate()))
+
+    def test_anonymous_and_legacy_account_receipts_cannot_share_an_identity(self):
+        self.keys["unit-test"].update(allowed_backends=["numpy-cpu-v1", "pytorch-fp64-cuda"],
+                                     allowed_participant_kinds=["anonymous-session", "huggingface-account"])
+        self.use_backend("numpy-cpu-v1")
+        receipt = self.submission["receipts"][0]
+        receipt.update(backend="pytorch-fp64-cuda", participant_kind="huggingface-account")
+        for item in receipt["tasks"].values():
+            item["backend"] = "pytorch-fp64-cuda"
+        self.resign(0)
+        self.assertIn("receipts.participant", self.failed_codes(self.validate()))
 
     def test_metadata_only_cannot_publish(self):
         report = validate_submission(self.submission, self.keys)

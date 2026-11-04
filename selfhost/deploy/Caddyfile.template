@@ -1,0 +1,44 @@
+# Render the site address with the public IP or hostname, with no scheme/path.
+# Render the TLS issuer with an appropriate issuer block. Public IP deployments use
+# Caddy 2.11+ and the ACME shortlived profile; never use "tls internal" publicly.
+@SITE_ADDRESS@ {
+    @TLS_ISSUER@
+    encode zstd gzip
+    log {
+        output stdout
+        format json
+    }
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        X-Frame-Options SAMEORIGIN
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        -Server
+    }
+    # Caddy rejects oversize uploads before forwarding; the app independently
+    # enforces the same ZIP limit while streaming, including chunked requests.
+    request_body {
+        max_size 512MiB
+    }
+    @application path /evaluate /evaluate/* /evaluate-assets/* /api/* /healthz
+    handle @application {
+        reverse_proxy 127.0.0.1:8000 {
+            header_up X-Forwarded-Proto https
+            header_up X-Forwarded-Host {host}
+        }
+    }
+    # Reviewed public snapshots live independently from immutable source releases.
+    @board_data path /leaderboard/community-leaderboard.json /leaderboard/approval-ledger.json /leaderboard/submissions/* /leaderboard/snapshot-manifest.json /leaderboard/verification.json
+    handle @board_data {
+        uri strip_prefix /leaderboard
+        root * /var/lib/autorse/published/current
+        header Cache-Control "no-cache"
+        file_server
+    }
+    handle {
+        root * /opt/autorse/current/public
+        @html path / /index.html /leaderboard /leaderboard/ /leaderboard/index.html
+        header @html Cache-Control "no-cache"
+        file_server
+    }
+}

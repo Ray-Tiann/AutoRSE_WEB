@@ -1,30 +1,43 @@
-# Hosted evaluation on Hugging Face
+# Hosted evaluation
 
 Run maintainer commands below from the **AutoRSE_WEB repository root** with
 Python 3.12. Agent runs and public-data installation use the
 [AutoRSE framework repository](https://github.com/Ray-Tiann/AutoRSE).
 
-## Official live service
+## Self-hosted deployment target — public cutover pending provider domain allowlist
 
-The official evaluator is [Ray0311/AutoRSE-Evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator).
-It uses free ZeroGPU for the fixed test metrics and accepts one complete six-task
-prediction ZIP per evaluation. Download its signed receipt; collect three
-independent complete trial sets for a formal submission. Demo receipts are
+The self-hosted deployment target is [AutoRSE](https://114.66.48.196/evaluate/).
+The candidate is installed for internal validation; public cutover is pending the
+provider's domain allowlist and external HTTPS verification. Keep using the
+existing [HF evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator)
+and GitHub/HF website entry points until that verification succeeds.
+It uses the fixed `numpy-cpu-v1` metric backend and accepts one complete six-task
+prediction ZIP per evaluation without a login. Enter a display name and retain
+the browser's anonymous-session cookie while collecting three
+independent complete trial sets and signed receipts for a formal submission. Demo receipts are
 excluded from the community ranking. See the [submission guide](../leaderboard/SUBMIT.md)
 for the ZIP/run evidence, review and automatic publication process.
 
-The current deployed application source is public in the
-[evaluator Space](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator/tree/main).
-The private evaluator remains private. The receipt verification public keys are
+The self-hosted application and deployment instructions are in [`selfhost/`](../selfhost/README.md).
+The private evaluator inputs remain server-side and outside every public web root.
+The receipt verification public keys are
 in [trusted-keys.json](../leaderboard/trusted-keys.json); no signing private key
-belongs in GitHub or a participant submission.
+belongs in GitHub or a participant submission. Each trusted key is explicitly scoped
+to its metric backend and participant identity kind. The CPU service signs
+`participant_kind: anonymous-session` with a server-generated identifier; the
+display name does not authenticate a person or HF account.
+A new deployment key requires a reviewed registry change;
+declaring a CPU backend does not make an unknown signature trustworthy.
 
-The current hosted service is separate from the self-hosted CPU reference below.
-The CPU template does not issue official signed community leaderboard receipts.
+The existing [HF evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator/tree/main)
+remains the public service during migration and uses the `pytorch-fp64-cuda` backend. Its existing official signed receipts remain
+valid under the original CUDA/account-scoped key; its source and results are not rewritten.
+The older `space/` CPU reference below is a separate demonstration template and
+does not issue official signed community leaderboard receipts.
 The public input repository is the
 [Ray0311/AutoRSE Dataset](https://huggingface.co/datasets/Ray0311/AutoRSE).
 
-## Self-hosted CPU reference setup
+## Legacy CPU Space reference setup
 
 Participants run models/agents locally, select configurations using public validation
 data, then upload **only the prediction file** to the AutoRSE Space. Hidden test

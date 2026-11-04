@@ -5,7 +5,17 @@
       "algorithm": "Ed25519",
       "public_key": "4CtyvMtCdq/jFml37/t2RzmLi8kfGnoZs2cPFbwvLhU=",
       "not_before": "2026-10-30T13:25:04.550290+00:00",
+      "allowed_backends": ["pytorch-fp64-cuda"],
+      "allowed_participant_kinds": ["huggingface-account"],
       "evaluator": "https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator"
+    },
+    "autorse-323a41b261eb3209": {
+      "algorithm": "Ed25519",
+      "public_key": "+ej5q6cRSyPR9BW0L/nyhKsdHuPfyhx037k371PIDF4=",
+      "allowed_backends": ["numpy-cpu-v1"],
+      "allowed_participant_kinds": ["anonymous-session"],
+      "revoked": false,
+      "evaluator": "https://114.66.48.196"
     }
   }
 }

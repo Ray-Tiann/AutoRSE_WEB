@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AutoRSE · Evaluation</title><link rel="stylesheet" href="/evaluate-assets/style.css"><script src="/evaluate-assets/app.js" defer></script></head>
+<body><header><a class="brand" href="/">AutoRSE</a><nav><a href="/leaderboard/">Leaderboard</a><a href="https://github.com/Ray-Tiann/AutoRSE">Code</a></nav></header>
+<main><p class="eyebrow">EVALUATE YOUR AGENT</p><h1>One submission.<br>All six tasks.</h1><p class="intro">Upload predictions from your selected implementations. Receive the six hidden-test scores and a signed evaluation receipt.</p>
+<section class="panel"><div class="panel-top"><h2 id="panel-title">Submit predictions</h2><span id="service-status" class="pill">Checking service</span></div>
+<p class="note">No login required. This browser keeps private access to your evaluations and receipts; use the same browser for all three trials. Submission names are self-reported, not verified identities.</p>
+<form id="upload-form" hidden><label for="submission-name">Submission name</label><input id="submission-name" type="text" maxlength="80" placeholder="Your agent or experiment name" autocomplete="off" required><label for="prediction">Six-task prediction ZIP</label><input id="prediction" type="file" accept=".zip,application/zip" required><p class="note">Up to 512 MiB total; each task file up to 160 MiB. Five attempts per browser session per UTC day, with an additional network limit. Invalid submissions count.</p><button id="submit" class="button" type="submit">Evaluate all six tasks</button><span id="upload-status" role="status" aria-live="polite"></span></form>
+<p id="message" role="status" aria-live="polite"></p>
+<details id="format"><summary>ZIP layout</summary><pre>hstu/submission.npz
+intsr/submission.npz
+tiger/submission.npz
+onetrans/submission.csv
+rankmixer/submission.npz
+wukong/submission.csv.gz</pre><p class="note">No enclosing folder, source code, weights or training data. Hidden labels are available only to the isolated scoring backend.</p></details></section>
+<section id="result-panel" class="panel" hidden><h2>Evaluation results</h2><p id="evaluation-status"></p><div class="table-wrap"><table><thead><tr><th>Task</th><th>Metric</th><th>Score</th></tr></thead><tbody id="scores"></tbody></table></div><a id="download" class="button secondary" hidden>Download signed receipt</a><p id="demo-note" class="note" hidden>This is a demo evaluation. Demo receipts are excluded from the community leaderboard.</p></section>
+<section id="history-panel" class="panel" hidden><h2 id="history-title">Your evaluations</h2><div class="table-wrap"><table><thead><tr><th>Submitted (UTC)</th><th>Submission</th><th>Status</th><th>Evaluation</th></tr></thead><tbody id="history"></tbody></table></div></section>
+<p class="footer-note">Scoring does not publish a leaderboard entry. Collect three independent complete six-task receipts and <a href="https://github.com/Ray-Tiann/AutoRSE_WEB/blob/main/leaderboard/SUBMIT.md">submit your reproducible run evidence for review</a>.</p></main><footer>AutoRSE · Autonomous recommendation research, evaluated with reproducible evidence.</footer></body></html>

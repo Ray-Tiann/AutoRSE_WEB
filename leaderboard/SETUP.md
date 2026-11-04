@@ -1,6 +1,6 @@
-# Maintainer setup: reviewed submissions to Hugging Face
+# Maintainer setup: reviewed submission publication
 
-This pipeline accepts one public submission JSON per PR, verifies signed evaluator receipts and pinned evidence, requires qualified human GitHub approval, and publishes reviewed results to the existing Static Space. It does not launch research runs or deploy a scoring server.
+This pipeline accepts one public submission JSON per PR, verifies signed evaluator receipts and pinned evidence, requires qualified human GitHub approval, and publishes reviewed results to the self-hosted website and the existing Static Space mirror. It does not launch research runs. Scoring-server deployment is described in [`selfhost/`](../selfhost/README.md).
 
 ## Bootstrap the trusted source
 
@@ -48,6 +48,14 @@ After merge, `github_review collect` queries GitHub for the PR and its paginated
 ## What publication verifies
 
 The automatic pipeline checks three complete signed six-task benchmark receipts, 18 unique task/trial records, distinct per-task seeds, pinned public-data protocol, one-GPU/12-hour declarations, timestamp order and public evidence bytes. Structured configuration and provenance must agree with the submission and signed prediction digests. The validator never executes participant commands or source archives.
+
+The self-hosted CPU evaluator requires no login. Its trusted key is scoped to
+`numpy-cpu-v1` and `anonymous-session`; it binds all three receipts to the same
+server-generated anonymous identifier. A self-entered display name does not
+verify a person or account. Legacy CUDA receipts without an identity-kind field
+retain their original HF-account interpretation under the old trusted key.
+Different identity kinds cannot be pooled merely because their identifier text
+matches. Backend, identity, demo and evidence checks remain mandatory.
 
 A maintainer must assess whether those declarations are true: actual runtime and resources, independent trials, complete trajectories, evaluated source reproducibility, hidden-label access and score manipulation. Signed scores prove what the evaluator scored, not that the preceding experiment followed every research rule. Test/demo receipts remain ineligible regardless of approval.
 
@@ -102,6 +110,107 @@ PYTHONPATH=website-code/leaderboard python -m autorse_leaderboard.cli publish \
 Use a new empty output path for `--approved-dir` each time. The collector refuses to overwrite an existing directory. Do not manufacture an approval ledger for a live publication. With zero submission JSONs, collection returns an empty ledger and Actions skips the publish step. The direct `publish` command refuses an empty source directory.
 
 After a real merge, check the **Publish reviewed leaderboard** Actions run, its saved review/output artifacts and the new Space commit. Publication artifacts are retained for 90 days and validation reports for 30 days; the Space's review ledger and JSON snapshot provide the public publication record. A failing check or missing Trusted Publisher configuration is not a published result.
+
+## Deliver the same reviewed snapshot to the website
+
+The self-hosted site serves its own local leaderboard JSON. Browsers do not need
+to load the HF leaderboard. The trusted `AutoRSE` main-branch publisher remains
+the only authority which can approve a community entry; the website's scoring
+endpoint cannot promote an upload directly into the public table.
+
+After validating every approved submission and its public evidence, `cli publish`
+also writes `snapshot-manifest.json`. The manifest binds the exact byte sizes and
+SHA256 values of `community-leaderboard.json`, `approval-ledger.json` and
+`submissions/<id>.json` to the framework source commit. Approved submission JSON
+is copied byte-for-byte so its review-ledger digest remains valid.
+
+The manifest is **not digitally signed**. The deployment trust comes from a
+dedicated SSH key available only to the trusted main-branch publisher job. Its
+expected manifest digest travels in the authenticated SSH command, separately
+from the archive. A participant upload, a hash supplied by a participant, or a
+JSON downloaded with a same-origin hash does not authorize publication.
+
+### Server receiver
+
+Install `leaderboard/receive_snapshot.py`, its package and Python environment
+root-owned. A dedicated `autorse-publish` account may write only
+`/var/lib/autorse/published`. It must not write application source, the evaluator's
+private inputs, signing key, or `/etc/autorse/trusted-keys.json`. Keep that public
+key registry root-owned and not group/world-writable.
+
+An administrator-owned wrapper invokes isolated Python, for example:
+
+```sh
+#!/bin/sh
+exec /opt/autorse/venv/bin/python -I /opt/autorse/app/leaderboard/receive_snapshot.py
+```
+
+Restrict the dedicated public key with an SSH `command=` forced command and
+`restrict`; disable forwarding, PTY allocation and user RC execution. The account
+must not obtain an arbitrary shell or SFTP path. The only accepted original
+command is exactly `publish <64-lowercase-hex-manifest-SHA256>`; no caller-supplied
+filesystem paths, extra arguments or shell fragments are accepted.
+
+The receiver reads a ZIP from standard input. It accepts at most 256 regular JSON
+members, at most 2 MiB per file, and at most 32 MiB both compressed and expanded.
+Traversal, absolute paths, duplicate names, symlinks, encrypted ZIP members and
+unlisted files fail closed. A single publication lock prevents concurrent updates.
+
+It rechecks the manifest and every file digest, all trusted receipt signatures,
+backend key scopes, participant/demo restrictions, exact review-ledger byte
+bindings and reconstructed scores/ranks. The server uses an **offline evidence
+mode only inside this authenticated forced-command receiver**: the CI publisher
+attests that it already fetched and validated all pinned evidence. The receiver
+does not independently fetch those evidence files or re-query GitHub reviewer
+permissions. `verification.json` records that limitation explicitly. Ordinary PR
+and publisher validation still require full evidence verification.
+
+Verified releases live under
+`/var/lib/autorse/published/snapshots/<manifest-SHA256>/`. Files and directories are
+fsynced before an atomic `current` symlink switch. The web server reads
+`/var/lib/autorse/published/current/community-leaderboard.json`; failed deliveries
+leave the previous release visible. Keep `leaderboard-data.json` and all paper
+reference rows in the static website release, separate from community snapshots.
+
+### Main-branch delivery
+
+Run this after the existing successful publish step, using its generated output:
+
+```bash
+PYTHONPATH=website-code/leaderboard python -m autorse_leaderboard.package_snapshot \
+  --snapshot-dir /tmp/autorse-leaderboard-preview \
+  --output /tmp/autorse-reviewed-snapshot.zip
+```
+
+The packager checks the manifest's file hashes and prints its digest. The workflow
+then checks that the framework source is still the current `main` tip and sends
+the ZIP to the forced command using strict, pinned SSH host verification. Do not
+give this deployment key to PR workflows. Keep the original publication
+concurrency group and HF OIDC identity; changing the website destination does not
+widen either approval boundary.
+
+### Empty initial community cohort
+
+Before any real submission exists, an administrator may bootstrap an honest empty
+snapshot from a fetched framework `origin/main` commit:
+
+```bash
+PYTHONPATH=leaderboard python -m autorse_leaderboard.bootstrap_empty \
+  --source-checkout /path/to/AutoRSE \
+  --source-commit FULL_40_CHARACTER_FETCHED_MAIN_COMMIT \
+  --output-dir /tmp/autorse-empty-initial-snapshot
+
+PYTHONPATH=leaderboard python -m autorse_leaderboard.package_snapshot \
+  --snapshot-dir /tmp/autorse-empty-initial-snapshot \
+  --output /tmp/autorse-empty-initial-snapshot.zip
+```
+
+The bootstrap checks the actual committed registry tree and refuses if any
+submission JSON exists. It records the source commit/tree, produces zero rows
+and `approvals: []`, and labels the manifest `empty-source-bootstrap`. It asserts
+no human reviews, evidence checks or evaluated entries. It cannot import paper
+reference scores or demos into Community. Use a new output directory; frozen
+source records are never overwritten.
 
 ## Workflow dependency pins
 

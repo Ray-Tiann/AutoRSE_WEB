@@ -47,7 +47,7 @@ def template():
             "acknowledgements": {"public_evidence": False, "protocol_followed": False}}
 
 
-def check_approval(path, submission, ledger):
+def check_approval_bytes(data, submission, ledger):
     if ledger.get("schema_version") != 1 or ledger.get("repository") != "Ray-Tiann/AutoRSE":
         raise ValueError("invalid_approval_ledger")
     main_sha = ledger.get("main_sha", "")
@@ -62,7 +62,7 @@ def check_approval(path, submission, ledger):
     entry = matches[0]
     if not re.fullmatch(r"[0-9a-f]{40}", entry.get("head_sha", "")):
         raise ValueError("approved_head_missing")
-    if entry.get("submission_sha256") != hashlib.sha256(path.read_bytes()).hexdigest():
+    if entry.get("submission_sha256") != hashlib.sha256(data).hexdigest():
         raise ValueError("approved_submission_bytes_changed")
     if not entry.get("approved_reviews") or not all(
             review.get("permission") in {"write", "maintain", "admin"}
@@ -73,6 +73,10 @@ def check_approval(path, submission, ledger):
     if type(entry.get("pr_number")) is not int or entry["pr_number"] <= 0:
         raise ValueError("approved_pr_missing")
     return entry
+
+
+def check_approval(path, submission, ledger):
+    return check_approval_bytes(path.read_bytes(), submission, ledger)
 
 
 def assert_current_main(repository, commit):
@@ -133,9 +137,15 @@ def publish(args):
     write_json(output / "community-leaderboard.json", data)
     write_json(output / "approval-ledger.json", ledger)
     for path, _entry in approved:
-        write_json(output / "submissions" / path.name, read_json(path))
+        target = output / "submissions" / path.name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        # The ledger approves the original bytes, not a reformatted JSON object.
+        target.write_bytes(path.read_bytes())
+    from .snapshot import write_manifest
+    manifest_sha256 = write_manifest(output, [path.name for path, _ in approved], ledger["main_sha"])
     if args.dry_run:
-        print(json.dumps({"dry_run": True, "approved_entries": len(summaries)}))
+        print(json.dumps({"dry_run": True, "approved_entries": len(summaries),
+                          "snapshot_manifest_sha256": manifest_sha256}))
         return
     if args.repo_id != "Ray0311/AutoRSE-Leaderboard":
         raise ValueError("unexpected_publish_destination")
@@ -147,9 +157,12 @@ def publish(args):
                   CommitOperationAdd(path_in_repo="approval-ledger.json", path_or_fileobj=str(output / "approval-ledger.json"))]
     operations += [CommitOperationAdd(path_in_repo="submissions/" + path.name,
                                      path_or_fileobj=str(output / "submissions" / path.name)) for path, _ in approved]
+    operations.append(CommitOperationAdd(path_in_repo="snapshot-manifest.json",
+                                        path_or_fileobj=str(output / "snapshot-manifest.json")))
     result = api.create_commit(repo_id=args.repo_id, repo_type="space", parent_commit=info.sha,
         operations=operations, commit_message="Publish reviewed AutoRSE community results from " + ledger["main_sha"][:12])
-    print(json.dumps({"published_entries": len(summaries), "hf_commit": result.oid}))
+    print(json.dumps({"published_entries": len(summaries), "hf_commit": result.oid,
+                      "snapshot_manifest_sha256": manifest_sha256}))
 
 
 def main(argv=None):

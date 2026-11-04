@@ -21,6 +21,8 @@ from .protocol import (
     TASK_ORDER, DATA_REVISION, PUBLIC_BUNDLE_SHA256, PRIMARY_METRICS,
     RESEARCH_BUDGET_SECONDS as RESEARCH_SECONDS,
     FINALIZATION_GRACE_SECONDS as FINALIZATION_SECONDS,
+    EVALUATOR_BACKENDS, LEGACY_EVALUATOR_BACKEND,
+    PARTICIPANT_KINDS, LEGACY_PARTICIPANT_KIND,
 )
 
 
@@ -47,6 +49,40 @@ def _number(value):
 
 def _hex(value, expression):
     return type(value) is str and expression.fullmatch(value) is not None
+
+
+def _receipt_backend_allowed(envelope, payload, trusted_keys):
+    """Call only after signature verification; bind backend to the trusted key.
+
+    Existing keys without an explicit backend scope retain their original CUDA
+    authority. Authorizing a CPU deployment requires a maintainer key-registry
+    change; a signed payload cannot grant itself a new backend.
+    """
+    keys = trusted_keys.get("keys", trusted_keys)
+    entry = keys[envelope["signature"]["key_id"]]
+    allowed = entry.get("allowed_backends", [LEGACY_EVALUATOR_BACKEND])
+    backend = payload.get("backend")
+    return (type(allowed) is list and bool(allowed)
+            and all(type(value) is str and value in EVALUATOR_BACKENDS for value in allowed)
+            and type(backend) is str and backend in allowed)
+
+
+def _receipt_participant_allowed(envelope, payload, trusted_keys):
+    keys = trusted_keys.get("keys", trusted_keys)
+    entry = keys[envelope["signature"]["key_id"]]
+    allowed = entry.get("allowed_participant_kinds", [LEGACY_PARTICIPANT_KIND])
+    kind = payload.get("participant_kind", LEGACY_PARTICIPANT_KIND)
+    scoped = (type(allowed) is list and bool(allowed)
+              and all(type(value) is str and value in PARTICIPANT_KINDS for value in allowed)
+              and type(kind) is str and kind in allowed)
+    if payload.get("backend") == "numpy-cpu-v1":
+        participant = payload.get("participant")
+        name = payload.get("display_name")
+        return (scoped and payload.get("participant_kind") == "anonymous-session"
+                and type(participant) is str
+                and bool(re.fullmatch(r"anonymous-[0-9a-f]{32,64}", participant))
+                and (name in (None, "") or _text(name, 80)))
+    return scoped and kind == LEGACY_PARTICIPANT_KIND
 
 
 def _json_problem(value, depth=0):
@@ -348,11 +384,17 @@ def validate_submission(submission, trusted_keys: dict, *, artifact_reader=None,
     if any(payload is None for payload in verified):
         return result()
 
-    receipt_by_id, participants = {}, []
+    receipt_by_id, participants, participant_kinds = {}, [], []
     for index, payload in enumerate(verified, 1):
         code = f"receipts.protocol.{index}"
         evaluation_id = payload.get("evaluation_id")
         participant = payload.get("participant")
+        backend_ok = _receipt_backend_allowed(signed_receipts[index - 1], payload, trusted_keys)
+        check(f"receipts.backend.{index}", backend_ok,
+              "Receipt backend must be an official implementation authorized for its trusted signing key.")
+        participant_ok = _receipt_participant_allowed(signed_receipts[index - 1], payload, trusted_keys)
+        check(f"receipts.participant_kind.{index}", participant_ok,
+              "Participant identity kind must match the evaluator backend and trusted key scope; display names do not verify identity.")
         receipt_ok = (_integer(payload.get("schema_version"), 1) and payload.get("complete") is True
                       and payload.get("status") == "complete" and _integer(payload.get("task_count"), 6)
                       and payload.get("task_order") == list(TASK_ORDER)
@@ -361,9 +403,10 @@ def validate_submission(submission, trusted_keys: dict, *, artifact_reader=None,
                       and payload.get("data_revision") == DATA_REVISION
                       and payload.get("public_bundle_sha256") == PUBLIC_BUNDLE_SHA256
                       and _hex(payload.get("batch_sha256"), _HEX64)
-                      and _hex(payload.get("evaluator_code_sha256"), _HEX64))
+                      and _hex(payload.get("evaluator_code_sha256"), _HEX64) and backend_ok and participant_ok)
         check(code, receipt_ok, "Receipt must be complete, participant-bound, non-demo and pinned to the public protocol.")
         participants.append(participant)
+        participant_kinds.append(payload.get("participant_kind", LEGACY_PARTICIPANT_KIND))
         tasks = payload.get("tasks")
         tasks_ok = type(tasks) is dict and set(tasks) == set(TASK_ORDER)
         task_values = {}
@@ -377,6 +420,7 @@ def validate_submission(submission, trusted_keys: dict, *, artifact_reader=None,
                 metrics = item.get("metrics")
                 score = metrics.get(metric) if type(metrics) is dict else None
                 item_ok = (item.get("task") == task and item.get("metric") == metric
+                           and item.get("backend") == payload.get("backend")
                            and item.get("data_revision") == DATA_REVISION
                            and item.get("public_bundle_sha256") == PUBLIC_BUNDLE_SHA256
                            and _hex(item.get("submission_sha256"), _HEX64)
@@ -393,8 +437,9 @@ def validate_submission(submission, trusted_keys: dict, *, artifact_reader=None,
                 check("receipts.unique", False, "Receipt evaluation IDs must be distinct.")
             else:
                 receipt_by_id[evaluation_id] = {"payload": payload, "scores": task_values}
-    check("receipts.participant", all(type(p) is str for p in participants) and len(set(participants)) == 1,
-          "All three receipts must belong to the same participant account.")
+    check("receipts.participant", all(type(p) is str for p in participants) and len(set(participants)) == 1
+          and all(type(p) is str for p in participant_kinds) and len(set(participant_kinds)) == 1,
+          "All three receipts must bind the same participant identifier and identity kind.")
 
     runs = submission.get("runs")
     if not check("runs.count", type(runs) is list and len(runs) == 18,
@@ -471,6 +516,7 @@ def validate_submission(submission, trusted_keys: dict, *, artifact_reader=None,
         deviations = [statistics.stdev(task_scores[task]) for task in TASK_ORDER]
         summary = {"id": identifier, "kind": kind, "configuration": dict(configuration),
                    "participant": participants[0], "data_revision": DATA_REVISION,
+                   "participant_kind": participant_kinds[0],
                    "public_bundle_sha256": PUBLIC_BUNDLE_SHA256, "task_order": list(TASK_ORDER),
                    "scores": means, "sd": deviations, "trial_counts": [3] * 6,
                    "score_by_task": dict(zip(TASK_ORDER, means)), "task_scores": task_scores,

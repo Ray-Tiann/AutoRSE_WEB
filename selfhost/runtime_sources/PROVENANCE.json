@@ -1,0 +1,8 @@
+{
+  "source_repository": "https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator",
+  "source_path": "space/batch_submission.py",
+  "sha256": "81bbbde785820a072414202bd05196e20eae0b6ce2717a85420a5ce141f7f7f4",
+  "purpose": "Bounded six-task ZIP extraction; unmodified trusted parser. No evaluator inputs or keys.",
+  "source_snapshot": "output/deploy/autorse-scoring-20261030/space-gpu/space/batch_submission.py",
+  "reviewed_source_manifest_sha256": "b6e3389ccea55af8e3f4102d8105abf1bdf27d345e00131ad3dddac6e3dbcfe2"
+}

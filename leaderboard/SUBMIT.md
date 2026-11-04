@@ -1,11 +1,11 @@
 # Submit to the AutoRSE leaderboard
 
-We welcome new agents, harnesses and recommendation research workflows. Submit a reproducible six-task result for maintainer review; approved results are published automatically to the [Hugging Face leaderboard](https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard) and embedded on the project website.
+We welcome new agents, harnesses and recommendation research workflows. Submit a reproducible six-task result for maintainer review; approved results are published automatically to the [AutoRSE website](https://114.66.48.196/#leaderboard). The existing [Hugging Face leaderboard](https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard) remains a publication mirror.
 
 ## Where results appear
 
-- **Evaluation results:** when scoring finishes in the [Evaluator Space](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator), its page shows all six task scores and a downloadable signed JSON receipt. Scoring alone does not add a public leaderboard entry.
-- **Public results:** after the complete three-trial submission passes review and is merged, it appears under **Community** on the [Hugging Face leaderboard](https://huggingface.co/spaces/Ray0311/AutoRSE-Leaderboard) and the [project homepage](https://ray-tiann.github.io/AutoRSE_WEB/#leaderboard). **Paper reference** results remain a separate cohort.
+- **Evaluation results:** open the [AutoRSE evaluator](https://114.66.48.196/evaluate/), enter a display name, upload one six-task prediction ZIP, then download the signed JSON receipt. No login is required. Scoring alone does not add a public leaderboard entry. Previously issued official receipts from the [HF evaluator](https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator) remain supported.
+- **Public results:** after the complete three-trial submission passes review, is merged, and publication succeeds, it appears under **Community** on the [AutoRSE website](https://114.66.48.196/#leaderboard) and the HF mirror. **Paper reference** results remain a separate cohort.
 - **Table views:** **Rank** shows integer overall competition ranks, with ties such as 1, 1, 3. **Scores** shows the six task means ± standard deviations while keeping the same overall rank order.
 
 ## 1. Run the complete benchmark
@@ -14,7 +14,7 @@ Evaluate the same versioned agent configuration on **HSTU, IntSR, TIGER, OneTran
 
 Use the public data revision and bundle pinned in [`autorse_leaderboard/protocol.py`](autorse_leaderboard/protocol.py). The submission template includes these values. Keep the agent, harness, model versions and framework commit explicit. A protocol/data update requires a separate comparable cohort; results from different releases must not be pooled with the historical paper table.
 
-For each independent trial, submit the six-task prediction ZIP to the official evaluator and download the **signed, complete six-task receipt**. Repeat for all three trials, producing three different evaluation IDs. Every receipt must belong to the same participant account. A receipt binds scores to prediction hashes; it does not certify how the agent produced those predictions.
+For each independent trial, submit the six-task prediction ZIP to the official evaluator and download the **signed, complete six-task receipt**. Repeat for all three trials, producing three different evaluation IDs. Use the same browser session and retain its cookie so all three receipts carry the same server-generated anonymous participant identifier. A display name is a public label, not a verified account identity. If using legacy HF receipts, all three must instead belong to the same HF account; anonymous and legacy account identities cannot be mixed into one submission. A receipt binds scores to prediction hashes; it does not certify how the agent produced those predictions.
 
 Demo/synthetic submissions and receipts marked for testing are useful for checking the evaluator. They are **never eligible for the public ranking**, even if a test succeeds. Do not rename a test receipt or manufacture benchmark evidence.
 
@@ -118,6 +118,6 @@ A maintainer checks reproducibility, whether the recorded protocol was actually 
 
 Publication requires an actual GitHub `APPROVED` review on the current PR head from a **different human account** with current repository `write`, `maintain` or `admin` permission. Self-approval, bot approvals, stale or dismissed approvals and a JSON field claiming approval do not qualify. Maintainers merge only after successful CI and review.
 
-After merge, the publisher verifies the merged bytes and review evidence again, revalidates all approved submissions and uploads a new leaderboard snapshot through a main-branch-only trusted publisher. A direct push or an unreviewed submission does not create an eligible row. The website receives the updated Hugging Face data; no separate website edit is required for each result.
+After merge, the main-branch-only publisher verifies the merged bytes, qualified review and public evidence again, then produces a hash-bound snapshot. A restricted SSH receiver installs that snapshot on the website after rechecking its receipt signatures, review-ledger bindings and reconstructed rankings. The HF mirror is updated through the existing trusted publisher. A direct push or an unreviewed submission does not create an eligible row; no separate website edit is required for each result.
 
 For each task, the leaderboard averages the three signed scores. Higher scores rank first. Scores rounded to four decimals with decimal half-up are tied and receive midranks. The final order uses **mean rank across all six tasks**, with lower being better; equal rank sums share an overall competition rank. Filters do not recalculate ranks. Historical paper results remain separate from the reviewed public-data cohort.
