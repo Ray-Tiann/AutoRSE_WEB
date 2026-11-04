@@ -25,6 +25,7 @@ MAX_RELEASE_BYTES = 32 * 1024**2
 PAPER_ORIGIN = "https://ray-tiann.github.io/AutoRSE_WEB"
 HF_EVALUATOR = "https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator"
 ZIP_PARSER_SHA = "81bbbde785820a072414202bd05196e20eae0b6ce2717a85420a5ce141f7f7f4"
+INSIGHT_ASSETS = ("insights.js", "insights.css", "insights-data.json", "paper-run-resources.csv")
 
 
 def sha(data: bytes) -> str:
@@ -122,6 +123,11 @@ def build(output: Path, *, origin: str, source: Path = ROOT) -> dict:
         if not seed or not isinstance(json.loads(seed.group(1)), dict):
             raise ValueError("Missing paper reference seed; do not manufacture a replacement")
         put(output / "public/leaderboard/leaderboard-data.json", (seed.group(1) + "\n").encode())
+        # Only the four reviewed insight assets belong beside the leaderboard.
+        # Never glob this maintenance directory: it can contain deployment notes
+        # or incoming snapshots that are not application assets.
+        for name in INSIGHT_ASSETS:
+            copy(source / "hf-leaderboard" / name, output / "public/leaderboard" / name)
         # Runtime: public submission contracts plus the exact fixed CPU scorers.
         for name in ("__init__.py", "release.py", "tasks.py", "submissions.py"):
             copy(source / "autorse" / name, output / "runtime/autorse" / name)

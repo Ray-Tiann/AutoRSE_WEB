@@ -1,0 +1,136 @@
+# Leaderboard insight charts
+
+The leaderboard adds a cost–quality scatter plot, a cost ranking and a six-task
+profile. The existing ranking and scientific result table keep their original
+values and rules. The interface is inspired by LiveBench; its example model
+names, scores and prices are not AutoRSE data.
+
+The shipped data is [`insights-data.json`](../hf-leaderboard/insights-data.json).
+Its source list records hashes of the bounded trial-result metadata used for the
+derivation. Native conversations, code execution logs, private targets, model
+weights and prediction arrays are not part of this chart dataset.
+
+The downloadable [`paper-run-resources.csv`](../hf-leaderboard/paper-run-resources.csv)
+contains all 125 canonical run records, including logged cost, score, token
+counts, agent execution duration and relative metadata paths with hashes.
+Unrecorded costs are marked `null`. The JSON records the CSV's hash; its task points can
+be reconstructed from these rows. The CSV contains no prediction arrays,
+private labels, API credentials or conversation content. The bounded derivation
+script is [`tools/derive_insights_data.py`](../tools/derive_insights_data.py).
+
+## Cost and quality
+
+**Cost** means the value recorded in `agent_result.cost_usd` for one native
+research run. It is harness-reported accounting, potentially using historical
+provider/adapter prices and cache conventions; it is not a verified invoice or
+a newly repriced comparison across providers. It excludes GPU rental, server
+hosting and project reimbursement totals. The charts do not use the project's
+reimbursement amounts to infer configuration costs.
+
+There are 125 canonical native runs and 101 runs with both a reported cost and a
+score. The outer job aggregates are not additional independent runs. Missing
+costs remain unknown; they are not zero, free usage or an estimated price.
+
+| Configuration | Paired cost/score runs | Coverage detail |
+| --- | ---: | --- |
+| Claude Code × DeepSeek V4 Flash | 17/18 | HSTU trial 3 has no recorded cost. |
+| Claude Code × Claude Opus 4.8 | 18/18 | All six tasks have three paired runs. |
+| Codex × DeepSeek V4 Flash | 18/18 | All six tasks have three paired runs. |
+| Codex × GPT-5.5 | 6/18 | Costs exist only for TIGER and RankMixer. |
+| Terminus-2 × DeepSeek V4 Flash | 18/18 | All six tasks have three paired runs. |
+| Terminus-2 × GPT-5.5 | 6/17 | Costs exist only for TIGER and RankMixer; the canonical OneTrans set contains two runs. |
+| Terminus-2 × Claude Opus 4.8 | 18/18 | All six tasks have three paired runs. |
+
+The initial task is **TIGER**: all seven configurations have 3/3 paired runs.
+RankMixer also has complete paired coverage for all seven configurations.
+
+For a selected task, the scatter's x and y values use the **same observed run
+subset**: mean logged API cost and mean score. Hover/focus details report the
+paired sample size and sample standard deviation when available. Thus the
+Claude Code/DeepSeek HSTU point uses two runs for both coordinates, rather than
+combining two cost records with all three scores. The default x scale is log10
+for strictly positive costs. A recorded zero must remain visible with an
+explicit alternative scale; it must not silently disappear from a logarithmic
+axis. Cost-ranking bars start at zero and are sorted by their recorded means;
+missing entries appear separately as N/A, rather than being ranked cheapest.
+
+For the **six-task overall** view, each task must have at least one paired run.
+The two GPT-5.5 configurations therefore have no overall cost–quality point.
+The five eligible configurations use equal task weights:
+
+```text
+overall cost = mean over the six tasks of each task's paired mean cost
+overall gain (%) = 100 × mean over the six tasks of (paired mean score / baseline − 1)
+```
+
+The baseline references are the six published four-decimal values in the data.
+Raw AUC, NDCG@10 and Macro NDCG@10 are never averaged into a common score.
+Overall SD is left unknown: the task-balanced statistic is not assigned a
+fabricated uncertainty estimate.
+
+The value frontier is descriptive. A point is dominated only if another point
+costs no more and scores no lower, with at least one strict improvement. Equal
+cost/score points remain tied. Frontier membership does not establish a
+statistically significant advantage or a causal effect of spending.
+
+## Six-task profile
+
+Select two or three configurations from the current cohort. Every radial axis
+uses the same explicit formula:
+
+```text
+normalized task score = 100 × score / maximum score for that task in the complete cohort
+```
+
+The reference is computed from the **whole selected cohort**, not just the
+two or three displayed configurations. Adding or removing a displayed model
+does not rescale the axes. A task whose reference is zero or unavailable cannot
+be normalized. Missing task scores remain gaps; they are not plotted at zero or
+connected across the missing axis. Values, SDs and trial counts remain available
+in the existing table and chart details. The profile is not used to calculate
+the official overall rank.
+
+Paper-reference profiles use the preserved 42 published mean/SD cells. Community
+profiles use only reviewed community rows. Empty community cohorts show an
+empty-state message, and paper costs are never attached to a community row with
+a similar name. New community cost records require their own explicit
+provenance; a signed prediction receipt alone does not certify API spend.
+
+## Historical source discrepancy
+
+The bounded native metadata reproduce 41 of the 42 paper mean/SD cells at the
+published four-decimal precision. The remaining cell is Terminus-2 × GPT-5.5 on
+OneTrans: two canonical native runs give mean `0.6949017340274293` and sample SD
+`0.0022685781715196993`, while the paper-reference cell is `0.7285 ± 0.0498`.
+This update preserves the paper cell in the result table and profile. Neither
+run has a recorded cost, so no OneTrans cost point is made from that mismatch.
+The chart data retain the discrepancy in their audit metadata; resolving the
+paper/source history requires a separate scientific audit.
+
+Historical paper/native results and the sanitized public-v2 evaluation release
+remain distinct data revisions. These charts are not new evaluations of the
+public-v2 dataset.
+
+## Verification and deployment
+
+- `leaderboard/tests/test_insights.py` exercises the actual exported chart core
+  with independent arithmetic and adversarial missing/tied values.
+- The tests check original paper values, paired coverage, task-balanced overall
+  values, zero/missing cost behavior and fixed-cohort profile normalization.
+- `selfhost/build_release.py` copies only `insights.js`, `insights.css`,
+  `insights-data.json` and `paper-run-resources.csv` beside the standalone leaderboard and records their
+  byte sizes and SHA256 values in the release manifest. It does not copy an
+  arbitrary maintenance-directory tree into the web root.
+- HF static deployments must publish these four assets together with the
+  matching `index.html`; updating the HTML alone would leave broken chart links.
+- Browser verification is still required for layout, keyboard access, tooltips
+  and responsive behavior. Automated checks do not establish complete
+  accessibility or scientific validity.
+
+## Methodological tooling
+
+The scientific-visualization procedure was used to review normalization,
+missing-data treatment, encoding and evidence provenance. See Timothy Kassis,
+Vinayak Agarwal, Yuhuan He, Darshil Patel and Aubrey M. Brueckner (2026),
+*Scientific Agent Skills: A Library of Procedural Knowledge for Research
+Agents*, [arXiv:2609.00065](https://doi.org/10.48550/arXiv.2609.00065).
