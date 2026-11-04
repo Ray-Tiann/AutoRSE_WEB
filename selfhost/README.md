@@ -48,12 +48,17 @@ Create a dedicated `autorse` service account. Keep source releases root-owned:
   current -> releases/VERSION
   venv/                    # Python 3.12, pinned requirements.txt
 /etc/autorse/selfhost.env  # root-owned 0600: public metadata and key file paths
-/var/lib/autorse/
+/var/lib/autorse/           # root-owned 0755: traverse to public snapshots only
   state/                   # autorse-owned 0700: visitor sessions, quotas, jobs, receipts
   private/                 # autorse-owned 0700: verified private evaluator inputs
   secrets/                 # autorse-owned 0700: receipt.key and session.key, both 0600
   published/current/       # reviewed public leaderboard snapshot
 ```
+
+The parent must be traversable by Caddy and `autorse-publish`; the three private
+subdirectories stay service-owned `0700`. A service account's default `0750`
+home-directory mode would prevent the separate publisher from reaching its own
+snapshot directory.
 
 Install only the release's CPU dependencies:
 
@@ -103,6 +108,10 @@ uses one queue worker, a 5 GiB memory cap, at most three CPU cores and
 single-threaded numerical libraries. It writes only its state directory and
 private temporary storage. Application access logging is disabled; HTTP requests
 do not include login credentials or an external OAuth exchange.
+
+While public access is pending, any SSH-only Caddy preview must explicitly use
+`bind 127.0.0.1`; a `127.0.0.1` site label alone does not restrict its listening
+socket to loopback.
 
 ## 4. Verify the deployment
 
