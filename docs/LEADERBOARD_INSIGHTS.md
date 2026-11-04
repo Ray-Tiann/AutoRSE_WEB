@@ -1,9 +1,12 @@
 # Leaderboard insight charts
 
-The leaderboard adds a cost–quality scatter plot, a cost ranking and a six-task
-profile. The existing ranking and scientific result table keep their original
-values and rules. The interface is inspired by LiveBench; its example model
-names, scores and prices are not AutoRSE data.
+The leaderboard displays a cost–quality scatter plot, a cost ranking and a
+six-task profile directly below the results table. All three charts remain
+visible alongside either the Rank or Scores view; no separate Insights tab is
+required. The Results selector updates the table and charts to the same cohort.
+The existing ranking and scientific result table keep their original values and
+rules. The interface is inspired by LiveBench; its example model names, scores
+and prices are not AutoRSE data.
 
 The shipped data is [`insights-data.json`](../hf-leaderboard/insights-data.json).
 Its source list records hashes of the bounded trial-result metadata used for the

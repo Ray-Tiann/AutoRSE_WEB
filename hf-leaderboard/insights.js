@@ -68,23 +68,7 @@
     const svg=(tag,attributes={},text)=>{const node=document.createElementNS(NS,tag);for(const [key,value]of Object.entries(attributes))node.setAttribute(key,String(value));if(text!==undefined)node.textContent=text;return node;};
     host.innerHTML='<div class="insights"><div class="insights-header"><div><h2>Performance, in perspective.</h2><p>Explore logged API cost and compare six-task strengths within the selected results cohort.</p></div><label class="insights-scope" for="insights-scope">Cost scope <select id="insights-scope"><option value="TIGER">TIGER</option><option value="HSTU">HSTU</option><option value="IntSR">IntSR</option><option value="OneTrans">OneTrans</option><option value="RankMixer">RankMixer</option><option value="WuKong">WuKong</option><option value="overall">All six tasks</option></select></label></div><div class="insights-grid"><section class="insight-card" aria-labelledby="quality-title"><h3 id="quality-title">Quality vs. cost · TIGER</h3><p class="chart-note" id="quality-note"></p><div id="quality-coverage" class="chart-coverage"></div><div id="quality-chart" class="chart-region"></div><div id="quality-legend" class="scatter-legend"></div><p id="quality-selection" class="chart-selection" aria-live="polite"></p></section><section class="insight-card" aria-labelledby="cost-title"><h3 id="cost-title">Cost, ranked · TIGER</h3><p class="chart-note">Mean recorded API cost per research run (USD), cheapest first. Hover or focus for coverage and paired results.</p><div id="cost-chart" class="chart-region"></div></section><section class="insight-card profile-card" aria-labelledby="profile-title"><div class="profile-heading"><div><h3 id="profile-title">Six-task profile</h3><p class="chart-note">Compare 2–3 configurations. Each axis is scaled to the best reported mean in this cohort (100); hover or focus for the original score.</p></div></div><div id="profile-content"></div></section></div><div class="insights-footer"><p>Logged API estimates; GPU and hosting costs excluded. The frontier describes observed means, not statistical significance.</p><a href="insights-data.json" download>Chart data JSON ↗</a><a href="paper-run-resources.csv" download>Run-level CSV ↗</a></div><p id="insights-data-status" class="insights-data-status"></p></div>';
     let state=root.AutoRSELeaderboardState||null,data=null,scope='TIGER',selectedPoint=null,profileSelection=[],activeCohort=null,lastChartWidth=0,resizeQueued=false;
-    const initialParams=new URLSearchParams(location.search);
-    let activeTab=initialParams.get('tab')==='insights'||location.hash==='#insights'?'insights':'table';
     function resize(){root.dispatchEvent(new Event('resize'));}
-    function tab(value,writeUrl=true){
-      activeTab=value;
-      $('table-panel').hidden=value!=='table';host.hidden=value!=='insights';
-      const toggle=document.querySelector('.view-toggle');if(toggle)toggle.hidden=value!=='table';
-      for(const name of ['table','insights']){const button=$(name+'-tab');button.setAttribute('aria-selected',String(value===name));button.tabIndex=value===name?0:-1;}
-      if(writeUrl){const url=new URL(location.href);if(value==='insights')url.searchParams.set('tab','insights');else url.searchParams.delete('tab');if(url.hash==='#insights')url.hash='';history.replaceState(null,'',url.pathname+url.search+url.hash);}
-      if(value==='insights'&&state){renderCosts();profile();}
-      resize();
-    }
-    for(const name of ['table','insights']){
-      $(name+'-tab').addEventListener('click',()=>tab(name));
-      $(name+'-tab').addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const next=event.key==='Home'?'table':event.key==='End'?'insights':name==='table'?'insights':'table';tab(next);$(next+'-tab').focus();}});
-    }
-    root.addEventListener('popstate',()=>tab(new URLSearchParams(location.search).get('tab')==='insights'||location.hash==='#insights'?'insights':'table',false));
     $('insights-scope').addEventListener('change',event=>{scope=event.target.value;selectedPoint=null;renderCosts();});
     function styleFor(id){const ids=(state?.boards?.[state.cohort]?.rows||[]).map(row=>row.id).sort(),index=Math.max(0,ids.indexOf(id));return {color:colors[index%colors.length],shape:shapes[index%shapes.length],dash:['','7 4','2 4','8 3 2 3','4 3','10 4','2 2 8 2'][index%7]};}
     function marker(parent,cx,cy,size,style,extra={}){
@@ -223,7 +207,7 @@
       if(!host.hidden&&state&&!resizeQueued&&Math.abs($('quality-chart').clientWidth-lastChartWidth)>1){resizeQueued=true;root.requestAnimationFrame(()=>{resizeQueued=false;renderCosts();profile();});}
     });
     root.AutoRSEInsights={update};
-    tab(activeTab,false);if(state)update(state);
+    if(state)update(state);
     fetch('insights-data.json',{cache:'no-cache'}).then(response=>{if(!response.ok)throw Error();return response.json();}).then(next=>{if(next?.schema_version!==1||next.currency!=='USD'||!next.scopes)throw Error();data=next;if(state)renderCosts();}).catch(()=>{if(state)renderCosts();});
   }
   return {costRows,dominatedBy,paretoFrontier,costRanking,normalizationReferences,profileData,formatCost,mount};
