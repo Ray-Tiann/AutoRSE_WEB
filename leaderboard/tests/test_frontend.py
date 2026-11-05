@@ -49,6 +49,8 @@ class FrontendPresentationTests(unittest.TestCase):
             payload = {**payload, "element_ids": self.element_ids}
         script = "const module={exports:{}};\n" + self.core
         script += "\nconst api=module.exports,data=" + json.dumps(payload) + ";\n"
+        insights = Path(__file__).resolve().parents[2] / "hf-leaderboard/insights.js"
+        script += "const insightsApi=require(" + json.dumps(str(insights)) + ");\n"
         if browser:
             script += r'''
 // A small DOM adapter executes the real controls/render script. It provides
@@ -121,6 +123,63 @@ console.log(JSON.stringify(['paper','community'].map(cohort=>api.presentation(bo
         self.assertEqual(len(paper_counts), 42)
         self.assertEqual(paper_counts.count(2), 1)
 
+    def test_task_overview_preserves_the_six_published_winners_and_evidence(self):
+        result = self.run_node("console.log(JSON.stringify(insightsApi.taskOverview(data.paper)));")
+        identifiers = ["claude-code-claude-opus-4-8", "codex-gpt-5-5", "codex-gpt-5-5",
+                       "claude-code-deepseek-v4-flash", "claude-code-claude-opus-4-8",
+                       "terminus-2-deepseek-v4-flash"]
+        counts = [7, 2, 6, 6, 7, 7]
+        by_id = {row["id"]: row for row in self.paper["rows"]}
+        self.assertEqual([item["name"] for item in result], self.paper["task_order"])
+        for index, (item, identifier) in enumerate(zip(result, identifiers)):
+            with self.subTest(task=item["name"]):
+                source = by_id[identifier]
+                self.assertEqual(item["metric"], self.paper["tasks"][index]["metric"])
+                self.assertEqual(item["baseline"], self.paper["tasks"][index]["baseline_score"])
+                self.assertEqual(item["configurationCount"], 7)
+                self.assertEqual(item["aboveBaselineCount"], counts[index])
+                self.assertEqual(item["minimumMean"], min(row["scores"][index] for row in by_id.values()))
+                self.assertEqual(item["maximumMean"], max(row["scores"][index] for row in by_id.values()))
+                self.assertEqual(len(item["winners"]), 1)
+                winner = item["winners"][0]
+                self.assertEqual(winner["id"], identifier)
+                self.assertEqual((winner["mean"], winner["sd"], winner["trials"], winner["relativeGainPercent"]),
+                                 (source["scores"][index], source["sd"][index], source["trial_counts"][index],
+                                  source["relative_gain_percent"][index]))
+
+    def test_task_overview_keeps_all_rounded_ties_with_their_own_sd_and_trial_count(self):
+        result = self.run_node("""
+const board=JSON.parse(JSON.stringify(data.community));
+board.rows.find(row=>row.id==='balanced').scores[1]=.52001;
+const tied=board.rows.find(row=>row.id==='tied');tied.scores[1]=.52004;tied.sd[1]=.0123;tied.trial_counts[1]=2;
+console.log(JSON.stringify(insightsApi.taskOverview(board)));
+""")
+        self.assertEqual([row["id"] for row in result[0]["winners"]], ["spiky"])
+        winners = {row["id"]: row for row in result[1]["winners"]}
+        self.assertEqual(set(winners), {"balanced", "tied"})
+        self.assertEqual((winners["balanced"]["mean"], winners["tied"]["mean"]), (.52001, .52004))
+        self.assertEqual((winners["tied"]["sd"], winners["tied"]["trials"]), (.0123, 2))
+        self.assertEqual(result[1]["maximumMean"], .52004)
+
+    def test_community_task_overview_has_no_borrowed_paper_baselines_or_gains(self):
+        result = self.run_node("""
+const board=JSON.parse(JSON.stringify(data.community));
+for(const row of board.rows)row.relative_gain_percent=[999,999,999,999,999,999];
+console.log(JSON.stringify({community:insightsApi.taskOverview(board),empty:insightsApi.taskOverview(data.empty)}));
+""")
+        self.assertEqual(len(result["community"]), 6)
+        for item in result["community"]:
+            self.assertEqual(item["configurationCount"], 3)
+            self.assertIsNone(item["baseline"])
+            self.assertIsNone(item["aboveBaselineCount"])
+            self.assertTrue(item["winners"])
+            self.assertTrue(all(winner["relativeGainPercent"] is None for winner in item["winners"]))
+        for item in result["empty"]:
+            self.assertEqual(item["configurationCount"], 0)
+            self.assertEqual(item["winners"], [])
+            self.assertIsNone(item["minimumMean"])
+            self.assertIsNone(item["maximumMean"])
+
     def test_explicit_cohorts_stay_separate_and_empty_community_has_no_paper_fallback(self):
         result = self.run_node("""
 const boards={paper:data.paper,community:data.empty};
@@ -161,16 +220,18 @@ console.log(JSON.stringify(calls.map(call=>{try{call();return false;}catch{retur
 function freeze(value){if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;}
 const boards=freeze({paper:data.paper,community:data.community}),before=JSON.stringify(boards);
 for(const cohort of ['community','paper'])for(const view of ['scores','rankings'])api.presentation(boards,{cohort,view});
+for(const board of Object.values(boards))insightsApi.taskOverview(board);
 console.log(JSON.stringify(JSON.stringify(boards)===before));
 """)
         self.assertTrue(result)
 
     def test_real_view_controls_render_six_score_columns_and_integer_rank_cells(self):
         result = self.run_node("""
-const rankings=snapshot();click('view-scores');const scores=snapshot();click('view-rankings');
-console.log(JSON.stringify({rankings,scores,returned:snapshot()}));
+const initial=snapshot();click('view-rankings');const rankings=snapshot();click('view-scores');const scores=snapshot();click('view-rankings');
+console.log(JSON.stringify({initial,rankings,scores,returned:snapshot()}));
 """, browser=True)
         rankings, scores = result["rankings"], result["scores"]
+        self.assertEqual(result["initial"], scores)
         self.assertEqual(rankings["headings"], ["Model / agent", "Rank"])
         self.assertEqual(rankings["pressed"], ["true", "false"])
         self.assertEqual(scores["pressed"], ["false", "true"])
@@ -193,9 +254,10 @@ console.log(JSON.stringify({rankings,scores,returned:snapshot()}));
                                  f'{four(row["scores"][index])}±{four(row["sd"][index])}')
                 self.assertIn(f'{row["trial_counts"][index]} trials', cell["aria"])
 
+
     def test_real_cohort_control_preserves_explicit_selection_during_refresh(self):
         result = self.run_node("""
-select('community');const emptyRank=snapshot();click('view-scores');const emptyScores=snapshot();
+click('view-rankings');select('community');const emptyRank=snapshot();click('view-scores');const emptyScores=snapshot();
 select('paper');
 pending['community-leaderboard.json']({ok:true,status:200,json:async()=>data.community});
 pending['leaderboard-data.json']({ok:true,status:200,json:async()=>data.paper});

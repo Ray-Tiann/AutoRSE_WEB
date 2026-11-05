@@ -24,8 +24,9 @@ MAX_FILE_BYTES = 5 * 1024**2
 MAX_RELEASE_BYTES = 32 * 1024**2
 PAPER_ORIGIN = "https://ray-tiann.github.io/AutoRSE_WEB"
 HF_EVALUATOR = "https://huggingface.co/spaces/Ray0311/AutoRSE-Evaluator"
+HF_RESEARCH_CHANGES = "https://ray0311-autorse-leaderboard.static.hf.space/changes.html"
 ZIP_PARSER_SHA = "81bbbde785820a072414202bd05196e20eae0b6ce2717a85420a5ce141f7f7f4"
-INSIGHT_ASSETS = ("insights.js", "insights.css", "insights-data.json", "paper-run-resources.csv")
+INSIGHT_ASSETS = ("insights.js", "insights.css", "insights-data.json", "paper-run-resources.csv", "changes.html")
 
 
 def sha(data: bytes) -> str:
@@ -107,6 +108,7 @@ def build(output: Path, *, origin: str, source: Path = ROOT) -> dict:
             if (source / name).is_file():
                 text = checked_bytes(source / name).decode("utf-8")
                 text = text.replace(PAPER_ORIGIN, origin).replace(HF_EVALUATOR, origin + "/evaluate/")
+                text = text.replace(HF_RESEARCH_CHANGES, origin + "/leaderboard/changes.html")
                 put(output / "public" / name, text.encode())
         local_embed = checked_bytes(source / "selfhost/templates/leaderboard-local.js")
         put(output / "public/assets/js/leaderboard.js", local_embed)
@@ -123,7 +125,7 @@ def build(output: Path, *, origin: str, source: Path = ROOT) -> dict:
         if not seed or not isinstance(json.loads(seed.group(1)), dict):
             raise ValueError("Missing paper reference seed; do not manufacture a replacement")
         put(output / "public/leaderboard/leaderboard-data.json", (seed.group(1) + "\n").encode())
-        # Only the four reviewed insight assets belong beside the leaderboard.
+        # Only the five reviewed insight assets belong beside the leaderboard.
         # Never glob this maintenance directory: it can contain deployment notes
         # or incoming snapshots that are not application assets.
         for name in INSIGHT_ASSETS:

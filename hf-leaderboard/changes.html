@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research changes · AutoRSE</title>
+<meta name="description" content="Task-level paper results and documented research changes from AutoRSE experiments.">
+<link rel="stylesheet" href="insights.css?v=20261105-research-changes">
+<script src="insights.js?v=20261105-research-changes" defer></script>
+<style>
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#17243d;background:#fff;font-synthesis:none}*{box-sizing:border-box}body{margin:0;line-height:1.6;-webkit-font-smoothing:antialiased}a{color:#2759c4;text-decoration:none}a:hover{text-decoration:underline}a:focus-visible{outline:3px solid #4d85e7;outline-offset:4px}main{max-width:1080px;margin:auto;padding:38px 28px 60px}.research-header{margin:0 0 29px}.research-back{display:inline-block;font-size:14px;margin-bottom:24px}.research-header h1{font-size:34px;letter-spacing:-.035em;line-height:1.25;margin:0}.research-header p{font-size:16px;line-height:1.7;color:#627287;max-width:720px;margin:15px 0 0}.research-load-status{padding:24px;color:#627287}.research-changes-details:empty{display:none}.research-footer{margin-top:28px;font-size:13px;color:#627287}.research-footer a+a{margin-left:22px}@media(max-width:560px){main{padding:24px 16px 42px}.research-header{margin-bottom:23px}.research-header h1{font-size:29px}.research-header p{font-size:14px}.research-back{margin-bottom:20px}}
+</style></head><body><main>
+<header class="research-header"><a class="research-back" href="./">← Back to leaderboard</a><h1>Research changes</h1><p>Task-level outcomes and representative code changes from AutoRSE experiments.</p></header>
+<section id="task-overview-panel" class="task-overview" aria-labelledby="task-overview-title"><div class="task-overview-heading"><h2 id="task-overview-title">Six-task results</h2><p id="task-overview-description"></p></div><div class="task-overview-columns" aria-hidden="true"><span>Task</span><span>Highest-mean configuration</span><span>Relative gain</span><span>Result summary</span></div><div id="task-overview-rows" class="task-overview-rows"></div></section>
+<p id="research-load-status" class="research-load-status" role="status">Loading paper reference results…</p>
+<section id="representative-changes" class="research-changes-details" aria-labelledby="representative-changes-title">
+  <div class="research-section-heading"><h2 id="representative-changes-title">Representative changes</h2><p>These examples have different experiment and evaluation scopes. Each result is reported within its own scope, separately from the task-level means above.</p></div>
+  <div class="research-case-grid">
+    <article class="research-case" aria-labelledby="change-hstu-title"><div class="research-case-top"><span class="research-case-task">HSTU</span><span class="research-case-scope scope-validation">Public validation</span></div><h3 id="change-hstu-title">Training and content representations</h3><p class="research-case-context">Standard · Claude Code × Claude Opus 4.8</p><h4>Change</h4><p>Compare two independent variants of the same HSTU control: cosine learning-rate decay with warmup, and a learnable projection of the supplied frozen 768-dimensional item features into the ID embedding space.</p><h4>Observed result</h4><p>Validation NDCG@10: control <strong>0.06770</strong>; training schedule <strong>0.06997</strong>; content fusion <strong>0.07216</strong>.</p><a class="research-case-source" href="https://arxiv.org/abs/2610.37228" target="_blank" rel="noopener noreferrer">Paper case study ↗</a></article>
+    <article class="research-case" aria-labelledby="change-tiger-title"><div class="research-case-top"><span class="research-case-task">TIGER</span><span class="research-case-scope scope-test">Final held-out test</span></div><h3 id="change-tiger-title">Hybrid ranking</h3><p class="research-case-context">Standard · Claude Code × DeepSeek V4 Flash · Trial 1</p><h4>Change</h4><p>Combine SASRec, HSTU and TIGER predictions with item-similarity scores derived from the latest interaction.</p><h4>Observed result</h4><p>Final submission NDCG@10: <strong>0.0631</strong>.</p><p class="research-case-note">A single archived run; this is not the three-trial mean or an isolated component effect.</p><a class="research-case-source" href="https://github.com/Ray-Tiann/AutoRSE_WEB/blob/main/docs/RESEARCH_CHANGES.md#tiger-hybrid-ranking" target="_blank" rel="noopener noreferrer">Archived-run evidence ↗</a></article>
+    <article class="research-case" aria-labelledby="change-intsr-title"><div class="research-case-top"><span class="research-case-task">IntSR</span><span class="research-case-scope scope-guided">Guided implementation</span></div><h3 id="change-intsr-title">Wider training contrast</h3><p class="research-case-context">Idea-injected · Claude Code × DeepSeek V4 Flash</p><h4>Change</h4><p>Expand training candidates with in-batch positive items, retain cross-entropy, and mask target duplicates and observed-history negatives.</p><h4>Observed result</h4><p>Models trained with this augmentation were retained in the final ensemble. Its isolated performance contribution was not measured.</p><a class="research-case-source" href="https://arxiv.org/abs/2610.37228" target="_blank" rel="noopener noreferrer">Paper appendix case study ↗</a></article>
+  </div>
+</section>
+<footer class="research-footer"><a href="https://arxiv.org/abs/2610.37228" target="_blank" rel="noopener noreferrer">Paper results ↗</a><a href="leaderboard-data.json" download>Paper result data ↗</a></footer>
+<noscript><p>Enable JavaScript to display the task results. Results are also available in the <a href="https://arxiv.org/abs/2610.37228">paper</a>.</p></noscript>
+</main><script>
+document.addEventListener('DOMContentLoaded',async()=>{
+  'use strict';
+  const {taskOverview,fixedFour}=AutoRSEInsightsCore,cohort='paper';
+  const $=id=>document.getElementById(id);
+  const element=(tag,text,cls)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;};
+  const safeHref=value=>{try{const url=new URL(value);return url.protocol==='https:'?url.href:null;}catch{return null;}};
+  function renderTaskOverview(data,label){
+    const records=taskOverview(data),container=$('task-overview-rows');container.replaceChildren();
+    $('task-overview-title').textContent='Six-task results';
+    $('task-overview-description').textContent=label+' · Highest reported mean across configurations for each task. Ties at four-decimal precision are retained.';
+    if(!data.rows.length){container.append(element('p',cohort==='community'?'No reviewed community results yet.':'No paper reference results available.','task-overview-empty'));return;}
+    const externalLink=(text,url)=>{const link=element('a',text);link.href=url;link.target='_blank';link.rel='noopener noreferrer';return link;};
+    const gainText=value=>value===null?'N/A':(value>=0?'+':'')+value.toFixed(2)+'%';
+    for(const task of records){
+      const card=element('article',undefined,'task-overview-row'),identity=element('div',undefined,'task-overview-identity');
+      const title=element('h3',task.name);title.id='task-result-'+task.name.toLowerCase();card.setAttribute('aria-labelledby',title.id);
+      identity.append(title,element('span',task.metric,'task-metric-badge'));
+      if(task.dataset)identity.append(element('p',task.dataset,'task-dataset'));
+      if(task.type)identity.append(element('p',task.type,'task-type'));
+      const links=element('div',undefined,'task-result-links'),baselineUrl=safeHref(task.baselineCodeUrl);
+      if(baselineUrl)links.append(externalLink('Baseline code ↗',baselineUrl));
+      const source=safeHref(task.winners.find(winner=>winner.sourceUrl)?.sourceUrl);
+      if(source)links.append(externalLink(cohort==='paper'?'Paper results ↗':'Result source ↗',source));
+      identity.append(links);
+      const configurations=element('div',undefined,'task-winners'),gains=element('div',undefined,'task-gains');
+      configurations.append(element('span','Highest-mean configuration','task-mobile-label'));gains.append(element('span','Relative gain','task-mobile-label'));
+      for(const winner of task.winners){
+        const configuration=element('div',undefined,'task-winner');configuration.append(element('strong',winner.model,'task-winner-model'),element('span',winner.harness,'task-winner-harness'));
+        if(task.winners.length>1)configuration.append(element('span','Tied highest mean','task-tie-badge'));configurations.append(configuration);
+        const result=element('div',undefined,'task-gain-result');
+        result.setAttribute('aria-label',winner.model+', '+winner.harness+': relative gain '+gainText(winner.relativeGainPercent));
+        if(task.winners.length>1)result.append(element('span',winner.model+' · '+winner.harness,'task-tied-gain-label'));
+        const gain=element('strong',gainText(winner.relativeGainPercent),'task-gain');if(winner.relativeGainPercent!==null&&winner.relativeGainPercent<0)gain.classList.add('is-negative');result.append(gain);
+        result.append(element('span',(task.baseline===null?'Baseline N/A':fixedFour(task.baseline))+' → '+fixedFour(winner.mean),'task-score-change'),element('span','± '+(winner.sd===null?'N/A':fixedFour(winner.sd))+' SD · n = '+(winner.trials??'N/A'),'task-score-uncertainty'));gains.append(result);
+      }
+      if(!task.winners.length){configurations.append(element('p','No reported score','task-no-score'));gains.append(element('strong','N/A','task-gain'));}
+      const summary=element('div',undefined,'task-result-summary');summary.append(element('span','Result summary','task-mobile-label'));
+      summary.append(element('p',task.aboveBaselineCount===null?'Baseline comparison unavailable.':task.aboveBaselineCount+' / '+task.configurationCount+' configurations above baseline.','task-above-baseline'));
+      summary.append(element('p',task.minimumMean===null?'No reported task means.':'Reported mean range: '+fixedFour(task.minimumMean)+'–'+fixedFour(task.maximumMean)+'.','task-mean-range'));
+      card.append(identity,configurations,gains,summary);container.append(card);
+    }
+  }
+  try{
+    const response=await fetch('leaderboard-data.json',{cache:'no-cache'});if(!response.ok)throw Error('Unavailable');
+    const data=await response.json();
+    if(data?.metadata?.provenance!=='Paper reference'||!Array.isArray(data.tasks)||data.tasks.length!==6||!Array.isArray(data.rows))throw Error('Invalid paper reference data');
+    renderTaskOverview(data,'Paper reference');$('research-load-status').hidden=true;
+  }catch{$('research-load-status').textContent='Paper result data is currently unavailable. Please use the paper link below.';}
+});
+</script></body></html>

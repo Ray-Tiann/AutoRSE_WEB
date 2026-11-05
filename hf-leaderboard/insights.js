@@ -55,6 +55,33 @@
         raw:references.map((_,i)=>numeric(row.scores?.[i])?row.scores[i]:null),
         sd:references.map((_,i)=>numeric(row.sd?.[i])?row.sd[i]:null),trials:references.map((_,i)=>row.trial_counts?.[i]??null)}))};
   }
+  function fixedFour(value){
+    // Match Decimal(str(value)).quantize(.0001, ROUND_HALF_UP), not binary toFixed ties.
+    const [mantissa,exponent='0']=Math.abs(value).toString().toLowerCase().split('e');
+    const parts=mantissa.split('.'),digits=BigInt(parts.join(''));
+    const shift=Number(exponent)-(parts[1]?.length||0)+4,factor=10n**BigInt(Math.abs(shift));
+    const rounded=shift>=0?digits*factor:(digits+factor/2n)/factor;
+    const text=rounded.toString().padStart(5,'0');
+    return `${value<0&&rounded!==0n?'-':''}${text.slice(0,-4)}.${text.slice(-4)}`;
+  }
+  function taskOverview(data){
+    return data.tasks.map((task,index)=>{
+      const baseline=numeric(task.baseline_score)&&task.baseline_score>0?task.baseline_score:null;
+      const entries=data.rows.filter(row=>numeric(row.scores?.[index])).map(row=>({row,mean:row.scores[index],rounded:Number(fixedFour(row.scores[index]))}));
+      const maximum=entries.length?Math.max(...entries.map(entry=>entry.rounded)):null;
+      const winners=entries.filter(entry=>entry.rounded===maximum).sort((a,b)=>a.row.model.localeCompare(b.row.model)||a.row.harness.localeCompare(b.row.harness)||a.row.id.localeCompare(b.row.id)).map(({row,mean})=>({
+        id:row.id,model:row.model,harness:row.harness,mean,sd:numeric(row.sd?.[index])?row.sd[index]:null,
+        trials:Number.isInteger(row.trial_counts?.[index])?row.trial_counts[index]:null,
+        relativeGainPercent:baseline===null?null:data?.metadata?.provenance==='Paper reference'&&numeric(row.relative_gain_percent?.[index])?row.relative_gain_percent[index]:100*(mean/baseline-1),
+        sourceUrl:typeof row.source_url==='string'&&row.source_url?row.source_url:null
+      }));
+      return {name:task.name,metric:task.metric,dataset:task.dataset||null,type:task.type||null,baseline,
+        baselineCodeUrl:'https://github.com/Ray-Tiann/AutoRSE/tree/main/benchmark/tasks/'+task.name.toLowerCase()+'_task/environment/baseline',
+        configurationCount:entries.length,aboveBaselineCount:baseline===null?null:entries.filter(entry=>entry.rounded>Number(fixedFour(baseline))).length,
+        minimumMean:entries.length?Math.min(...entries.map(entry=>entry.mean)):null,
+        maximumMean:entries.length?Math.max(...entries.map(entry=>entry.mean)):null,winners};
+    });
+  }
   function formatCost(value){
     if(!cost(value))return 'N/A';
     if(value===0)return '$0.000';
@@ -210,5 +237,5 @@
     if(state)update(state);
     fetch('insights-data.json',{cache:'no-cache'}).then(response=>{if(!response.ok)throw Error();return response.json();}).then(next=>{if(next?.schema_version!==1||next.currency!=='USD'||!next.scopes)throw Error();data=next;if(state)renderCosts();}).catch(()=>{if(state)renderCosts();});
   }
-  return {costRows,dominatedBy,paretoFrontier,costRanking,normalizationReferences,profileData,formatCost,mount};
+  return {costRows,dominatedBy,paretoFrontier,costRanking,normalizationReferences,profileData,fixedFour,taskOverview,formatCost,mount};
 });

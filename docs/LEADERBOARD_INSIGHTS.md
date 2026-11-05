@@ -4,6 +4,8 @@ The leaderboard displays a cost–quality scatter plot, a cost ranking and a
 six-task profile directly below the results table. All three charts remain
 visible alongside either the Rank or Scores view; no separate Insights tab is
 required. The Results selector updates the table and charts to the same cohort.
+The main leaderboard opens in **Scores**, exposing the six task means and SDs;
+**Rank** remains available with the same integer overall positions.
 The existing ranking and scientific result table keep their original values and
 rules. The interface is inspired by LiveBench; its example model names, scores
 and prices are not AutoRSE data.
@@ -20,6 +22,29 @@ Unrecorded costs are marked `null`. The JSON records the CSV's hash; its task po
 be reconstructed from these rows. The CSV contains no prediction arrays,
 private labels, API credentials or conversation content. The bounded derivation
 script is [`tools/derive_insights_data.py`](../tools/derive_insights_data.py).
+
+## Per-task summary calculations
+
+The separate [Research changes page](../hf-leaderboard/changes.html) presents
+six task summaries and three documented examples of agent modifications. It
+uses the existing public paper-reference JSON and shared chart core; it has no
+new result dataset or Community selector. Case evidence and interpretation
+limits are documented in [Research changes provenance](RESEARCH_CHANGES.md).
+
+The `taskOverview` helper summarizes each of the six tasks with its metric,
+baseline, observed score range and best configuration(s). Winners follow the
+leaderboard's four-decimal, decimal-half-up tie rule. All tied configurations
+are retained with their own mean, sample SD and trial count; the summary does
+not select one arbitrarily or imply a statistically significant advantage.
+The count above baseline compares each available mean against that task's
+baseline. It does not pool AUC and NDCG scores.
+
+Paper summaries preserve the published relative-gain values and original 42
+mean/SD cells. A community task without a baseline in its own cohort shows no
+baseline, relative gain or above-baseline count; it does not borrow a historical
+paper baseline. Empty community results remain empty. These summaries do not
+replace the main leaderboard's **Rank** and **Scores** views or alter its
+configuration-level ordering.
 
 ## Cost and quality
 
@@ -121,10 +146,13 @@ public-v2 dataset.
 - The tests check original paper values, paired coverage, task-balanced overall
   values, zero/missing cost behavior and fixed-cohort profile normalization.
 - `selfhost/build_release.py` copies only `insights.js`, `insights.css`,
-  `insights-data.json` and `paper-run-resources.csv` beside the standalone leaderboard and records their
+  `insights-data.json`, `paper-run-resources.csv` and `changes.html` beside the standalone leaderboard and records their
   byte sizes and SHA256 values in the release manifest. It does not copy an
   arbitrary maintenance-directory tree into the web root.
-- HF static deployments must publish these four assets together with the
+- The self-hosted homepage maps the Research changes link to the same-origin
+  `/leaderboard/changes.html`. The page reads `leaderboard-data.json`, generated
+  from the unchanged paper seed during the release build.
+- HF static deployments must publish these five assets together with the
   matching `index.html`; updating the HTML alone would leave broken chart links.
 - Browser verification is still required for layout, keyboard access, tooltips
   and responsive behavior. Automated checks do not establish complete
