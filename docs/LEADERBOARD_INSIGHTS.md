@@ -107,16 +107,21 @@ Select two or three configurations from the current cohort. Every radial axis
 uses the same explicit formula:
 
 ```text
-normalized task score = 100 × score / maximum score for that task in the complete cohort
+normalized task score = 100 × (score − task minimum) / (task maximum − task minimum)
 ```
 
-The reference is computed from the **whole selected cohort**, not just the
-two or three displayed configurations. Adding or removing a displayed model
-does not rescale the axes. A task whose reference is zero or unavailable cannot
-be normalized. Missing task scores remain gaps; they are not plotted at zero or
+For each axis, the minimum and maximum use all available finite, nonnegative
+task means in the **full current results cohort**. A missing score on another
+task does not exclude a configuration from this axis. Adding or removing one of
+the two or three displayed configurations
+does not rescale the axes. The cohort minimum maps to 0 and the maximum to 100;
+each axis shows relative position within its own task. If all available means
+on an axis are equal, they map to 50 and the chart marks that axis as having no
+variation. Missing task scores remain gaps; they are not plotted at zero or
 connected across the missing axis. Values, SDs and trial counts remain available
 in the existing table and chart details. The profile is not used to calculate
-the official overall rank.
+the official overall rank. Its 0–100 scale does not represent percentage
+improvement over a baseline.
 
 Paper-reference profiles use the preserved 42 published mean/SD cells. Community
 profiles use only reviewed community rows. Empty community cohorts show an

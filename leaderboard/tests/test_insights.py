@@ -243,12 +243,13 @@ console.log(JSON.stringify(rows));
                               {"cost": cost_fixture(), "board": community})
         self.assertEqual(empty, [])
 
-    def test_profile_uses_full_cohort_reference_and_preserves_missing_vs_zero(self):
+    def test_profile_uses_full_cohort_min_max_and_preserves_missing_vs_zero(self):
         result = self.run_node("""
-console.log(JSON.stringify({references:api.normalizationReferences(data),
+console.log(JSON.stringify({references:api.normalizationReferences(data).map(ref=>ref?{min:ref.min,max:ref.max}:null),
  ab:api.profileData(data,['a','b']),ac:api.profileData(data,['a','c'])}));
 """, profile_fixture())
-        self.assertEqual(result["references"], [.4, .6, .4, .8, .9, 1])
+        self.assertEqual(result["references"], [dict(min=lo, max=hi) for lo, hi in
+                                               zip([.1, .3, 0, .4, .3, .7], [.4, .6, .4, .8, .9, 1])])
         ab = {series["id"]: series for series in result["ab"]["series"]}
         ac = {series["id"]: series for series in result["ac"]["series"]}
         self.assertEqual(ab["a"]["values"], ac["a"]["values"])
@@ -257,18 +258,39 @@ console.log(JSON.stringify({references:api.normalizationReferences(data),
         self.assertEqual(ab["a"]["raw"], [.1, .3, 0, .5, .6, .7])
         self.assertEqual(ab["a"]["sd"], [.01] * 6)
         self.assertEqual(ab["a"]["trials"], [3] * 6)
-        for actual, expected in zip(ab["a"]["values"], [25, 50, 0, 62.5, 200 / 3, 70]):
+        for actual, expected in zip(ab["a"]["values"], [0, 0, 0, 25, 50, 0]):
             self.assertAlmostEqual(actual, expected)
+        for actual, expected in zip(ab["b"]["values"], [100 / 3, None, 50, 0, 0, 100 / 3]):
+            if expected is None:
+                self.assertIsNone(actual)
+            else:
+                self.assertAlmostEqual(actual, expected)
+        self.assertEqual(ac["c"]["values"], [100] * 6)
 
-    def test_zero_or_missing_reference_does_not_create_infinite_or_fake_zero_profile(self):
+    def test_constant_axes_use_fifty_and_missing_or_empty_cohort_stays_missing(self):
         board = profile_fixture()
         for row in board["rows"]:
             row["scores"][0] = 0
             row["scores"][1] = None
-        result = self.run_node("console.log(JSON.stringify(api.profileData(data,['a','b'])));", board)
-        for series in result["series"]:
-            self.assertIsNone(series["values"][0])
+            row["scores"][2] = .42
+        board["rows"][1]["scores"][2] = None
+        empty = profile_fixture()
+        empty["rows"] = []
+        empty["metadata"]["cohort"] = "community:autorse-public-v2-20261029"
+        empty["metadata"]["provenance"] = "Reviewed community"
+        result = self.run_node("""
+console.log(JSON.stringify({constant:api.profileData(data.constant,['a','b']),
+ empty:api.profileData(data.empty,['a','b']),emptyReferences:api.normalizationReferences(data.empty)}));
+""", {"constant": board, "empty": empty})
+        for series in result["constant"]["series"]:
+            self.assertEqual(series["values"][0], 50)
             self.assertIsNone(series["values"][1])
+        indexed = {series["id"]: series for series in result["constant"]["series"]}
+        self.assertEqual(indexed["a"]["values"][2], 50)
+        self.assertIsNone(indexed["b"]["values"][2])
+        self.assertEqual(result["emptyReferences"], [None] * 6)
+        self.assertEqual(result["empty"]["series"], [])
+        self.assertEqual(len(result["empty"]["tasks"]), 6)
 
     def test_core_does_not_mutate_frozen_inputs(self):
         result = self.run_node("""
